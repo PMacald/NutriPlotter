@@ -1,19 +1,15 @@
 # NutriPlotter
+# Installation
 
+```bash
+    npm install -g expo-cli
+```
 # Deployment
 
 ```bash
-    git clone 
-    cd 
-    expo
-```
-### Support and Update
-
-This repo is being updated time to time, to receive the latest updates do the following.
-
-```bash
-    git remote add 
-    git pull pk master 
+    git clone http://stgit.dcs.gla.ac.uk/tp3-2018-se4/dissertation
+    cd dissertation
+    expo start
 ```
 
 
@@ -24,8 +20,8 @@ This repo is being updated time to time, to receive the latest updates do the fo
 - 
 ### Contributing
 
-- Eleonora Della    
-- Matthew Smith     
-- Han Loo, Nicholas 
-- Peter Macaldowie  
+- Eleonora Della    2244079d
+- Matthew Smith     2260469s    
+- Han Loo, Nicholas 2288527l
+- Peter Macaldowie  2258785M
 - Soma Froghyar     2267217F
