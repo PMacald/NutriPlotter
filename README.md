@@ -13,7 +13,7 @@ This repo is being updated time to time, to receive the latest updates do the fo
 
 ```bash
     git remote add 
-    git pull pk master
+    git pull pk master 
 ```
 
 
