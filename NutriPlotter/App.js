@@ -1,11 +1,26 @@
 import React from 'react';
-import { Platform, StatusBar, StyleSheet, View } from 'react-native';
+import { Platform, StatusBar, StyleSheet, View, Dimensions} from 'react-native';
 import { AppLoading, Asset, Font, Icon } from 'expo';
 import AppNavigator from './navigation/AppNavigator';
+
+import EStyleSheet from 'react-native-extended-stylesheet';
+
+let {height, width} = Dimensions.get('window');
+
+EStyleSheet.build({ // always call EStyleSheet.build() even if you don't use global variables!
+  $textColor: '#FFB677',
+  $windowHeight: height,
+  $windowWidth: width,
+  $baseBlue: '#96C5E2',
+
+});
+
+
 
 export default class App extends React.Component {
   state = {
     isLoadingComplete: false,
+
   };
 
   render() {
@@ -57,6 +72,6 @@ export default class App extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#FFB677',
   },
 });

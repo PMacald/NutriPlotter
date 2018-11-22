@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  KeyboardAvoidingView,
   Image,
   Platform,
   ScrollView,
@@ -7,102 +8,129 @@ import {
   Text,
   TouchableOpacity,
   View,
+  Alert
 } from 'react-native';
-import { WebBrowser } from 'expo';
+import { Font } from 'expo';
+//import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
-import { MonoText } from '../components/StyledText';
+import {RegistrationTextInputWithSwitch} from '../components/TextInputWithSwitch';
+import {RegistrationTextInput} from '../components/TextInput';
+import {SwipeArrow} from '../components/SwipeArrow';
+
+//constants are capital cased usually
+const BASE_NAME_PH = "Name"; // PH - Placeholder
+const BASE_AGE_PH = "Age";
+const BASE_MAIL_PH = "E-Mail";
+const BASE_PASS_PH = "Password";
+
+
+
+
 
 export default class HomeScreen extends React.Component {
+  state = {
+    isFontLoaded: false,
+  }
+  componentWillMount() {
+     this._loadAssetsAsync();
+  }
+
+  _loadAssetsAsync = async () => {
+   await Font.loadAsync({
+     pacifico: require("../assets/fonts/Pacifico-Regular.ttf"),
+     NunitoSans: require("../assets/fonts/NunitoSans-LightItalic.ttf"),
+     Palanquin: require("../assets/fonts/Palanquin-Light.ttf"),
+   });
+
+   handleOptionA = () => {
+     Alert.alert("option A is pressed");
+     this.state.isFemale = false;
+     console.log(this.state);
+   }
+
+   handleOptionB = () => {
+     Alert.alert("option B is pressed");
+     this.state.isFemale = true;
+     console.log(this.state);
+   }
+
+
+   this.setState({
+      isFontLoaded: true,
+      isFemale: null,
+   });
+ };
+
   static navigationOptions = {
     header: null,
   };
-
   render() {
-    return (
-      <View style={styles.container}>
-        <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
-          <View style={styles.welcomeContainer}>
-            <Image
-              source={
-                __DEV__
-                  ? require('../assets/images/robot-dev.png')
-                  : require('../assets/images/robot-prod.png')
-              }
-              style={styles.welcomeImage}
-            />
-          </View>
+    if (!this.state.isFontLoaded){
+      return (<Text>Loading...</Text>)
+    }else{
+      return (
 
-          <View style={styles.getStartedContainer}>
-            {this._maybeRenderDevelopmentModeWarning()}
+        <KeyboardAvoidingView
+          style={styles.container}
+          behavior='position'
+          ><View style={styles.container}>
 
-            <Text style={styles.getStartedText}>Get started by opening</Text>
 
-            <View style={[styles.codeHighlightContainer, styles.homeScreenFilename]}>
-              <MonoText style={styles.codeHighlightText}>screens/HomeScreen.js</MonoText>
+            <View style={styles.welcomeContainer}>
+              <Text style={styles.title}>Welcome to Nutriplotter</Text>
             </View>
 
-            <Text style={styles.getStartedText}>
-              New text
-            </Text>
-          </View>
+            <Image style={{width:100, height:100}}source={require('../assets/images/plusicon.png')}/>
 
-          <View style={styles.helpContainer}>
-            <TouchableOpacity onPress={this._handleHelpPress} style={styles.helpLink}>
-              <Text style={styles.helpLinkText}>Help, it didn’t automatically reload!</Text>
-            </TouchableOpacity>
-          </View>
-        </ScrollView>
+            <RegistrationTextInput
+              textPH = {BASE_NAME_PH}
+            />
+            <RegistrationTextInputWithSwitch
+              textPH = {BASE_AGE_PH}
+              handleOptionA = {handleOptionA}
+              handleOptionB = {handleOptionB}
+              isFemale = {this.state.isFemale}
+            />
+            <RegistrationTextInput
+              textPH = {BASE_MAIL_PH}
+              keyboardType = 'email-address'
 
-        <View style={styles.tabBarInfoContainer}>
-          <Text style={styles.tabBarInfoText}>This is a tab bar. You can edit it in:</Text>
+            />
+            <RegistrationTextInput
+              textPH = {BASE_PASS_PH}
+              passOn = {true}
+            />
 
-          <View style={[styles.codeHighlightContainer, styles.navigationFilename]}>
-            <MonoText style={styles.codeHighlightText}>navigation/MainTabNavigator.js</MonoText>
-          </View>
-        </View>
-      </View>
-    );
+
+          <SwipeArrow imageSource={require('../assets/images/arrows.png')}/>
+
+</View>
+        </KeyboardAvoidingView>
+      );}
   }
 
-  _maybeRenderDevelopmentModeWarning() {
-    if (__DEV__) {
-      const learnMoreButton = (
-        <Text onPress={this._handleLearnMorePress} style={styles.helpLinkText}>
-          Learn more
-        </Text>
-      );
 
-      return (
-        <Text style={styles.developmentModeText}>
-          Development mode is enabled, your app will be slower but you can use useful development
-          tools. {learnMoreButton}
-        </Text>
-      );
-    } else {
-      return (
-        <Text style={styles.developmentModeText}>
-          You are not in development mode, your app will run at full speed.
-        </Text>
-      );
-    }
-  }
 
-  _handleLearnMorePress = () => {
-    WebBrowser.openBrowserAsync('https://docs.expo.io/versions/latest/guides/development-mode');
-  };
-
-  _handleHelpPress = () => {
-    WebBrowser.openBrowserAsync(
-      'https://docs.expo.io/versions/latest/guides/up-and-running.html#can-t-see-your-changes'
-    );
-  };
 }
 
 const styles = StyleSheet.create({
   container: {
+    paddingTop: '4%',
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#FFB677',
+    alignItems: 'center',
+    justifyContent: 'center'
+
   },
+  title: {
+    fontFamily: 'pacifico',
+    textAlign: 'center',
+    fontSize: 35,
+    width: 200,
+    marginBottom: 10,
+  }
+
+  /*
   developmentModeText: {
     marginBottom: 20,
     color: 'rgba(0,0,0,0.4)',
@@ -184,5 +212,5 @@ const styles = StyleSheet.create({
   helpLinkText: {
     fontSize: 14,
     color: '#2e78b7',
-  },
+  },*/
 });
