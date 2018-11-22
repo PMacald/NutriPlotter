@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import {Text, TextInput, TouchableHighlight, View} from 'react-native';
-
+import MultiSwitch from 'rn-slider-switch';
 import styles from './styles';
 /*
 class RegistrationTextInputWithSwitch2 extends React.Component {
@@ -13,6 +13,8 @@ class RegistrationTextInputWithSwitch2 extends React.Component {
     isFemale: props.isFemale,
   }
 }
+
+
 */
 
 const RegistrationTextInputWithSwitch = ({handleOptionA,
@@ -20,7 +22,6 @@ const RegistrationTextInputWithSwitch = ({handleOptionA,
                                           textPH,
                                           isFemale}) => (
   <View style={styles.container}>
-
     <TouchableHighlight
       onPress={handleOptionA}
       style={styles.switchActive}

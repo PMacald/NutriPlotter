@@ -4,7 +4,7 @@ const INPUT_HEIGHT = 36;
 
 export default EStyleSheet.create({
   container:{
-    width: '90%',
+    width: '$windowWidth - 20',
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
@@ -45,5 +45,6 @@ export default EStyleSheet.create({
     fontFamily: 'NunitoSans',
     fontSize: 20,
     marginLeft:10,
-  }
+  },
+  
 });

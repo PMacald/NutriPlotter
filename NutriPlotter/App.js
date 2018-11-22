@@ -1,7 +1,7 @@
 import React from 'react';
 import { Platform, StatusBar, StyleSheet, View, Dimensions} from 'react-native';
 import { AppLoading, Asset, Font, Icon } from 'expo';
-import AppNavigator from './navigation/AppNavigator';
+import {Registration} from './screens/registration/Registration';
 
 import EStyleSheet from 'react-native-extended-stylesheet';
 
@@ -14,7 +14,8 @@ EStyleSheet.build({ // always call EStyleSheet.build() even if you don't use glo
   $baseBlue: '#96C5E2',
 
 });
-
+console.log("height "+ height);
+console.log("width "+ width);
 
 
 export default class App extends React.Component {
@@ -36,7 +37,7 @@ export default class App extends React.Component {
       return (
         <View style={styles.container}>
           {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
-          <AppNavigator />
+          <Registration />
         </View>
       );
     }
@@ -54,6 +55,9 @@ export default class App extends React.Component {
         // We include SpaceMono because we use it in HomeScreen.js. Feel free
         // to remove this if you are not using it in your app
         'space-mono': require('./assets/fonts/SpaceMono-Regular.ttf'),
+        pacifico: require("./assets/fonts/Pacifico-Regular.ttf"),
+        NunitoSans: require("./assets/fonts/NunitoSans-LightItalic.ttf"),
+        Palanquin: require("./assets/fonts/Palanquin-Light.ttf"),
       }),
     ]);
   };
