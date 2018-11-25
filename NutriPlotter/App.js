@@ -1,27 +1,46 @@
+//---------------------BASIC IMPORTS-----------------
 import React from 'react';
-import { Platform, StatusBar, StyleSheet, View, Dimensions} from 'react-native';
-import { AppLoading, Asset, Font, Icon } from 'expo';
+//react native:
+import {
+  Platform,
+  StatusBar,
+  StyleSheet,
+  View,
+  Dimensions
+        } from 'react-native';
+//expo:
+import {
+  AppLoading,
+  Asset,
+  Font,
+  Icon
+} from 'expo';
+
+//components creted by us:
 import {Registration} from './screens/registration/Registration';
 
+//stylesheets:
 import EStyleSheet from 'react-native-extended-stylesheet';
 
+//variables:
 let {height, width} = Dimensions.get('window');
 
-EStyleSheet.build({ // always call EStyleSheet.build() even if you don't use global variables!
+
+
+// always call EStyleSheet.build() even if you don't use global variables!
+EStyleSheet.build({
   $textColor: '#FFB677',
   $windowHeight: height,
   $windowWidth: width,
   $baseBlue: '#96C5E2',
 
 });
-console.log("height "+ height);
-console.log("width "+ width);
 
 
+//-----------------start of the main component APP--------------
 export default class App extends React.Component {
   state = {
     isLoadingComplete: false,
-
   };
 
   render() {
@@ -43,6 +62,9 @@ export default class App extends React.Component {
     }
   }
 
+
+
+//--------------LOADING DEPENDENCIES---------------
   _loadResourcesAsync = async () => {
     return Promise.all([
       Asset.loadAsync([
@@ -73,6 +95,7 @@ export default class App extends React.Component {
   };
 }
 
+//---------------style---------------------
 const styles = StyleSheet.create({
   container: {
     flex: 1,

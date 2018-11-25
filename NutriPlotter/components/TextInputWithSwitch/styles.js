@@ -10,7 +10,7 @@ export default EStyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  switchActive:{
+  switchA:{
     width: '15%',
     height: INPUT_HEIGHT,
     width: 80,
@@ -19,7 +19,7 @@ export default EStyleSheet.create({
     justifyContent: 'center',
 
   },
-  switchNotActive:{
+  switchAnot:{
     width: '15%',
     height: INPUT_HEIGHT,
     width: 80,
@@ -28,6 +28,19 @@ export default EStyleSheet.create({
     justifyContent: 'center',
 
   },
+  switcherlad:{
+    width: '42%'
+  },
+  switchB:{
+    width: '15%',
+    height: INPUT_HEIGHT,
+    width: 80,
+    backgroundColor: '$baseBlue',
+    alignItems: 'center',
+    justifyContent: 'center',
+
+  },
+
   boder:{
     height: INPUT_HEIGHT,
     width: '100%',
@@ -46,5 +59,5 @@ export default EStyleSheet.create({
     fontSize: 20,
     marginLeft:10,
   },
-  
+
 });

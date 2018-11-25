@@ -20,6 +20,7 @@
     "react-native-extended-stylesheet": "^0.10.0",
     "react-native-keyboard-aware-scroll-view": "^0.7.4",
     "react-native-slider": "^0.11.0",
+    "react-native-switch-selector": "^1.1.10",
     "react-navigation": "^2.16.0",
     "rn-slider-switch": "0.0.3"
   },
