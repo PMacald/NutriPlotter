@@ -1,7 +1,7 @@
 import React from 'react';
 import {StyleSheet, Text, View, Slider} from 'react-native';
 import EStyleSheet from 'react-native-extended-stylesheet';
-
+import styles from './styles';
 
 class DailyCalorieSlider extends React.Component {
   constructor(props) {
