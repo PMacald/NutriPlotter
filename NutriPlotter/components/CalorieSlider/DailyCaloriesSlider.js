@@ -14,16 +14,15 @@ class DailyCalorieSlider extends React.Component {
   change(value) {
     this.setState(() => {
       return {
-        value: parseFloat(value),
+        value: parseInt(value),
       };
     });
   }
 
   render() {
-    const {value} = this.state;
     return (
       <View style={styles.container}>
-        <Text style={styles.text}>{String(value)}</Text>
+        <Text style={styles.text}>{this.state.value}</Text>
         <Slider
           step={1}
           minimumValue={1000}

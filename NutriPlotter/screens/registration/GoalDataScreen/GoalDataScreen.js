@@ -15,7 +15,7 @@ import Slider from "react-native-slider";
 import {RegistrationTextInputWithSwitch} from '../../../components/TextInputWithSwitch';
 import {RegistrationTextInput} from '../../../components/TextInput';
 import {SwipeArrow} from '../../../components/SwipeArrow';
-
+import {DailyCalorieSlider} from '../../../components/CalorieSlider';
 //stylesheet:
 import styles from './styles';
 
@@ -43,6 +43,7 @@ export default class GoalDataScreen extends React.Component {
             <View style={styles.welcomeContainer}>
               <Text style={styles.title}>Nutriplotter</Text>
             </View>
+            <DailyCalorieSlider/>
             <View style = {styles.slider}>
               <Slider
 
