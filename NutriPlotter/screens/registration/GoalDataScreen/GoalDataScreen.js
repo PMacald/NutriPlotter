@@ -44,7 +44,7 @@ export default class GoalDataScreen extends React.Component {
               <Text style={styles.title}>Nutriplotter</Text>
             </View>
             <View>
-            <DailyCalorieSlider style={styles.slider}/>
+              <DailyCalorieSlider/>
             </View>
             <Button
               title="submit"

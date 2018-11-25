@@ -4,11 +4,9 @@ const INPUT_HEIGHT = 36;
 
 export default EStyleSheet.create({
   container:{
-    width: '$windowWidth - 20',
-    flex: 1,
+    width: '$windowWidth - 40',
     flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: 'stretch',
   },
   text: {
     width: '90%',
