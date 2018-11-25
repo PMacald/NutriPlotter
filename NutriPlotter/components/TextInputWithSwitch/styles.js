@@ -4,13 +4,13 @@ const INPUT_HEIGHT = 36;
 
 export default EStyleSheet.create({
   container:{
-    width: '90%',
+    width: '$windowWidth - 20',
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
   },
-  switchActive:{
+  switchA:{
     width: '15%',
     height: INPUT_HEIGHT,
     width: 80,
@@ -19,7 +19,7 @@ export default EStyleSheet.create({
     justifyContent: 'center',
 
   },
-  switchNotActive:{
+  switchAnot:{
     width: '15%',
     height: INPUT_HEIGHT,
     width: 80,
@@ -28,6 +28,19 @@ export default EStyleSheet.create({
     justifyContent: 'center',
 
   },
+  switcherlad:{
+    width: '42%'
+  },
+  switchB:{
+    width: '15%',
+    height: INPUT_HEIGHT,
+    width: 80,
+    backgroundColor: '$baseBlue',
+    alignItems: 'center',
+    justifyContent: 'center',
+
+  },
+
   boder:{
     height: INPUT_HEIGHT,
     width: '100%',
@@ -45,5 +58,6 @@ export default EStyleSheet.create({
     fontFamily: 'NunitoSans',
     fontSize: 20,
     marginLeft:10,
-  }
+  },
+
 });

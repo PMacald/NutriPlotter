@@ -1,13 +1,34 @@
+//---------------------BASIC IMPORTS-----------------
 import React from 'react';
-import { Platform, StatusBar, StyleSheet, View, Dimensions} from 'react-native';
-import { AppLoading, Asset, Font, Icon } from 'expo';
-import AppNavigator from './navigation/AppNavigator';
+//react native:
+import {
+  Platform,
+  StatusBar,
+  StyleSheet,
+  View,
+  Dimensions
+        } from 'react-native';
+//expo:
+import {
+  AppLoading,
+  Asset,
+  Font,
+  Icon
+} from 'expo';
 
+//components creted by us:
+import {Registration} from './screens/registration/Registration';
+
+//stylesheets:
 import EStyleSheet from 'react-native-extended-stylesheet';
 
+//variables:
 let {height, width} = Dimensions.get('window');
 
-EStyleSheet.build({ // always call EStyleSheet.build() even if you don't use global variables!
+
+
+// always call EStyleSheet.build() even if you don't use global variables!
+EStyleSheet.build({
   $textColor: '#FFB677',
   $windowHeight: height,
   $windowWidth: width,
@@ -16,11 +37,10 @@ EStyleSheet.build({ // always call EStyleSheet.build() even if you don't use glo
 });
 
 
-
+//-----------------start of the main component APP--------------
 export default class App extends React.Component {
   state = {
     isLoadingComplete: false,
-
   };
 
   render() {
@@ -36,12 +56,15 @@ export default class App extends React.Component {
       return (
         <View style={styles.container}>
           {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
-          <AppNavigator />
+          <Registration />
         </View>
       );
     }
   }
 
+
+
+//--------------LOADING DEPENDENCIES---------------
   _loadResourcesAsync = async () => {
     return Promise.all([
       Asset.loadAsync([
@@ -54,6 +77,9 @@ export default class App extends React.Component {
         // We include SpaceMono because we use it in HomeScreen.js. Feel free
         // to remove this if you are not using it in your app
         'space-mono': require('./assets/fonts/SpaceMono-Regular.ttf'),
+        pacifico: require("./assets/fonts/Pacifico-Regular.ttf"),
+        NunitoSans: require("./assets/fonts/NunitoSans-LightItalic.ttf"),
+        Palanquin: require("./assets/fonts/Palanquin-Light.ttf"),
       }),
     ]);
   };
@@ -69,6 +95,7 @@ export default class App extends React.Component {
   };
 }
 
+//---------------style---------------------
 const styles = StyleSheet.create({
   container: {
     flex: 1,
