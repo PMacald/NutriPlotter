@@ -37,21 +37,14 @@ export default class GoalDataScreen extends React.Component {
           style={styles.container}
           behavior='position'
           >
-            <View style={styles.container}>
+          <View style={styles.container}>
 
 
             <View style={styles.welcomeContainer}>
               <Text style={styles.title}>Nutriplotter</Text>
             </View>
-            <DailyCalorieSlider/>
-            <View style = {styles.slider}>
-              <Slider
-
-                minimumValue = {500}
-                maximumValue = {5000}
-
-                />
-              <Text>value:</Text>
+            <View>
+            <DailyCalorieSlider style={styles.slider}/>
             </View>
             <Button
               title="submit"
@@ -60,6 +53,6 @@ export default class GoalDataScreen extends React.Component {
 
           <SwipeArrow imageSource={require('../src/arrows.png')}/>
         </View>
-        </KeyboardAvoidingView>
+      </KeyboardAvoidingView>
       )};
-  }
+}

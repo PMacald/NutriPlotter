@@ -6,14 +6,17 @@ export default EStyleSheet.create({
   container:{
     width: '$windowWidth - 20',
     flex: 1,
-    flexDirection: 'row',
+    flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
   },
   text: {
-    color: '#EBEBEB',
-    marginBottom: 5,
-    fontSize: 12,
-    fontFamily: 'Palanquin'
+    width: '90%',
+    height: INPUT_HEIGHT,
+    borderBottomColor: 'black',
+    borderBottomWidth: 2,
+    fontFamily: 'NunitoSans',
+    fontSize: 20,
+    marginLeft:10,
   },
 });

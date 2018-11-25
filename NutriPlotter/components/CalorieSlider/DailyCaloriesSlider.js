@@ -1,6 +1,5 @@
 import React from 'react';
 import {StyleSheet, Text, View, Slider} from 'react-native';
-import EStyleSheet from 'react-native-extended-stylesheet';
 import styles from './styles';
 
 class DailyCalorieSlider extends React.Component {
@@ -22,14 +21,12 @@ class DailyCalorieSlider extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.text}>{this.state.value}</Text>
+        <Text style={styles.text}>Daily Calories: {this.state.value}</Text>
         <Slider
           step={10}
           minimumValue={1000}
           maximumValue={5000}
-          onValueChange={this.change.bind(this)}
-          value={value}
-        />
+          onValueChange={(value) => this.setState({value: value})}/>
       </View>
     );
   }
