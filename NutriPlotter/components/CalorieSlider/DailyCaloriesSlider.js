@@ -24,7 +24,7 @@ class DailyCalorieSlider extends React.Component {
       <View style={styles.container}>
         <Text style={styles.text}>{this.state.value}</Text>
         <Slider
-          step={1}
+          step={10}
           minimumValue={1000}
           maximumValue={5000}
           onValueChange={this.change.bind(this)}
