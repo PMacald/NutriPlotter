@@ -17,7 +17,7 @@
 
 - official tutorial for [ReactJS](https://reactjs.org/)
 - official tutorial for [Expo](https://docs.expo.io/versions/latest/)
-- 
+
 ### Contributing
 
 - Eleonora Della    2244079d
