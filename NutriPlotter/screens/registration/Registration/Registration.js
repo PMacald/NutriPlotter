@@ -13,9 +13,6 @@ import {GoalDataScreen} from '../GoalDataScreen';
 //stylesheet
 import styles from './styles';
 
-
-
-
 //--------------start of Registration class--------------
 export default class Registration extends React.Component {
   //to initialise state it needs to be the very first thing the component does

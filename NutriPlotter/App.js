@@ -17,7 +17,7 @@ import {
 } from 'expo';
 
 //components creted by us:
-import {Registration} from './screens/registration/Registration';
+import {MainScreen} from './screens/main/MainScreen';
 
 //stylesheets:
 import EStyleSheet from 'react-native-extended-stylesheet';
@@ -56,7 +56,7 @@ export default class App extends React.Component {
       return (
         <View style={styles.container}>
           {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
-          <Registration />
+          <MainScreen />
         </View>
       );
     }
