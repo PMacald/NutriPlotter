@@ -20,6 +20,7 @@
     "react-native-button-component": "^0.2.28",
     "react-native-extended-stylesheet": "^0.10.0",
     "react-native-keyboard-aware-scroll-view": "^0.7.4",
+    "react-native-really-awesome-button": "^0.8.3",
     "react-native-router-flux": "^4.0.6",
     "react-native-slider": "^0.11.0",
     "react-native-switch-selector": "^1.1.10",

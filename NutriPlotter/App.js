@@ -6,7 +6,8 @@ import {
   StatusBar,
   StyleSheet,
   View,
-  Dimensions
+  Dimensions,
+  Text
         } from 'react-native';
 //expo:
 import {
@@ -17,14 +18,29 @@ import {
 } from 'expo';
 
 //components creted by us:
-import {MainScreen} from './screens/main/MainScreen';
+import {HomeScreen} from './screens/main/HomeScreen';
+import {PlatingScreen} from './screens/main/PlatingScreen';
 
 //stylesheets:
 import EStyleSheet from 'react-native-extended-stylesheet';
 
+import {createStackNavigator} from 'react-navigation';
+
 //variables:
 let {height, width} = Dimensions.get('window');
 
+
+const RootStack = createStackNavigator({
+  Home: {
+    screen: HomeScreen,
+    },
+  Plating:{
+    screen: PlatingScreen,
+  }
+  },{
+    headerMode: 'none',
+    initialRouteName: 'Home'
+  } )
 
 
 // always call EStyleSheet.build() even if you don't use global variables!
@@ -32,13 +48,13 @@ EStyleSheet.build({
   $textColor: '#FFB677',
   $windowHeight: height,
   $windowWidth: width,
-  $baseBlue: '#96C5E2',
+  $baseBlue: '#EBEBEB',
 
 });
 
 
 //-----------------start of the main component APP--------------
-export default class App extends React.Component {
+export default class App extends React.Component<{}> {
   state = {
     isLoadingComplete: false,
   };
@@ -53,12 +69,7 @@ export default class App extends React.Component {
         />
       );
     } else {
-      return (
-        <View style={styles.container}>
-          {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
-          <MainScreen />
-        </View>
-      );
+      return (<RootStack/>);
     }
   }
 
@@ -95,10 +106,15 @@ export default class App extends React.Component {
   };
 }
 
+
+
+
+
+
+
 //---------------style---------------------
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#FFB677',
+    backgroundColor: '#EBEBEB',
   },
 });
