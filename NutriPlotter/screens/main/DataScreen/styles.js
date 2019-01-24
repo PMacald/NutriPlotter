@@ -10,6 +10,11 @@ export default EStyleSheet.create({
       height: '$windowHeight * 0.8',
       backgroundColor: 'gray'
     },
+    text:{
+      fontFamily: 'NunitoSans',
+      color:'white',
+      width: '50%', textAlign: 'center', fontSize: 15
+    },
     bod: {
       width: '100%',
       flex: 1,
@@ -42,27 +47,23 @@ export default EStyleSheet.create({
     },
     menucontainer:{
       marginTop: 50,
-      marginLeft: -10,
-      marginRight: 40,
+      marginLeft: 25,
       //backgroundColor: 'green', //<-- TAKES A LOT OF AREA ON SCREEN
       height: 200,
-      width: 200,
+      width: 200
 
     },
     cupholder:{
-      marginTop: 20,
-      zIndex: -1,
-      position: 'absolute',
+      alignItems: 'flex-end',
+      marginTop: 50,
+      marginRight: 25,
+      width: 100,
+      height: 250,
+      marginLeft: 50
     },
-    sodaBox: {
-      width: 50,
-      height: 50,
-      backgroundColor: 'gray',
-      marginLeft: 10,
-      marginRight: 10,
-      alignItems: 'center',
-      justifyContent: 'center',
-
+    cup:{
+      width:75,
+      height: 150
     },
     conttop:{
       flexDirection: 'row',
@@ -71,23 +72,8 @@ export default EStyleSheet.create({
       alignItems: 'stretch'
     },
     maincontainer:{
-      position: 'absolute',
-      zIndex: 0,
       width: '100%',
       height: '100%',
-    },
-    adjuster:{
-      width: 50,
-      height: 25,
-    },
-    adjCont:{
-      top: "$windowHeight * 0.24",
-      left: "$windowWidth * 0.44",
-      width: 50,
-    },
-    plate:{
-      top: "$windowHeight * 0.108",
-      left: "$windowWidth * 0.255"
     }
 
   });
