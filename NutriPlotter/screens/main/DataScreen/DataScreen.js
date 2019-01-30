@@ -65,9 +65,10 @@ export default class DataScreen extends React.Component {
         <Container>
           <Header style={{height: 100}}>
             <Left>
-              <Button transparent onPress={() => back()}>
-                
-              </Button>
+            <Button transparent onPress={() => back()}>
+            <Image source={require('./src/back.png')}
+                    style={{width: 35, height: 35}}/>
+        </Button>
             </Left>
             <Body>
               <Title style={{width: 250}}>Nutritional Information</Title>
