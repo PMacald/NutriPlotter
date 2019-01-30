@@ -13,17 +13,17 @@ export default class Slice extends Component {
             .innerRadius(0);
     }
 
-    createPieArc = (index, endAngle, data) => {
+    createPieArc = (index,startAngle, endAngle) => {
 
-        const arcs = d3.shape.pie()
-            .value((item)=>item.number)
-            .startAngle(0)
-            .endAngle(endAngle)
-            (data);
+        var arc = d3.shape.arc()
+        .innerRadius(0)
+        .outerRadius(100)
+        .startAngle(startAngle)
+        .endAngle(endAngle);
 
-        let arcData = arcs[index];
+        
 
-        return this.arcGenerator(arcData);
+        return arc();
     };
 
 
@@ -33,14 +33,13 @@ export default class Slice extends Component {
             endAngle,
             color,
             index,
-            data
+            startAngle
         } = this.props;
-        let val = data[index].number;
 
         return (
             <Path
-                onPress={()=>alert('value is: '+val)}
-                d={this.createPieArc(index, endAngle, data)}
+                onPress={()=>alert('value is: '+index)}
+                d={this.createPieArc(index,startAngle, endAngle)}
                 fill={color}
             />
         )

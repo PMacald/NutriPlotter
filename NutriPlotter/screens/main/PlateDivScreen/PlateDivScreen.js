@@ -1,7 +1,7 @@
 //---------------------BASIC IMPORTS-----------------
 import React from 'react';
 // react native:
-import {View, Text, TouchableOpacity} from 'react-native';
+import {View, Text, TouchableOpacity, Image} from 'react-native';
 import { Container, Header, Left, Body, Right, Button, Icon, Title, Content } from 'native-base';
 //components creted by us:
 import {FoodList} from '../../../components/main/FoodList';
@@ -98,6 +98,8 @@ export default class PlateDivScreen extends React.Component {
             <Header style={{height: 100}}>
               <Left>
                 <Button transparent onPress={() => back()}>
+                    <Image source={require('./src/back.png')}
+                            style={{width: 35, height: 35}}/>
                 </Button>
               </Left>
               <Body>

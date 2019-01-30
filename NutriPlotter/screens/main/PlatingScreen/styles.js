@@ -50,7 +50,6 @@ export default EStyleSheet.create({
 
     },
     cupholder:{
-      marginTop: 20,
       zIndex: -1,
       position: 'absolute',
     },
@@ -62,7 +61,7 @@ export default EStyleSheet.create({
       marginRight: 10,
       alignItems: 'center',
       justifyContent: 'center',
-
+      
     },
     conttop:{
       flexDirection: 'row',
@@ -78,7 +77,7 @@ export default EStyleSheet.create({
     },
     adjuster:{
       width: 50,
-      height: 25,
+      height: 25, 
     },
     adjCont:{
       top: "$windowHeight * 0.24",
@@ -86,7 +85,7 @@ export default EStyleSheet.create({
       width: 50,
     },
     plate:{
-      top: "$windowHeight * 0.108",
+      top: "$windowHeight * 0.05",
       left: "$windowWidth * 0.255"
     }
 
