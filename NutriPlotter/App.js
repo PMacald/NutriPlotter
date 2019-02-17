@@ -7,14 +7,17 @@ import {
   StyleSheet,
   View,
   Dimensions,
-  Text
+  Text,
+  ListView
         } from 'react-native';
 //expo:
 import {
   AppLoading,
   Asset,
   Font,
-  Icon
+  Icon,
+  Permissions,
+  Notifications
 } from 'expo';
 import { Ionicons } from '@expo/vector-icons';
 
@@ -29,9 +32,16 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 
 import {createStackNavigator} from 'react-navigation';
 
+//Firebase imports
+import ApiKeys from './constants/ApiKeys';
+import * as firebase from 'firebase';
+
+var data = []
+// Initialize firebase...
+if (!firebase.apps.length) { firebase.initializeApp(ApiKeys.FirebaseConfig); }
+
 //variables:
 let {height, width} = Dimensions.get('window');
-
 
 const RootStack = createStackNavigator({
   Home: {
@@ -68,6 +78,98 @@ export default class App extends React.Component<{}> {
     isLoadingComplete: false,
   };
 
+  constructor(props) {
+        super(props);
+
+        this.ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 })
+
+        this.state = {
+            listViewData: data,
+            newContact: "",
+            currentUser: ""
+        }
+
+    }
+
+
+  componentDidMount() {
+          var currentUser
+          var that = this
+          listener = firebase.auth().signInAnonymously()
+              .then((user) =>{
+                    currentUser = user
+                    that.registerForPushNotificationsAsync(currentUser.user)
+                    console.log('Anonymous user successfully logged in', user);
+
+                })
+              .catch((err) => {
+                    console.log('Anonymous user signin error', err);
+              });
+
+
+
+          firebase.database().ref('/contacts').on('child_added', function (data) {
+
+              var newData = [...that.state.listViewData]
+              newData.push(data)
+              that.setState({ listViewData: newData })
+
+          })
+      }
+
+      loadSubscribers = () => {
+          var messages = []
+
+          //return the main promise
+          return firebase.database().ref('/subscribers').once('value').then(function (snapshot) {
+              snapshot.forEach(function (childSnapshot) {
+
+                  var childKey = childSnapshot.key;
+
+                  messages.push({
+                      "to": childKey,
+                      "sound": "default",
+                      "body": "Time to log food"
+                  });
+              });
+              //firebase.database then() respved a single promise that resolves
+              //once all the messages have been resolved
+              return Promise.all(messages)
+
+          }).catch(error => {
+              console.log(error)
+          })
+
+      }
+      registerForPushNotificationsAsync = async (currentUser) => {
+        const { status: existingStatus } = await Permissions.getAsync(
+          Permissions.NOTIFICATIONS
+        );
+        let finalStatus = existingStatus;
+
+        // only ask if permissions have not already been determined, because
+        // iOS won't necessarily prompt the user a second time.
+        if (existingStatus !== 'granted') {
+          // Android remote notification permissions are granted during the app
+          // install, so this will only ask on iOS
+          const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
+          finalStatus = status;
+        }
+
+        // Stop here if the user did not grant permissions
+        if (finalStatus !== 'granted') {
+          return;
+        }
+        // Get the token that uniquely identifies this device
+        let token = await Notifications.getExpoPushTokenAsync();
+        // POST the token to our backend so we can use it to send pushes from there
+        var updates = {}
+        updates['/expoToken'] = token
+        await firebase.database().ref('/users/' + currentUser.uid).update(updates)
+        //call the push notification
+      }
+
+
   render() {
     if (!this.state.isLoadingComplete && !this.props.skipLoadingScreen) {
       return (
@@ -93,6 +195,8 @@ export default class App extends React.Component<{}> {
         require('./screens/main/PlatingScreen/src/cup.png'),
         require('./screens/main/PlatingScreen/src/more-options.png'),
         require('./screens/main/PlatingScreen/src/up.png'),
+        require('./screens/main/PlatingScreen/src/plate.png'),
+        require('./screens/main/PlatingScreen/src/chart.png')
       ]),
       Font.loadAsync({
         // This is the font that we are using for our tab bar
@@ -119,8 +223,6 @@ export default class App extends React.Component<{}> {
     this.setState({ isLoadingComplete: true });
   };
 }
-
-
 
 
 
