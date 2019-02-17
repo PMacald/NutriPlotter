@@ -195,6 +195,8 @@ export default class App extends React.Component<{}> {
         require('./screens/main/PlatingScreen/src/cup.png'),
         require('./screens/main/PlatingScreen/src/more-options.png'),
         require('./screens/main/PlatingScreen/src/up.png'),
+        require('./screens/main/PlatingScreen/src/plate.png'),
+        require('./screens/main/PlatingScreen/src/chart.png')
       ]),
       Font.loadAsync({
         // This is the font that we are using for our tab bar
