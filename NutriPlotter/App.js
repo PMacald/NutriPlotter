@@ -129,11 +129,7 @@ export default class App extends React.Component<{}> {
                   messages.push({
                       "to": childKey,
                       "sound": "default",
-<<<<<<< HEAD
                       "body": "Time to log food"
-=======
-                      "body": "New Note Added"
->>>>>>> 6f747ae3fd404a3ac6ebab85c8f590cf88e7411f
                   });
               });
               //firebase.database then() respved a single promise that resolves
