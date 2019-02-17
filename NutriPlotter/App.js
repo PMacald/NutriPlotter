@@ -105,43 +105,9 @@ export default class App extends React.Component<{}> {
               .catch((err) => {
                     console.log('Anonymous user signin error', err);
               });
+            }
 
-
-
-          firebase.database().ref('/contacts').on('child_added', function (data) {
-
-              var newData = [...that.state.listViewData]
-              newData.push(data)
-              that.setState({ listViewData: newData })
-
-          })
-      }
-
-      loadSubscribers = () => {
-          var messages = []
-
-          //return the main promise
-          return firebase.database().ref('/subscribers').once('value').then(function (snapshot) {
-              snapshot.forEach(function (childSnapshot) {
-
-                  var childKey = childSnapshot.key;
-
-                  messages.push({
-                      "to": childKey,
-                      "sound": "default",
-                      "body": "Time to log food"
-                  });
-              });
-              //firebase.database then() respved a single promise that resolves
-              //once all the messages have been resolved
-              return Promise.all(messages)
-
-          }).catch(error => {
-              console.log(error)
-          })
-
-      }
-      registerForPushNotificationsAsync = async (currentUser) => {
+    registerForPushNotificationsAsync = async (currentUser) => {
         const { status: existingStatus } = await Permissions.getAsync(
           Permissions.NOTIFICATIONS
         );
