@@ -78,62 +78,59 @@ export default class App extends React.Component<{}> {
     isLoadingComplete: false,
   };
 
-  constructor(props) {
-        super(props);
-
-        this.ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 })
-
-        this.state = {
-            listViewData: data,
-            newContact: "",
-            currentUser: ""
-        }
-
+  async componentWillMount() {
+    let result = await Permissions.getAsync(Permissions.NOTIFICATIONS);
+    if (result.status === 'granted') {
+     console.log('Notification permissions granted.');
+     this.setNotifications();
+    } else {
+        console.log('No Permission', Constants.lisDevice);
     }
 
+    this.listenForNotifications();
+  }
 
-  componentDidMount() {
-          var currentUser
-          var that = this
-          listener = firebase.auth().signInAnonymously()
-              .then((user) =>{
-                    currentUser = user
-                    that.registerForPushNotificationsAsync(currentUser.user)
-                    console.log('Anonymous user successfully logged in', user);
-
-                })
-              .catch((err) => {
-                    console.log('Anonymous user signin error', err);
-              });
-            }
-
-    registerForPushNotificationsAsync = async (currentUser) => {
-        const { status: existingStatus } = await Permissions.getAsync(
-          Permissions.NOTIFICATIONS
-        );
-        let finalStatus = existingStatus;
-
-        // only ask if permissions have not already been determined, because
-        // iOS won't necessarily prompt the user a second time.
-        if (existingStatus !== 'granted') {
-          // Android remote notification permissions are granted during the app
-          // install, so this will only ask on iOS
-          const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
-          finalStatus = status;
+  getNotification(date) {
+    const localNotification = {
+        title: `Create A Meal`,
+        body: 'Swipe to enter the app and create a healthy meal', // (string) — body text of the notification.
+        ios: { // (optional) (object) — notification configuration specific to iOS.
+          sound: true // (optional) (boolean) — if true, play a sound. Default: false.
+        },
+        android: // (optional) (object) — notification configuration specific to Android.
+        {
+          sound: true, // (optional) (boolean) — if true, play a sound. Default: false.
+          priority: 'high', // (optional) (min | low | high | max) — android may present notifications according to the priority, for example a high priority notification will likely to be shown as a heads-up notification.
+          sticky: false, // (optional) (boolean) — if true, the notification will be sticky and not dismissable by user. The notification must be programmatically dismissed. Default: false.
+          vibrate: true // (optional) (boolean or array) — if true, vibrate the device. An array can be supplied to specify the vibration pattern, e.g. - [ 0, 500 ].
         }
+    };
+    return localNotification;
+  }
 
-        // Stop here if the user did not grant permissions
-        if (finalStatus !== 'granted') {
-          return;
+  setNotifications() {
+    Notifications.cancelAllScheduledNotificationsAsync();
+
+    for (let i = 0; i< 4; i++) { //Maximum schedule notification is 64 on ios.
+        let t = new Date();
+        if (i === 0){
+            t.setSeconds(t.getSeconds() + 1);
+        } else {
+            t.setMinutes(t.getMinutes() + 1 + (i * 1)); // 3:30 hours
         }
-        // Get the token that uniquely identifies this device
-        let token = await Notifications.getExpoPushTokenAsync();
-        // POST the token to our backend so we can use it to send pushes from there
-        var updates = {}
-        updates['/expoToken'] = token
-        await firebase.database().ref('/users/' + currentUser.uid).update(updates)
-        //call the push notification
-      }
+        const schedulingOptions = {
+            time: t, // (date or number) — A Date object representing when to fire the notification or a number in Unix epoch time. Example: (new Date()).getTime() + 1000 is one second from now.
+            repeat: "hour",
+        };
+        Notifications.scheduleLocalNotificationAsync(this.getNotification(t), schedulingOptions);
+    }
+  }
+
+  listenForNotifications = () => {
+    Notifications.addListener(notification => {
+      console.log('received notification', notification);
+    });
+  };
 
 
   render() {
