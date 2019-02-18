@@ -116,7 +116,7 @@ export default class App extends React.Component<{}> {
         if (i === 0){
             t.setSeconds(t.getSeconds() + 1);
         } else {
-            t.setMinutes(t.getMinutes() + 1 + (i * 1)); // 3:30 hours
+            t.setMinutes(t.getMinutes() + 1 + (i * 210)); // 3:30 hours
         }
         const schedulingOptions = {
             time: t, // (date or number) — A Date object representing when to fire the notification or a number in Unix epoch time. Example: (new Date()).getTime() + 1000 is one second from now.
