@@ -1,5 +1,7 @@
 //---------------------BASIC IMPORTS-----------------
 import React from 'react';
+import {Amplitude}from 'expo';
+
 // react native:
 import {View, Text, TouchableOpacity, Image} from 'react-native';
 import { Container, Header, Left, Body, Right, Button, Icon, Title, Content } from 'native-base';
@@ -10,6 +12,7 @@ import styles from './styles';
 
 import { PieChart } from 'react-native-svg-charts';
 
+Amplitude.initialize("8a8476a30e9af690b3dc1f1d7b637e4b")
 
 export default class PlateDivScreen extends React.Component {
   constructor(props){
@@ -104,7 +107,12 @@ export default class PlateDivScreen extends React.Component {
           <Container>
             <Header style={{height: 100}}>
               <Left>
-                <Button transparent onPress={() => back()}>
+                <Button transparent onPress={() =>
+                  {
+                    back();
+                    Amplitude.logEvent('Back button pressed from plate types screen');
+                  }
+                }>
                     <Image source={require('./src/back.png')}
                             style={{width: 35, height: 35}}/>
                 </Button>
@@ -128,6 +136,7 @@ export default class PlateDivScreen extends React.Component {
                   console.log('Updated Plate Type to small plate, 2 components');
                   this.setState({mainplate: this.pieData2, platesize:"smallplate"});
                   this.props.navigation.navigate('Plating');
+                  Amplitude.logEvent('Chosen: Small Plate, 2 Components');
                 }}>
                   <PieChart
                       style={ styles.chrtsmall }
@@ -138,6 +147,8 @@ export default class PlateDivScreen extends React.Component {
                   console.log('Updated Plate Type to big plate, 2 components');
                   this.setState({mainplate: this.pieData2, platesize:"bigplate"});
                   this.props.navigation.navigate('Plating');
+                  Amplitude.logEvent('Chosen: Big Plate, 2 Components');
+
                 }}>
                   <PieChart
                       style={ styles.chrtbig }
@@ -154,6 +165,7 @@ export default class PlateDivScreen extends React.Component {
                     console.log('Updated Plate Type to small plate, 3 components');
                     this.setState({mainplate: this.pieData3, platesize:"smallplate"});
                     this.props.navigation.navigate('Plating');
+                    Amplitude.logEvent('Chosen: Small Plate, 3 Components');
                   }
                 }>
                   <PieChart
@@ -166,6 +178,7 @@ export default class PlateDivScreen extends React.Component {
                     console.log('Updated Plate Type to big plate, 3 components');
                     this.setState({mainplate: this.pieData3, platesize:"bigplate"});
                     this.props.navigation.navigate('Plating');
+                    Amplitude.logEvent('Chosen: Big Plate, 3 Components');
                   }
                 }>
                   <PieChart
@@ -183,6 +196,7 @@ export default class PlateDivScreen extends React.Component {
                     console.log('Updated Plate Type to small plate, 4 components');
                     this.setState({mainplate: this.pieData4, platesize:"smallplate"});
                     this.props.navigation.navigate('Plating');
+                    Amplitude.logEvent('Chosen: Small Plate, 4 Components');
                   }
                   }>
                     <PieChart
@@ -194,6 +208,7 @@ export default class PlateDivScreen extends React.Component {
                   console.log('Updated Plate Type to big plate, 4 components');
                   this.setState({mainplate: this.pieData4, platesize:"bigplate"});
                   this.props.navigation.navigate('Plating');
+                  Amplitude.logEvent('Chosen: Big Plate, 4 Components');
                 }}>
                     <PieChart
                         style={ styles.chrtbig }
@@ -209,6 +224,7 @@ export default class PlateDivScreen extends React.Component {
                   console.log('Updated Plate Type to small plate, 5 components');
                   this.setState({mainplate: this.pieData4, platesize:"smallplate"});
                   this.props.navigation.navigate('Plating');
+                  Amplitude.logEvent('Chosen: Small Plate, 5 Components');
                 }}>
                     <PieChart
                         style={ styles.chrtsmall }
@@ -219,6 +235,7 @@ export default class PlateDivScreen extends React.Component {
                   console.log('Updated Plate Type to big plate, 5 components');
                   this.setState({mainplate: this.pieData4, platesize:"bigplate"});
                   this.props.navigation.navigate('Plating');
+                  Amplitude.logEvent('Chosen: Big Plate, 5 Components');
                 }}>
                     <PieChart
                         style={ styles.chrtbig }

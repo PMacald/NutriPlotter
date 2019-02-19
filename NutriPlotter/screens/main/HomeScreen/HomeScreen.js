@@ -1,5 +1,11 @@
 //---------------------BASIC IMPORTS-----------------
 import React from 'react';
+import {Amplitude}from 'expo';
+
+//Firebase imports
+import ApiKeys from '/Users/eleonoradella/Desktop/NutriPlotter/dissertation/NutriPlotter/constants/ApiKeys.js';
+import * as firebase from 'firebase';
+if (!firebase.apps.length) { firebase.initializeApp(ApiKeys.FirebaseConfig); }
 
 // react native:
 import {
@@ -13,6 +19,9 @@ import {
   Navigation,
   Button
 } from 'react-native';
+
+Amplitude.initialize("8a8476a30e9af690b3dc1f1d7b637e4b")
+
 import AwesomeButtonRick from 'react-native-really-awesome-button/src/themes/rick';
 //stylesheet
 import styles from './styles';
@@ -33,7 +42,10 @@ export default class HomeScreen extends React.Component {
             textColor='#808080'
             borderColor='#808080'
             type="primary"
-            onPress={()=> this.props.navigation.navigate('Plating')}
+            onPress={()=> {
+              this.props.navigation.navigate('Plating');
+              Amplitude.logEvent('Button pressed to create a meal');
+            }}
             >Create a Meal! </AwesomeButtonRick>
 
           </View>

@@ -1,5 +1,7 @@
 //---------------------BASIC IMPORTS-----------------
 import React from 'react';
+import {Amplitude}from 'expo';
+
 // react native:
 import {
   NativeModules,
@@ -34,6 +36,7 @@ import { absoluteFill } from 'react-native-extended-stylesheet';
 
 const { UIManager } = NativeModules;
 
+Amplitude.initialize("8a8476a30e9af690b3dc1f1d7b637e4b")
 
 async function getiOSNotificationPermission() {
   const { status } = await Permissions.getAsync(
@@ -413,14 +416,17 @@ export default class PlatingScreen extends React.Component {
     if(opt.key == 1){
       pauseAudio();
       console.log('Restart');
+      Amplitude.logEvent('Restart');
       this.props.navigation.navigate('Plating');
     }else if(opt.key == 2){
       console.log('Sound Off');
+      Amplitude.logEvent('Sound Off');
       pauseAudio();
     }else if(opt.key == 3){
       //this.BackHandler.exitApp();
       console.log('Exit');
       pauseAudio();
+      Amplitude.logEvent('Back to Home Screen');
       this.props.navigation.navigate('Home');
     }else if(opt.key == 4){
       console.log('Send a notification');
@@ -569,7 +575,11 @@ export default class PlatingScreen extends React.Component {
                   animationType="fade"
                   ref={selector => { this.selector = selector; }}
                   customSelector={
-                    <TouchableOpacity onPress={() => this.selector.open()}>
+                    <TouchableOpacity onPress={() => {
+                      this.selector.open();
+                      Amplitude.logEvent('More Options button pressed');
+                    }
+                  }>
                       <Image
                         style={{ alignSelf: 'center' }}
                         source={require('./src/more-options.png')}
@@ -588,7 +598,10 @@ export default class PlatingScreen extends React.Component {
                   height: 150,
                   marginLeft: 50,
                 }}>
-              <TouchableOpacity style = {styles.cupholder} onPress={()=>this.sodaAnim()}>
+              <TouchableOpacity style = {styles.cupholder} onPress={()=>{
+                this.sodaAnim();
+                Amplitude.logEvent('Drink cup pressed');
+              }}>
 
                 <Image
                     style={{
@@ -705,7 +718,11 @@ export default class PlatingScreen extends React.Component {
               >
               <View style={styles.left}>
               <TouchableOpacity
-                onPress={()=> this.props.navigation.navigate('PlateDiv')}>
+                onPress={()=> {
+                  this.props.navigation.navigate('PlateDiv');
+                  Amplitude.logEvent('Plate Type Screen button pressed');
+                }
+              }>
                   <Image
                     source={require('./src/plate.png')}
                     style={styles.img}
@@ -728,7 +745,11 @@ export default class PlatingScreen extends React.Component {
               </View>
               <View style={styles.right}>
                 <TouchableOpacity
-                onPress={()=> this.props.navigation.navigate('Data')}>
+                onPress={()=> {
+                  this.props.navigation.navigate('Data');
+                  Amplitude.logEvent('Plate Type Screen button pressed');
+                }
+              }>
                   <Image
                     source={require('./src/chart.png')}
                     style={styles.img}
