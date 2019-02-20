@@ -374,8 +374,8 @@ export default class PlatingScreen extends React.Component {
         }
       }
     )
-    
-    
+
+
   }
 
 
@@ -412,7 +412,7 @@ export default class PlatingScreen extends React.Component {
   componentWillMount() {
     getiOSNotificationPermission();
     this.listenForNotifications();
-    
+
   }
   renderAdjusters(transforms){
     switch(this.props.navigation.state.params.comps){
@@ -474,7 +474,7 @@ export default class PlatingScreen extends React.Component {
                   style={styles.adjuster}
               />
             </Animated.View>
-            
+
 
           </View>
         );
@@ -505,7 +505,7 @@ export default class PlatingScreen extends React.Component {
           </Svg.G>
         );
         break;
-      
+
       case 4:
         console.log("4");
         break;
@@ -513,7 +513,7 @@ export default class PlatingScreen extends React.Component {
         console.log("5");
         break;
       default:
-        
+
         return (
           <Svg.G>
             <Slice
@@ -545,7 +545,7 @@ export default class PlatingScreen extends React.Component {
         break;
     }
 
-    
+
 
   }
 
@@ -584,7 +584,7 @@ export default class PlatingScreen extends React.Component {
             {
               onStartShouldSetPanResponder: (evt, gesture) =>true,
               onPanResponderMove: (evt, gesture) => {
-      
+
                 //we need the distance between the points and get the index of the minimum distance
                 distances = [];
                 for(var i = 0; i < 50; i++){
@@ -592,16 +592,16 @@ export default class PlatingScreen extends React.Component {
                   var b = this.outputRangeY[i] - gesture.moveY + 120;
                   distances.push(Math.sqrt(a*a + b*b));
                 }
-      
-      
+
+
                 var minInd = distances.indexOf(Math.min(...distances));
                 this.setState({indexOfAdj1 : minInd});
                 this.adj1Anim.setValue((1/50)* minInd);
-      
-      
-      
-      
-                
+
+
+
+
+
                 var isPos1 = minInd/50;
                 var isPos2 = (minInd)/50;
                 if(minInd>25){
@@ -646,22 +646,22 @@ export default class PlatingScreen extends React.Component {
                 },
                   ]});
                 }
-      
+
                 //now the data will need to change
-      
+
               }
             }
           )
-      
+
           //what happens when you move the adjuster 2 -- done
           this._panResponder2 = PanResponder.create(
             {
               onStartShouldSetPanResponder: (evt, gesture) =>true,
               onPanResponderMove: (evt, gesture) => {
-      
+
                 //we need the distance between the points and get the index of the minimum distance
                 distances = [];
-      
+
                 for(var i = 0; i < 50; i++){
                   var a = this.outputRangeX[i] - gesture.moveX;
                   var b = this.outputRangeY[i] - gesture.moveY + 120;
@@ -670,11 +670,11 @@ export default class PlatingScreen extends React.Component {
                 var minInd = distances.indexOf(Math.min(...distances));
                 this.setState({indexOfAdj2 : minInd});
                 this.adj2Anim.setValue((1/50)* minInd);
-      
-      
-      
-      
-      
+
+
+
+
+
                 var isPos1 = minInd/50;
                 var isPos2 = (minInd)/50;
                 var constspot = this.state.data[0].startAngle;
@@ -702,17 +702,17 @@ export default class PlatingScreen extends React.Component {
               }
             }
           )
-          
+
           break;
         case 4:
-          
+
         case 5:
 
         default:
           this.adj1Anim.setValue(0);
           this.adj2Anim.setValue(0.33);
           this.adj3Anim.setValue(0.66);
-          this.setState({data: 
+          this.setState({data:
             [
               {
                 number: 33,
@@ -736,7 +736,7 @@ export default class PlatingScreen extends React.Component {
             {
               onStartShouldSetPanResponder: (evt, gesture) =>true,
               onPanResponderMove: (evt, gesture) => {
-      
+
                 //we need the distance between the points and get the index of the minimum distance
                 distances = [];
                 for(var i = 0; i < 50; i++){
@@ -744,16 +744,16 @@ export default class PlatingScreen extends React.Component {
                   var b = this.outputRangeY[i] - gesture.moveY + 120;
                   distances.push(Math.sqrt(a*a + b*b));
                 }
-      
-      
+
+
                 var minInd = distances.indexOf(Math.min(...distances));
                 this.setState({indexOfAdj1 : minInd});
                 this.adj1Anim.setValue((1/50)* minInd);
-      
-      
-      
-      
-      
+
+
+
+
+
                 var isPos1 = minInd/50;
                 var isPos2 = (minInd)/50;
                 if(minInd>30){
@@ -795,33 +795,33 @@ export default class PlatingScreen extends React.Component {
                   },
                   ]});
                 }
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
+
+
+
+
+
+
+
+
+
+
+
+
                 //now the data will need to change
-      
+
               }
             }
           )
-      
+
           //what happens when you move the adjuster 2
           this._panResponder2 = PanResponder.create(
             {
               onStartShouldSetPanResponder: (evt, gesture) =>true,
               onPanResponderMove: (evt, gesture) => {
-      
+
                 //we need the distance between the points and get the index of the minimum distance
                 distances = [];
-      
+
                 for(var i = 0; i < 50; i++){
                   var a = this.outputRangeX[i] - gesture.moveX;
                   var b = this.outputRangeY[i] - gesture.moveY + 120;
@@ -830,11 +830,11 @@ export default class PlatingScreen extends React.Component {
                 var minInd = distances.indexOf(Math.min(...distances));
                 this.setState({indexOfAdj2 : minInd});
                 this.adj2Anim.setValue((1/50)* minInd);
-      
-      
-      
-      
-      
+
+
+
+
+
                 var isPos1 = minInd/50;
                 var isPos2 = (minInd)/50;
                 if(minInd>30){
@@ -879,16 +879,16 @@ export default class PlatingScreen extends React.Component {
               }
             }
           )
-      
+
           //what happens when you move the adjuster 3
           this._panResponder3 = PanResponder.create(
             {
               onStartShouldSetPanResponder: (evt, gesture) =>true,
               onPanResponderMove: (evt, gesture) => {
-      
+
                 //we need the distance between the points and get the index of the minimum distance
                 distances = [];
-      
+
                 for(var i = 0; i < 50; i++){
                   var a = this.outputRangeX[i] - gesture.moveX;
                   var b = this.outputRangeY[i] - gesture.moveY + 120;
@@ -897,9 +897,9 @@ export default class PlatingScreen extends React.Component {
                 var minInd = distances.indexOf(Math.min(...distances));
                 this.setState({indexOfAdj3 : minInd});
                 this.adj3Anim.setValue((1/50)* minInd);
-      
-      
-      
+
+
+
                 var isPos1 = minInd/50;
                 var isPos2 = (minInd)/50;
                 if(minInd>30){
@@ -1071,13 +1071,13 @@ export default class PlatingScreen extends React.Component {
 
 
   render() {
-    
+
     playAudio();
-    
+
     let { vertAnim, horAnim, heightAnim, widthAnim, backOp, sodaOp } = this.state;
     console.log(vertAnim);
     console.log("heightAnim: " + heightAnim);
-    
+
     const transform1 = [
       {translateX: this.translate1_X},
       {translateY: this.translate1_Y},
@@ -1179,11 +1179,11 @@ export default class PlatingScreen extends React.Component {
                     height={210}
                     viewBox={`-100 -100 200 200`}
                 >
-               
-                
+
+
                       {this.renderSlices()}
-                      
-                     
+
+
                 </Svg>
           </Animated.View>
 
@@ -1222,14 +1222,13 @@ export default class PlatingScreen extends React.Component {
               <View style={styles.left}>
               <TouchableOpacity
                 onPress={()=> {
-<<<<<<< NutriPlotter/screens/main/PlatingScreen/PlatingScreen.js
                   this.setState({plateUpdate: true});
                   this.props.navigation.navigate('PlateDiv');
                   Amplitude.logEvent('Plate Type Screen button pressed');
                 }
               }>
 =======
-                  
+
                 }}>
 >>>>>>> NutriPlotter/screens/main/PlatingScreen/PlatingScreen.js
                   <Image
