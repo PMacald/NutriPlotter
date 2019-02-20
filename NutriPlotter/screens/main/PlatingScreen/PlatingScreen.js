@@ -27,8 +27,7 @@ import {PopUpMenu} from '../../../components/main/PopUpMenu';
 import {Slice} from '../../../components/main/Slice';
 //stylesheets
 import styles from './styles';
-import SVG, {Svg, G} from 'react-native-svg';
-
+import {Svg} from 'expo';
 import { PieChart } from 'react-native-svg-charts';
 import { absoluteFill } from 'react-native-extended-stylesheet';
 
@@ -60,7 +59,7 @@ export default class PlatingScreen extends React.Component {
     const soundObject = new Expo.Audio.Sound();
 
     this.state = {
-      vertAnim : new Animated.Value(25),
+      vertAnim : new Animated.Value(height/20),
       horAnim : new Animated.Value(0),
       heightAnim: 150,
       widthAnim: 75,
@@ -88,6 +87,9 @@ export default class PlatingScreen extends React.Component {
           endAngle: Math.PI * 2,
       },
       ],
+      plateSize: "big",
+      plateComps: 3,
+      plateUpdate: false,
     }
 
     playAudio = async () => {
@@ -121,7 +123,7 @@ export default class PlatingScreen extends React.Component {
     this.adj3Anim = new Animated.Value(0.66);
 
 
-    var range = 1, snapshot = 50, radius = 120;
+    var range = 1, snapshot = 50, radius = 130;
 
     //translateX
     var inputRange = [];
@@ -155,7 +157,7 @@ export default class PlatingScreen extends React.Component {
     this.spin1 = this.adj1Anim.interpolate({inputRange: [0,1], outputRange: ['0deg', '360deg']})
     this.spin2 = this.adj2Anim.interpolate({inputRange: [0,1], outputRange: ['0deg', '360deg']})
     this.spin3 = this.adj3Anim.interpolate({inputRange: [0,1], outputRange: ['0deg', '360deg']})
-
+    console.log(this.props.navigation.state.params.comps);
     //what happens when you move the adjuster 1
     this._panResponder1 = PanResponder.create(
       {
@@ -369,7 +371,8 @@ export default class PlatingScreen extends React.Component {
         }
       }
     )
-
+    
+    
   }
 
 
@@ -406,8 +409,541 @@ export default class PlatingScreen extends React.Component {
   componentWillMount() {
     getiOSNotificationPermission();
     this.listenForNotifications();
+    
+  }
+  renderAdjusters(transforms){
+    switch(this.props.navigation.state.params.comps){
+      case 2:
+      return (
+        <View>
+          <Animated.View
+              style={[styles.adjCont, {transform: transforms[0]}] }
+              {...this._panResponder1.panHandlers}
+              >
+              <Image
+                  source={require('../../../assets/images/adjust.png')}
+                  style={styles.adjuster}
+              />
+            </Animated.View>
+            <Animated.View
+                style={[styles.adjCont, {transform: transforms[1]}] }
+                {...this._panResponder2.panHandlers}
+                >
+                <Image
+                    source={require('../../../assets/images/adjust.png')}
+                    style={styles.adjuster}
+                />
+            </Animated.View>
+        </View>
+      )
+        break;
+      case 4:
+        break;
+      case 5:
+        break;
+      default:
+        return (
+          <View>
+            <Animated.View
+              style={[styles.adjCont, {transform: transforms[0]}] }
+              {...this._panResponder1.panHandlers}
+              >
+              <Image
+                  source={require('../../../assets/images/adjust.png')}
+                  style={styles.adjuster}
+              />
+            </Animated.View>
+            <Animated.View
+                style={[styles.adjCont, {transform: transforms[1]}] }
+                {...this._panResponder2.panHandlers}
+                >
+                <Image
+                    source={require('../../../assets/images/adjust.png')}
+                    style={styles.adjuster}
+                />
+            </Animated.View>
+            <Animated.View
+                style={[styles.adjCont, {transform: transforms[2]}] }
+                {...this._panResponder3.panHandlers}
+                >
+              <Image
+                  source={require('../../../assets/images/adjust.png')}
+                  style={styles.adjuster}
+              />
+            </Animated.View>
+            
+
+          </View>
+        );
+        break;
+    }
+  }
+  renderSlices(){
+    switch(this.props.navigation.state.params.comps){
+      case 2:
+        return (
+          <Svg.G>
+            <Slice
+                index={0}
+                startAngle={this.state.data[0].startAngle}
+                endAngle={this.state.data[0].endAngle}
+                color={'#0d2f51'}
+                data={this.state.data}
+                key={'pie_shape_0'}
+            />
+            <Slice
+                index={1}
+                startAngle={this.state.data[1].startAngle}
+                endAngle={this.state.data[1].endAngle}
+                color={'#28BD8B'}
+                data={this.state.data}
+                key={'pie_shape_1'}
+            />
+          </Svg.G>
+        );
+        break;
+      
+      case 4:
+        console.log("4");
+        break;
+      case 5:
+        console.log("5");
+        break;
+      default:
+        
+        return (
+          <Svg.G>
+            <Slice
+                index={0}
+                startAngle={this.state.data[0].startAngle}
+                endAngle={this.state.data[0].endAngle}
+                color={'#FF5733'}
+                data={this.state.data}
+                key={'pie_shape_0'}
+            />
+            <Slice
+                index={1}
+                startAngle={this.state.data[1].startAngle}
+                endAngle={this.state.data[1].endAngle}
+                color={'#33FF39'}
+                data={this.state.data}
+                key={'pie_shape_1'}
+            />
+            <Slice
+                index={2}
+                startAngle={this.state.data[2].startAngle}
+                endAngle={this.state.data[2].endAngle}
+                color={'#4633FF'}
+                data={this.state.data}
+                key={'pie_shape_2'}
+            />
+          </Svg.G>
+        );
+        break;
+    }
+
+    
+
   }
 
+
+  componentWillUpdate(){
+    if(this.state.plateUpdate){
+      //here if the plate is being updated in platediv screen, this will adjust the plate components
+      this.setState({
+                 plateSize: this.props.navigation.state.params.size,
+                 plateComps:this.props.navigation.state.params.comps,
+                 plateUpdate: false});
+      console.log("plate updated");
+      //different settings = different gesture locators
+      switch(this.props.navigation.state.params.comps){
+        case 2:
+        this.setState({data: [
+          {
+            number: 1,
+            startAngle:  0,
+            endAngle: Math.PI,
+        },
+        {
+            number: 1,
+            startAngle: Math.PI,//this.state.data[1].startAngle,
+            endAngle: Math.PI*2,//isPos1* Math.PI * 2,
+        },
+        {
+          number: 33,
+          startAngle: Math.PI * 4/3,
+          endAngle: Math.PI * 2,
+      },
+        ]});
+          this.adj1Anim.setValue(0);
+          this.adj2Anim.setValue(0.5);
+          this._panResponder1 = PanResponder.create(
+            {
+              onStartShouldSetPanResponder: (evt, gesture) =>true,
+              onPanResponderMove: (evt, gesture) => {
+      
+                //we need the distance between the points and get the index of the minimum distance
+                distances = [];
+                for(var i = 0; i < 50; i++){
+                  var a = this.outputRangeX[i] - gesture.moveX;
+                  var b = this.outputRangeY[i] - gesture.moveY + 120;
+                  distances.push(Math.sqrt(a*a + b*b));
+                }
+      
+      
+                var minInd = distances.indexOf(Math.min(...distances));
+                this.setState({indexOfAdj1 : minInd});
+                this.adj1Anim.setValue((1/50)* minInd);
+      
+      
+      
+      
+                
+                var isPos1 = minInd/50;
+                var isPos2 = (minInd)/50;
+                if(minInd>25){
+                  isPos1 = -1 * ((50-minInd)/50);
+                  isPos2 = minInd/50;
+                  this.setState({data: [
+                    {
+                      number: 1,
+                      startAngle: isPos1* Math.PI * 2,
+                      endAngle: this.state.data[0].endAngle,
+                  },
+                  {
+                      number: 1,
+                      startAngle: this.state.data[0].endAngle,//this.state.data[1].startAngle,
+                      endAngle: isPos2* Math.PI * 2,//isPos1* Math.PI * 2,
+                  },
+                  {
+                    number: 33,
+                    startAngle: Math.PI * 4/3,
+                    endAngle: Math.PI * 2,
+                },
+                  ]});
+                }else{
+                  var constspot = this.state.data[0].endAngle;
+                  isPos1 = -1 * ((50-minInd)/50);
+                  isPos2 = minInd/50;
+                  this.setState({data: [
+                    {
+                      number: 1,
+                      startAngle: isPos2* Math.PI * 2, //stays constant
+                      endAngle: constspot,
+                  },
+                  {
+                      number: 1,
+                      startAngle: constspot,
+                      endAngle: isPos2* Math.PI * 2 + Math.PI*2,
+                  },
+                  {
+                    number: 33,
+                    startAngle: Math.PI * 4/3,
+                    endAngle: Math.PI * 2,
+                },
+                  ]});
+                }
+      
+                //now the data will need to change
+      
+              }
+            }
+          )
+      
+          //what happens when you move the adjuster 2 -- done
+          this._panResponder2 = PanResponder.create(
+            {
+              onStartShouldSetPanResponder: (evt, gesture) =>true,
+              onPanResponderMove: (evt, gesture) => {
+      
+                //we need the distance between the points and get the index of the minimum distance
+                distances = [];
+      
+                for(var i = 0; i < 50; i++){
+                  var a = this.outputRangeX[i] - gesture.moveX;
+                  var b = this.outputRangeY[i] - gesture.moveY + 120;
+                  distances.push(Math.sqrt(a*a + b*b));
+                }
+                var minInd = distances.indexOf(Math.min(...distances));
+                this.setState({indexOfAdj2 : minInd});
+                this.adj2Anim.setValue((1/50)* minInd);
+      
+      
+      
+      
+      
+                var isPos1 = minInd/50;
+                var isPos2 = (minInd)/50;
+                var constspot = this.state.data[0].startAngle;
+                if(true){//moving left
+                  isPos1 = -1 * ((50-minInd)/50);
+                  isPos2 = minInd/50;
+                  this.setState({data: [
+                    {
+                      number: 1,
+                      startAngle: constspot, //stays constant
+                      endAngle: isPos2* Math.PI * 2,
+                  },
+                  {
+                      number: 1,
+                      startAngle: isPos1* Math.PI * 2,
+                      endAngle: constspot,
+                  },
+                  {
+                    number: 33,
+                    startAngle: Math.PI * 4/3,
+                    endAngle: Math.PI * 2,
+                },
+                  ]});
+                }
+              }
+            }
+          )
+          
+          break;
+        case 4:
+          
+        case 5:
+
+        default:
+          this.adj1Anim.setValue(0);
+          this.adj2Anim.setValue(0.33);
+          this.adj3Anim.setValue(0.66);
+          this.setState({data: 
+            [
+              {
+                number: 33,
+                startAngle: 0,
+                endAngle: Math.PI * 2/3,
+            },
+            {
+                number: 33,
+                startAngle: Math.PI * 2/3,
+                endAngle: Math.PI * 4/3,
+            },
+            {
+                number: 33,
+                startAngle: Math.PI * 4/3,
+                endAngle: Math.PI * 2,
+            },
+            ]
+          });
+
+          this._panResponder1 = PanResponder.create(
+            {
+              onStartShouldSetPanResponder: (evt, gesture) =>true,
+              onPanResponderMove: (evt, gesture) => {
+      
+                //we need the distance between the points and get the index of the minimum distance
+                distances = [];
+                for(var i = 0; i < 50; i++){
+                  var a = this.outputRangeX[i] - gesture.moveX;
+                  var b = this.outputRangeY[i] - gesture.moveY + 120;
+                  distances.push(Math.sqrt(a*a + b*b));
+                }
+      
+      
+                var minInd = distances.indexOf(Math.min(...distances));
+                this.setState({indexOfAdj1 : minInd});
+                this.adj1Anim.setValue((1/50)* minInd);
+      
+      
+      
+      
+      
+                var isPos1 = minInd/50;
+                var isPos2 = (minInd)/50;
+                if(minInd>30){
+                  isPos1 = -1 * ((50-minInd)/50);
+                  isPos2 = minInd/50;
+                  this.setState({data: [
+                    {
+                      number: 1,
+                      startAngle: isPos1* Math.PI * 2,
+                      endAngle: this.state.data[0].endAngle,
+                  },
+                  {
+                      number: 30,
+                      startAngle: this.state.data[1].startAngle,
+                      endAngle: this.state.data[1].endAngle,
+                  },
+                  {
+                      number: 1,
+                      startAngle: this.state.data[1].endAngle,
+                      endAngle: isPos2* Math.PI * 2,
+                  },
+                  ]});
+                }else{
+                  this.setState({data: [
+                    {
+                      number: 1,
+                      startAngle: isPos1* Math.PI * 2,
+                      endAngle: this.state.data[0].endAngle,
+                  },
+                  {
+                      number: 30,
+                      startAngle: this.state.data[1].startAngle,
+                      endAngle: this.state.data[1].endAngle,
+                  },
+                  {
+                      number: 1,
+                      startAngle: -((Math.PI * 2)-this.state.data[1].endAngle),
+                      endAngle: isPos2* Math.PI * 2,
+                  },
+                  ]});
+                }
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+                //now the data will need to change
+      
+              }
+            }
+          )
+      
+          //what happens when you move the adjuster 2
+          this._panResponder2 = PanResponder.create(
+            {
+              onStartShouldSetPanResponder: (evt, gesture) =>true,
+              onPanResponderMove: (evt, gesture) => {
+      
+                //we need the distance between the points and get the index of the minimum distance
+                distances = [];
+      
+                for(var i = 0; i < 50; i++){
+                  var a = this.outputRangeX[i] - gesture.moveX;
+                  var b = this.outputRangeY[i] - gesture.moveY + 120;
+                  distances.push(Math.sqrt(a*a + b*b));
+                }
+                var minInd = distances.indexOf(Math.min(...distances));
+                this.setState({indexOfAdj2 : minInd});
+                this.adj2Anim.setValue((1/50)* minInd);
+      
+      
+      
+      
+      
+                var isPos1 = minInd/50;
+                var isPos2 = (minInd)/50;
+                if(minInd>30){
+                  isPos1 = -1 * ((50-minInd)/50);
+                  isPos2 = minInd/50;
+                  this.setState({data: [
+                    {
+                      number: 1,
+                      startAngle: this.state.data[0].startAngle,
+                      endAngle: isPos1* Math.PI * 2,
+                  },
+                  {
+                      number: 30,
+                      startAngle: isPos2* Math.PI * 2,
+                      endAngle: this.state.data[1].endAngle,
+                  },
+                  {
+                      number: 1,
+                      startAngle: this.state.data[2].startAngle,
+                      endAngle: this.state.data[2].endAngle,
+                  },
+                  ]});
+                }else{
+                  this.setState({data: [
+                    {
+                      number: 1,
+                      startAngle: this.state.data[0].startAngle,
+                      endAngle: isPos1* Math.PI * 2,
+                  },
+                  {
+                      number: 30,
+                      startAngle: isPos2* Math.PI * 2,
+                      endAngle: this.state.data[1].endAngle,
+                  },
+                  {
+                      number: 1,
+                      startAngle: this.state.data[2].startAngle,
+                      endAngle: this.state.data[2].endAngle,
+                  },
+                  ]});
+                }
+              }
+            }
+          )
+      
+          //what happens when you move the adjuster 3
+          this._panResponder3 = PanResponder.create(
+            {
+              onStartShouldSetPanResponder: (evt, gesture) =>true,
+              onPanResponderMove: (evt, gesture) => {
+      
+                //we need the distance between the points and get the index of the minimum distance
+                distances = [];
+      
+                for(var i = 0; i < 50; i++){
+                  var a = this.outputRangeX[i] - gesture.moveX;
+                  var b = this.outputRangeY[i] - gesture.moveY + 120;
+                  distances.push(Math.sqrt(a*a + b*b));
+                }
+                var minInd = distances.indexOf(Math.min(...distances));
+                this.setState({indexOfAdj3 : minInd});
+                this.adj3Anim.setValue((1/50)* minInd);
+      
+      
+      
+                var isPos1 = minInd/50;
+                var isPos2 = (minInd)/50;
+                if(minInd>30){
+                  isPos1 = -1 * ((50-minInd)/50);
+                  isPos2 = minInd/50;
+                  this.setState({data: [
+                    {
+                      number: 1,
+                      startAngle: this.state.data[0].startAngle,
+                      endAngle: this.state.data[0].endAngle,
+                  },
+                  {
+                      number: 30,
+                      startAngle: this.state.data[0].endAngle,
+                      endAngle: isPos2* Math.PI * 2,
+                  },
+                  {
+                      number: 1,
+                      startAngle: isPos1* Math.PI * 2,
+                      endAngle: this.state.data[0].startAngle,
+                  },
+                  ]});
+                }else{
+                  this.setState({data: [
+                    {
+                      number: 1,
+                      startAngle: this.state.data[0].startAngle,
+                      endAngle: this.state.data[0].endAngle,
+                  },
+                  {
+                      number: 30,
+                      startAngle: this.state.data[0].endAngle,
+                      endAngle: isPos2* Math.PI * 2,
+                  },
+                  {
+                      number: 1,
+                      startAngle: -((Math.PI * 2)-(isPos1* Math.PI * 2)),
+                      endAngle: this.state.data[0].startAngle,
+                  },
+                  ]});
+                }
+              }
+            }
+          )
+      }
+    }
+  }
 
   menuButtonHandler = (opt) => {
     if(opt.key == 1){
@@ -432,6 +968,7 @@ export default class PlatingScreen extends React.Component {
 
 
   sodaAnim = () => {
+    console.log(height, width);//896 414
     if(this.state.isBig){
       LayoutAnimation.configureNext({
         duration: 1000,
@@ -443,7 +980,7 @@ export default class PlatingScreen extends React.Component {
           type: LayoutAnimation.Types.linear,
         },});
 
-      this.setState({widthAnim: 75, heightAnim: 150});
+      this.setState({widthAnim: width/4.5, heightAnim: height/4.7});//75-150
 
 
 
@@ -451,7 +988,7 @@ export default class PlatingScreen extends React.Component {
         Animated.timing(                  // Animate over time
           this.state.vertAnim,            // The animated value to drive
           {
-            toValue: 25,                   // Animate to opacity: 1 (opaque)
+            toValue: height/12,                   // Animate to opacity: 1 (opaque)
             duration: 1000,              // Make it take a while
           }
         ),
@@ -486,7 +1023,7 @@ export default class PlatingScreen extends React.Component {
           type: LayoutAnimation.Types.linear,
         },});
 
-      this.setState({widthAnim: 250, heightAnim: 500});
+      this.setState({widthAnim: width/1.6, heightAnim: height/1.7});
 
 
 
@@ -494,7 +1031,7 @@ export default class PlatingScreen extends React.Component {
         Animated.timing(                  // Animate over time
           this.state.vertAnim,            // The animated value to drive
           {
-            toValue: 250,                   // Animate to opacity: 1 (opaque)
+            toValue: height/3.3,                   // Animate to opacity: 1 (opaque)
             duration: 1000,              // Make it take a while
           }
         ),
@@ -528,8 +1065,13 @@ export default class PlatingScreen extends React.Component {
 
 
   render() {
+    
     playAudio();
+    
     let { vertAnim, horAnim, heightAnim, widthAnim, backOp, sodaOp } = this.state;
+    console.log(vertAnim);
+    console.log("heightAnim: " + heightAnim);
+    
     const transform1 = [
       {translateX: this.translate1_X},
       {translateY: this.translate1_Y},
@@ -545,6 +1087,17 @@ export default class PlatingScreen extends React.Component {
       {translateY: this.translate3_Y},
       {rotate: this.spin3}
     ];
+    const transform4 = [
+      {translateX: this.translate4_X},
+      {translateY: this.translate4_Y},
+      {rotate: this.spin3}
+    ];
+    const transform5 = [
+      {translateX: this.translate5_X},
+      {translateY: this.translate5_Y},
+      {rotate: this.spin3}
+    ];
+
 
     let index = 0;
     const data = [
@@ -582,8 +1135,10 @@ export default class PlatingScreen extends React.Component {
             <Animated.View
                 style={{
                   alignItems: 'flex-end',
-                  top: vertAnim, //------> bind anim to vertical translation
-                  right: horAnim,
+                  top: 0,
+                  marginTop: vertAnim, //------> bind anim to vertical translation
+                  right: 0,
+                  marginRight: horAnim,
                   width: 83,
                   height: 150,
                   marginLeft: 50,
@@ -600,34 +1155,7 @@ export default class PlatingScreen extends React.Component {
               </TouchableOpacity>
             </Animated.View>
           </View>
-          <Animated.View
-              style={[styles.adjCont, {transform: transform1}] }
-              {...this._panResponder1.panHandlers}
-              >
-            <Image
-                source={require('../../../assets/images/adjust.png')}
-                style={styles.adjuster}
-            />
-          </Animated.View>
-          <Animated.View
-              style={[styles.adjCont, {transform: transform2}] }
-              {...this._panResponder2.panHandlers}
-              >
-            <Image
-                source={require('../../../assets/images/adjust.png')}
-                style={styles.adjuster}
-            />
-          </Animated.View>
-          <Animated.View
-              style={[styles.adjCont, {transform: transform3}] }
-              {...this._panResponder3.panHandlers}
-              >
-            <Image
-                source={require('../../../assets/images/adjust.png')}
-                style={styles.adjuster}
-            />
-          </Animated.View>
-
+          {this.renderAdjusters([transform1, transform2, transform3, transform4, transform5])}
           {/* graph */}
           <Animated.View style={[styles.plate, {zIndex: -1, opacity: backOp}]}>
 
@@ -638,36 +1166,11 @@ export default class PlatingScreen extends React.Component {
                     height={210}
                     viewBox={`-100 -100 200 200`}
                 >
-                    <G>
-
-
-                      <Slice
-                          index={0}
-                          startAngle={this.state.data[0].startAngle}
-                          endAngle={this.state.data[0].endAngle}
-                          color={'#0d2f51'}
-                          data={this.state.data}
-                          key={'pie_shape_0'}
-                      />
-                      <Slice
-                          index={1}
-                          startAngle={this.state.data[1].startAngle}
-                          endAngle={this.state.data[1].endAngle}
-                          color={'#28BD8B'}
-                          data={this.state.data}
-                          key={'pie_shape_1'}
-                      />
-                      <Slice
-                          index={2}
-                          startAngle={this.state.data[2].startAngle}
-                          endAngle={this.state.data[2].endAngle}
-                          color={'#F66A6A'}
-                          data={this.state.data}
-                          key={'pie_shape_2'}
-                      />
-
-
-                    </G>
+               
+                
+                      {this.renderSlices()}
+                      
+                     
                 </Svg>
           </Animated.View>
 
@@ -705,7 +1208,10 @@ export default class PlatingScreen extends React.Component {
               >
               <View style={styles.left}>
               <TouchableOpacity
-                onPress={()=> this.props.navigation.navigate('PlateDiv')}>
+                onPress={()=> {
+                  this.setState({plateUpdate: true});
+                  this.props.navigation.navigate('PlateDiv')
+                }}>
                   <Image
                     source={require('./src/plate.png')}
                     style={styles.img}

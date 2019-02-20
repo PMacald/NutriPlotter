@@ -125,9 +125,7 @@ export default class PlateDivScreen extends React.Component {
 
               <View style={styles.section}>
                 <TouchableOpacity style={styles.chrtcont} onPress={()=>{
-                  console.log('Updated Plate Type to small plate, 2 components');
-                  this.setState({mainplate: this.pieData2, platesize:"smallplate"});
-                  this.props.navigation.navigate('Plating');
+                  this.props.navigation.navigate('Plating', {prevScreen: "Platediv",size: "small", comps: 2});
                 }}>
                   <PieChart
                       style={ styles.chrtsmall }
@@ -136,8 +134,7 @@ export default class PlateDivScreen extends React.Component {
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.chrtcont} onPress={()=>{
                   console.log('Updated Plate Type to big plate, 2 components');
-                  this.setState({mainplate: this.pieData2, platesize:"bigplate"});
-                  this.props.navigation.navigate('Plating');
+                  this.props.navigation.navigate('Plating', {prevScreen: "Platediv",size: "big", comps: 2});
                 }}>
                   <PieChart
                       style={ styles.chrtbig }
@@ -152,8 +149,7 @@ export default class PlateDivScreen extends React.Component {
                 <TouchableOpacity style={styles.chrtcont} onPress={()=>
                   {
                     console.log('Updated Plate Type to small plate, 3 components');
-                    this.setState({mainplate: this.pieData3, platesize:"smallplate"});
-                    this.props.navigation.navigate('Plating');
+                    this.props.navigation.navigate('Plating', {prevScreen: "Platediv",size: "small", comps: 3});
                   }
                 }>
                   <PieChart
@@ -165,7 +161,7 @@ export default class PlateDivScreen extends React.Component {
                   {
                     console.log('Updated Plate Type to big plate, 3 components');
                     this.setState({mainplate: this.pieData3, platesize:"bigplate"});
-                    this.props.navigation.navigate('Plating');
+                    this.props.navigation.navigate('Plating', {prevScreen: "Platediv",size: "big", comps: 3});
                   }
                 }>
                   <PieChart
@@ -181,8 +177,7 @@ export default class PlateDivScreen extends React.Component {
                 <TouchableOpacity style={styles.chrtcont} onPress={()=>
                   {
                     console.log('Updated Plate Type to small plate, 4 components');
-                    this.setState({mainplate: this.pieData4, platesize:"smallplate"});
-                    this.props.navigation.navigate('Plating');
+                    this.props.navigation.navigate('Plating', {prevScreen: "Platediv",size: "small", comps: 4});
                   }
                   }>
                     <PieChart
@@ -192,8 +187,7 @@ export default class PlateDivScreen extends React.Component {
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.chrtcont} onPress={()=>{
                   console.log('Updated Plate Type to big plate, 4 components');
-                  this.setState({mainplate: this.pieData4, platesize:"bigplate"});
-                  this.props.navigation.navigate('Plating');
+                  this.props.navigation.navigate('Plating', {prevScreen: "Platediv",size: "big", comps: 4});
                 }}>
                     <PieChart
                         style={ styles.chrtbig }
@@ -207,8 +201,7 @@ export default class PlateDivScreen extends React.Component {
               <View style={styles.section}>
                 <TouchableOpacity style={styles.chrtcont} onPress={()=>{
                   console.log('Updated Plate Type to small plate, 5 components');
-                  this.setState({mainplate: this.pieData4, platesize:"smallplate"});
-                  this.props.navigation.navigate('Plating');
+                  this.props.navigation.navigate('Plating', {prevScreen: "Platediv",size: "small", comps: 5});
                 }}>
                     <PieChart
                         style={ styles.chrtsmall }
@@ -217,8 +210,7 @@ export default class PlateDivScreen extends React.Component {
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.chrtcont} onPress={()=>{
                   console.log('Updated Plate Type to big plate, 5 components');
-                  this.setState({mainplate: this.pieData4, platesize:"bigplate"});
-                  this.props.navigation.navigate('Plating');
+                  this.props.navigation.navigate('Plating', {prevScreen: "Platediv",size: "big", comps: 5});
                 }}>
                     <PieChart
                         style={ styles.chrtbig }
