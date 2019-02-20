@@ -17,7 +17,8 @@ import {
   Font,
   Icon,
   Permissions,
-  Notifications
+  Notifications,
+  Amplitude
 } from 'expo';
 import { Ionicons } from '@expo/vector-icons';
 
@@ -35,12 +36,11 @@ import {createStackNavigator} from 'react-navigation';
 //Firebase imports
 import ApiKeys from './constants/ApiKeys';
 import * as firebase from 'firebase';
-
-var data = []
-// Initialize firebase...
 if (!firebase.apps.length) { firebase.initializeApp(ApiKeys.FirebaseConfig); }
+Amplitude.initialize("8a8476a30e9af690b3dc1f1d7b637e4b");
 
-//variables:
+
+
 let {height, width} = Dimensions.get('window');
 
 const RootStack = createStackNavigator({
@@ -61,7 +61,6 @@ const RootStack = createStackNavigator({
     initialRouteName: 'Home'
   } )
 
-
 // always call EStyleSheet.build() even if you don't use global variables!
 EStyleSheet.build({
   $textColor: '#FFB677',
@@ -77,8 +76,9 @@ export default class App extends React.Component<{}> {
   state = {
     isLoadingComplete: false,
   };
-
   async componentWillMount() {
+    // Initialize Amplitude...
+
     let result = await Permissions.getAsync(Permissions.NOTIFICATIONS);
     if (result.status === 'granted') {
      console.log('Notification permissions granted.');

@@ -1,5 +1,7 @@
 //---------------------BASIC IMPORTS-----------------
 import React from 'react';
+import {Amplitude}from 'expo';
+
 // react native:
 import {View, Text, TouchableOpacity, Image} from 'react-native';
 import { Container, Header, Left, Body, Right, Button, Icon, Title, Content } from 'native-base';
@@ -10,6 +12,7 @@ import styles from './styles';
 
 import { PieChart } from 'react-native-svg-charts';
 
+Amplitude.initialize("8a8476a30e9af690b3dc1f1d7b637e4b")
 
 export default class PlateDivScreen extends React.Component {
   constructor(props){
@@ -104,7 +107,12 @@ export default class PlateDivScreen extends React.Component {
           <Container>
             <Header style={{height: 100}}>
               <Left>
-                <Button transparent onPress={() => back()}>
+                <Button transparent onPress={() =>
+                  {
+                    back();
+                    Amplitude.logEvent('Back button pressed from plate types screen');
+                  }
+                }>
                     <Image source={require('./src/back.png')}
                             style={{width: 35, height: 35}}/>
                 </Button>
@@ -125,7 +133,14 @@ export default class PlateDivScreen extends React.Component {
 
               <View style={styles.section}>
                 <TouchableOpacity style={styles.chrtcont} onPress={()=>{
+<<<<<<< NutriPlotter/screens/main/PlateDivScreen/PlateDivScreen.js
+                  console.log('Updated Plate Type to small plate, 2 components');
+                  this.setState({mainplate: this.pieData2, platesize:"smallplate"});
                   this.props.navigation.navigate('Plating', {prevScreen: "Platediv",size: "small", comps: 2});
+                  Amplitude.logEvent('Chosen: Small Plate, 2 Components');
+=======
+                  
+>>>>>>> NutriPlotter/screens/main/PlateDivScreen/PlateDivScreen.js
                 }}>
                   <PieChart
                       style={ styles.chrtsmall }
@@ -134,7 +149,14 @@ export default class PlateDivScreen extends React.Component {
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.chrtcont} onPress={()=>{
                   console.log('Updated Plate Type to big plate, 2 components');
+<<<<<<< NutriPlotter/screens/main/PlateDivScreen/PlateDivScreen.js
+                  this.setState({mainplate: this.pieData2, platesize:"bigplate"});
                   this.props.navigation.navigate('Plating', {prevScreen: "Platediv",size: "big", comps: 2});
+                  Amplitude.logEvent('Chosen: Big Plate, 2 Components');
+
+=======
+                  
+>>>>>>> NutriPlotter/screens/main/PlateDivScreen/PlateDivScreen.js
                 }}>
                   <PieChart
                       style={ styles.chrtbig }
@@ -149,7 +171,13 @@ export default class PlateDivScreen extends React.Component {
                 <TouchableOpacity style={styles.chrtcont} onPress={()=>
                   {
                     console.log('Updated Plate Type to small plate, 3 components');
+<<<<<<< NutriPlotter/screens/main/PlateDivScreen/PlateDivScreen.js
+                    this.setState({mainplate: this.pieData3, platesize:"smallplate"});
                     this.props.navigation.navigate('Plating', {prevScreen: "Platediv",size: "small", comps: 3});
+                    Amplitude.logEvent('Chosen: Small Plate, 3 Components');
+=======
+                    
+>>>>>>> NutriPlotter/screens/main/PlateDivScreen/PlateDivScreen.js
                   }
                 }>
                   <PieChart
@@ -161,7 +189,12 @@ export default class PlateDivScreen extends React.Component {
                   {
                     console.log('Updated Plate Type to big plate, 3 components');
                     this.setState({mainplate: this.pieData3, platesize:"bigplate"});
+<<<<<<< NutriPlotter/screens/main/PlateDivScreen/PlateDivScreen.js
                     this.props.navigation.navigate('Plating', {prevScreen: "Platediv",size: "big", comps: 3});
+                    Amplitude.logEvent('Chosen: Big Plate, 3 Components');
+=======
+                    
+>>>>>>> NutriPlotter/screens/main/PlateDivScreen/PlateDivScreen.js
                   }
                 }>
                   <PieChart
@@ -177,7 +210,13 @@ export default class PlateDivScreen extends React.Component {
                 <TouchableOpacity style={styles.chrtcont} onPress={()=>
                   {
                     console.log('Updated Plate Type to small plate, 4 components');
+<<<<<<< NutriPlotter/screens/main/PlateDivScreen/PlateDivScreen.js
+                    this.setState({mainplate: this.pieData4, platesize:"smallplate"});
                     this.props.navigation.navigate('Plating', {prevScreen: "Platediv",size: "small", comps: 4});
+                    Amplitude.logEvent('Chosen: Small Plate, 4 Components');
+=======
+                    
+>>>>>>> NutriPlotter/screens/main/PlateDivScreen/PlateDivScreen.js
                   }
                   }>
                     <PieChart
@@ -187,7 +226,12 @@ export default class PlateDivScreen extends React.Component {
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.chrtcont} onPress={()=>{
                   console.log('Updated Plate Type to big plate, 4 components');
+<<<<<<< NutriPlotter/screens/main/PlateDivScreen/PlateDivScreen.js
+                  this.setState({mainplate: this.pieData4, platesize:"bigplate"});
                   this.props.navigation.navigate('Plating', {prevScreen: "Platediv",size: "big", comps: 4});
+                  Amplitude.logEvent('Chosen: Big Plate, 4 Components');
+=======
+>>>>>>> NutriPlotter/screens/main/PlateDivScreen/PlateDivScreen.js
                 }}>
                     <PieChart
                         style={ styles.chrtbig }
@@ -201,7 +245,12 @@ export default class PlateDivScreen extends React.Component {
               <View style={styles.section}>
                 <TouchableOpacity style={styles.chrtcont} onPress={()=>{
                   console.log('Updated Plate Type to small plate, 5 components');
+<<<<<<< NutriPlotter/screens/main/PlateDivScreen/PlateDivScreen.js
+                  this.setState({mainplate: this.pieData4, platesize:"smallplate"});
                   this.props.navigation.navigate('Plating', {prevScreen: "Platediv",size: "small", comps: 5});
+                  Amplitude.logEvent('Chosen: Small Plate, 5 Components');
+=======
+>>>>>>> NutriPlotter/screens/main/PlateDivScreen/PlateDivScreen.js
                 }}>
                     <PieChart
                         style={ styles.chrtsmall }
@@ -210,7 +259,12 @@ export default class PlateDivScreen extends React.Component {
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.chrtcont} onPress={()=>{
                   console.log('Updated Plate Type to big plate, 5 components');
+<<<<<<< NutriPlotter/screens/main/PlateDivScreen/PlateDivScreen.js
+                  this.setState({mainplate: this.pieData4, platesize:"bigplate"});
                   this.props.navigation.navigate('Plating', {prevScreen: "Platediv",size: "big", comps: 5});
+                  Amplitude.logEvent('Chosen: Big Plate, 5 Components');
+=======
+>>>>>>> NutriPlotter/screens/main/PlateDivScreen/PlateDivScreen.js
                 }}>
                     <PieChart
                         style={ styles.chrtbig }
