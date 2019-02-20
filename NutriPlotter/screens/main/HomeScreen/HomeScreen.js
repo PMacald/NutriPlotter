@@ -33,7 +33,7 @@ export default class HomeScreen extends React.Component {
             textColor='#808080'
             borderColor='#808080'
             type="primary"
-            onPress={()=> this.props.navigation.navigate('Plating')}
+            onPress={()=> this.props.navigation.navigate('Plating',{prevScreen: "Home", size: "big", comps: 3})}
             >Create a Meal! </AwesomeButtonRick>
 
           </View>

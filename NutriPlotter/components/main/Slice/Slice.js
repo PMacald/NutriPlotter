@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Path} from 'react-native-svg';
+import {Svg} from 'expo';
 import * as shape from 'd3-shape';
 const d3 = {shape};
 
@@ -37,10 +37,12 @@ export default class Slice extends Component {
         } = this.props;
 
         return (
-            <Path
+               
+            <Svg.Path
                 onPress={()=>alert('value is: '+index)}
                 d={this.createPieArc(index,startAngle, endAngle)}
                 fill={color}
+                cx={12} cy={12}
             />
         )
 
