@@ -80,13 +80,16 @@ export default EStyleSheet.create({
       height: 25, 
     },
     adjCont:{
-      top: "$windowHeight * 0.24",
+      position: "absolute",
+      top: "$windowHeight * 0.28",
       left: "$windowWidth * 0.44",
       width: 50,
     },
     plate:{
-      top: "$windowHeight * 0.05",
+      top: "$windowHeight * 0.16",
       left: "$windowWidth * 0.255"
+    },
+    pieSVG:{
     }
 
   });
