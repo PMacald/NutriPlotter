@@ -1,5 +1,7 @@
 //---------------------BASIC IMPORTS-----------------
 import React from 'react';
+import {Amplitude}from 'expo';
+
 // react native:
 import {
   Text,
@@ -14,6 +16,8 @@ import styles from './styles';
 
 import {Svg} from 'expo';
 import {Slice} from '../../../components/main/Slice';
+
+Amplitude.initialize("8a8476a30e9af690b3dc1f1d7b637e4b")
 
 export default class DataScreen extends React.Component {
 
@@ -62,7 +66,11 @@ export default class DataScreen extends React.Component {
         <Container>
           <Header style={{height: 100}}>
             <Left>
-            <Button transparent onPress={() => back()}>
+            <Button transparent onPress={() => {
+              back();
+              Amplitude.logEvent('Back button pressed from data screen');
+            }
+          }>
             <Image source={require('./src/back.png')}
                     style={{width: 35, height: 35}}/>
         </Button>
@@ -72,7 +80,7 @@ export default class DataScreen extends React.Component {
             </Body>
             <Right>
               <Button transparent>
-                
+
               </Button>
             </Right>
           </Header>

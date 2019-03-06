@@ -1,5 +1,7 @@
 //---------------------BASIC IMPORTS-----------------
 import React from 'react';
+import {Amplitude}from 'expo';
+
 // react native:
 import {
   NativeModules,
@@ -38,6 +40,7 @@ import { absoluteFill } from 'react-native-extended-stylesheet';
 
 const { UIManager } = NativeModules;
 
+Amplitude.initialize("8a8476a30e9af690b3dc1f1d7b637e4b");
 
 async function getiOSNotificationPermission() {
   const { status } = await Permissions.getAsync(
@@ -308,8 +311,13 @@ export default class PlatingScreen extends React.Component {
         }
       }
     )
+<<<<<<< NutriPlotter/screens/main/PlatingScreen/PlatingScreen.js
     this.threshit = 0;
     
+=======
+
+
+>>>>>>> NutriPlotter/screens/main/PlatingScreen/PlatingScreen.js
   }
 
   panMethod1(evt, gesture){
@@ -460,7 +468,7 @@ export default class PlatingScreen extends React.Component {
   componentWillMount() {
     getiOSNotificationPermission();
     this.listenForNotifications();
-    
+
   }
   renderAdjusters(transforms){
     switch(this.props.navigation.state.params.comps){
@@ -522,7 +530,7 @@ export default class PlatingScreen extends React.Component {
                   style={styles.adjuster}
               />
             </Animated.View>
-            
+
 
           </View>
         );
@@ -555,7 +563,7 @@ export default class PlatingScreen extends React.Component {
           </G>
         );
         break;
-      
+
       case 4:
         console.log("4");
         break;
@@ -563,7 +571,7 @@ export default class PlatingScreen extends React.Component {
         console.log("5");
         break;
       default:
-        
+
         return (
           <G>
             <Slice
@@ -598,7 +606,7 @@ export default class PlatingScreen extends React.Component {
         break;
     }
 
-    
+
 
   }
 
@@ -633,20 +641,146 @@ export default class PlatingScreen extends React.Component {
         ]});
           this.adj1Anim.setValue(0);
           this.adj2Anim.setValue(0.5);
+<<<<<<< NutriPlotter/screens/main/PlatingScreen/PlatingScreen.js
           
           
           
           
+=======
+          this._panResponder1 = PanResponder.create(
+            {
+              onStartShouldSetPanResponder: (evt, gesture) =>true,
+              onPanResponderMove: (evt, gesture) => {
+
+                //we need the distance between the points and get the index of the minimum distance
+                distances = [];
+                for(var i = 0; i < 50; i++){
+                  var a = this.outputRangeX[i] - gesture.moveX;
+                  var b = this.outputRangeY[i] - gesture.moveY + 120;
+                  distances.push(Math.sqrt(a*a + b*b));
+                }
+
+
+                var minInd = distances.indexOf(Math.min(...distances));
+                this.setState({indexOfAdj1 : minInd});
+                this.adj1Anim.setValue((1/50)* minInd);
+
+
+
+
+
+                var isPos1 = minInd/50;
+                var isPos2 = (minInd)/50;
+                if(minInd>25){
+                  isPos1 = -1 * ((50-minInd)/50);
+                  isPos2 = minInd/50;
+                  this.setState({data: [
+                    {
+                      number: 1,
+                      startAngle: isPos1* Math.PI * 2,
+                      endAngle: this.state.data[0].endAngle,
+                  },
+                  {
+                      number: 1,
+                      startAngle: this.state.data[0].endAngle,//this.state.data[1].startAngle,
+                      endAngle: isPos2* Math.PI * 2,//isPos1* Math.PI * 2,
+                  },
+                  {
+                    number: 33,
+                    startAngle: Math.PI * 4/3,
+                    endAngle: Math.PI * 2,
+                },
+                  ]});
+                }else{
+                  var constspot = this.state.data[0].endAngle;
+                  isPos1 = -1 * ((50-minInd)/50);
+                  isPos2 = minInd/50;
+                  this.setState({data: [
+                    {
+                      number: 1,
+                      startAngle: isPos2* Math.PI * 2, //stays constant
+                      endAngle: constspot,
+                  },
+                  {
+                      number: 1,
+                      startAngle: constspot,
+                      endAngle: isPos2* Math.PI * 2 + Math.PI*2,
+                  },
+                  {
+                    number: 33,
+                    startAngle: Math.PI * 4/3,
+                    endAngle: Math.PI * 2,
+                },
+                  ]});
+                }
+
+                //now the data will need to change
+
+              }
+            }
+          )
+
+          //what happens when you move the adjuster 2 -- done
+          this._panResponder2 = PanResponder.create(
+            {
+              onStartShouldSetPanResponder: (evt, gesture) =>true,
+              onPanResponderMove: (evt, gesture) => {
+
+                //we need the distance between the points and get the index of the minimum distance
+                distances = [];
+
+                for(var i = 0; i < 50; i++){
+                  var a = this.outputRangeX[i] - gesture.moveX;
+                  var b = this.outputRangeY[i] - gesture.moveY + 120;
+                  distances.push(Math.sqrt(a*a + b*b));
+                }
+                var minInd = distances.indexOf(Math.min(...distances));
+                this.setState({indexOfAdj2 : minInd});
+                this.adj2Anim.setValue((1/50)* minInd);
+
+
+
+
+
+                var isPos1 = minInd/50;
+                var isPos2 = (minInd)/50;
+                var constspot = this.state.data[0].startAngle;
+                if(true){//moving left
+                  isPos1 = -1 * ((50-minInd)/50);
+                  isPos2 = minInd/50;
+                  this.setState({data: [
+                    {
+                      number: 1,
+                      startAngle: constspot, //stays constant
+                      endAngle: isPos2* Math.PI * 2,
+                  },
+                  {
+                      number: 1,
+                      startAngle: isPos1* Math.PI * 2,
+                      endAngle: constspot,
+                  },
+                  {
+                    number: 33,
+                    startAngle: Math.PI * 4/3,
+                    endAngle: Math.PI * 2,
+                },
+                  ]});
+                }
+              }
+            }
+          )
+
+>>>>>>> NutriPlotter/screens/main/PlatingScreen/PlatingScreen.js
           break;
         case 4:
-          
+
         case 5:
 
         default:
           this.adj1Anim.setValue(0);
           this.adj2Anim.setValue(0.33);
           this.adj3Anim.setValue(0.66);
-          this.setState({data: 
+          this.setState({data:
             [
               {
                 number: 33,
@@ -666,7 +800,222 @@ export default class PlatingScreen extends React.Component {
             ]
           });
 
+<<<<<<< NutriPlotter/screens/main/PlatingScreen/PlatingScreen.js
           
+=======
+          this._panResponder1 = PanResponder.create(
+            {
+              onStartShouldSetPanResponder: (evt, gesture) =>true,
+              onPanResponderMove: (evt, gesture) => {
+
+                //we need the distance between the points and get the index of the minimum distance
+                distances = [];
+                for(var i = 0; i < 50; i++){
+                  var a = this.outputRangeX[i] - gesture.moveX;
+                  var b = this.outputRangeY[i] - gesture.moveY + 120;
+                  distances.push(Math.sqrt(a*a + b*b));
+                }
+
+
+                var minInd = distances.indexOf(Math.min(...distances));
+                this.setState({indexOfAdj1 : minInd});
+                this.adj1Anim.setValue((1/50)* minInd);
+
+
+
+
+
+                var isPos1 = minInd/50;
+                var isPos2 = (minInd)/50;
+                if(minInd>30){
+                  isPos1 = -1 * ((50-minInd)/50);
+                  isPos2 = minInd/50;
+                  this.setState({data: [
+                    {
+                      number: 1,
+                      startAngle: isPos1* Math.PI * 2,
+                      endAngle: this.state.data[0].endAngle,
+                  },
+                  {
+                      number: 30,
+                      startAngle: this.state.data[1].startAngle,
+                      endAngle: this.state.data[1].endAngle,
+                  },
+                  {
+                      number: 1,
+                      startAngle: this.state.data[1].endAngle,
+                      endAngle: isPos2* Math.PI * 2,
+                  },
+                  ]});
+                }else{
+                  this.setState({data: [
+                    {
+                      number: 1,
+                      startAngle: isPos1* Math.PI * 2,
+                      endAngle: this.state.data[0].endAngle,
+                  },
+                  {
+                      number: 30,
+                      startAngle: this.state.data[1].startAngle,
+                      endAngle: this.state.data[1].endAngle,
+                  },
+                  {
+                      number: 1,
+                      startAngle: -((Math.PI * 2)-this.state.data[1].endAngle),
+                      endAngle: isPos2* Math.PI * 2,
+                  },
+                  ]});
+                }
+
+
+
+
+
+
+
+
+
+
+
+
+                //now the data will need to change
+
+              }
+            }
+          )
+
+          //what happens when you move the adjuster 2
+          this._panResponder2 = PanResponder.create(
+            {
+              onStartShouldSetPanResponder: (evt, gesture) =>true,
+              onPanResponderMove: (evt, gesture) => {
+
+                //we need the distance between the points and get the index of the minimum distance
+                distances = [];
+
+                for(var i = 0; i < 50; i++){
+                  var a = this.outputRangeX[i] - gesture.moveX;
+                  var b = this.outputRangeY[i] - gesture.moveY + 120;
+                  distances.push(Math.sqrt(a*a + b*b));
+                }
+                var minInd = distances.indexOf(Math.min(...distances));
+                this.setState({indexOfAdj2 : minInd});
+                this.adj2Anim.setValue((1/50)* minInd);
+
+
+
+
+
+                var isPos1 = minInd/50;
+                var isPos2 = (minInd)/50;
+                if(minInd>30){
+                  isPos1 = -1 * ((50-minInd)/50);
+                  isPos2 = minInd/50;
+                  this.setState({data: [
+                    {
+                      number: 1,
+                      startAngle: this.state.data[0].startAngle,
+                      endAngle: isPos1* Math.PI * 2,
+                  },
+                  {
+                      number: 30,
+                      startAngle: isPos2* Math.PI * 2,
+                      endAngle: this.state.data[1].endAngle,
+                  },
+                  {
+                      number: 1,
+                      startAngle: this.state.data[2].startAngle,
+                      endAngle: this.state.data[2].endAngle,
+                  },
+                  ]});
+                }else{
+                  this.setState({data: [
+                    {
+                      number: 1,
+                      startAngle: this.state.data[0].startAngle,
+                      endAngle: isPos1* Math.PI * 2,
+                  },
+                  {
+                      number: 30,
+                      startAngle: isPos2* Math.PI * 2,
+                      endAngle: this.state.data[1].endAngle,
+                  },
+                  {
+                      number: 1,
+                      startAngle: this.state.data[2].startAngle,
+                      endAngle: this.state.data[2].endAngle,
+                  },
+                  ]});
+                }
+              }
+            }
+          )
+
+          //what happens when you move the adjuster 3
+          this._panResponder3 = PanResponder.create(
+            {
+              onStartShouldSetPanResponder: (evt, gesture) =>true,
+              onPanResponderMove: (evt, gesture) => {
+
+                //we need the distance between the points and get the index of the minimum distance
+                distances = [];
+
+                for(var i = 0; i < 50; i++){
+                  var a = this.outputRangeX[i] - gesture.moveX;
+                  var b = this.outputRangeY[i] - gesture.moveY + 120;
+                  distances.push(Math.sqrt(a*a + b*b));
+                }
+                var minInd = distances.indexOf(Math.min(...distances));
+                this.setState({indexOfAdj3 : minInd});
+                this.adj3Anim.setValue((1/50)* minInd);
+
+
+
+                var isPos1 = minInd/50;
+                var isPos2 = (minInd)/50;
+                if(minInd>30){
+                  isPos1 = -1 * ((50-minInd)/50);
+                  isPos2 = minInd/50;
+                  this.setState({data: [
+                    {
+                      number: 1,
+                      startAngle: this.state.data[0].startAngle,
+                      endAngle: this.state.data[0].endAngle,
+                  },
+                  {
+                      number: 30,
+                      startAngle: this.state.data[0].endAngle,
+                      endAngle: isPos2* Math.PI * 2,
+                  },
+                  {
+                      number: 1,
+                      startAngle: isPos1* Math.PI * 2,
+                      endAngle: this.state.data[0].startAngle,
+                  },
+                  ]});
+                }else{
+                  this.setState({data: [
+                    {
+                      number: 1,
+                      startAngle: this.state.data[0].startAngle,
+                      endAngle: this.state.data[0].endAngle,
+                  },
+                  {
+                      number: 30,
+                      startAngle: this.state.data[0].endAngle,
+                      endAngle: isPos2* Math.PI * 2,
+                  },
+                  {
+                      number: 1,
+                      startAngle: -((Math.PI * 2)-(isPos1* Math.PI * 2)),
+                      endAngle: this.state.data[0].startAngle,
+                  },
+                  ]});
+                }
+              }
+            }
+          )
+>>>>>>> NutriPlotter/screens/main/PlatingScreen/PlatingScreen.js
       }
     }
   }
@@ -675,14 +1024,17 @@ export default class PlatingScreen extends React.Component {
     if(opt.key == 1){
       pauseAudio();
       console.log('Restart');
+      Amplitude.logEvent('Restart');
       this.props.navigation.navigate('Plating');
     }else if(opt.key == 2){
       console.log('Sound Off');
+      Amplitude.logEvent('Sound Off');
       pauseAudio();
     }else if(opt.key == 3){
       //this.BackHandler.exitApp();
       console.log('Exit');
       pauseAudio();
+      Amplitude.logEvent('Back to Home Screen');
       this.props.navigation.navigate('Home');
     }else if(opt.key == 4){
       console.log('Send a notification');
@@ -791,13 +1143,19 @@ export default class PlatingScreen extends React.Component {
 
 
   render() {
-    
+
     playAudio();
-    
+
     let { vertAnim, horAnim, heightAnim, widthAnim, backOp, sodaOp } = this.state;
+<<<<<<< NutriPlotter/screens/main/PlatingScreen/PlatingScreen.js
     //console.log(vertAnim);
     //console.log("heightAnim: " + heightAnim);
     
+=======
+    console.log(vertAnim);
+    console.log("heightAnim: " + heightAnim);
+
+>>>>>>> NutriPlotter/screens/main/PlatingScreen/PlatingScreen.js
     const transform1 = [
       {translateX: this.translate1_X},
       {translateY: this.translate1_Y},
@@ -848,7 +1206,11 @@ export default class PlatingScreen extends React.Component {
                   animationType="fade"
                   ref={selector => { this.selector = selector; }}
                   customSelector={
-                    <TouchableOpacity onPress={() => this.selector.open()}>
+                    <TouchableOpacity onPress={() => {
+                      this.selector.open();
+                      Amplitude.logEvent('More Options button pressed');
+                    }
+                  }>
                       <Image
                         style={{ alignSelf: 'center' }}
                         source={require('./src/more-options.png')}
@@ -869,7 +1231,10 @@ export default class PlatingScreen extends React.Component {
                   height: 150,
                   marginLeft: 50,
                 }}>
-              <TouchableOpacity style = {styles.cupholder} onPress={()=>this.sodaAnim()}>
+              <TouchableOpacity style = {styles.cupholder} onPress={()=>{
+                this.sodaAnim();
+                Amplitude.logEvent('Drink cup pressed');
+              }}>
 
                 <Image
                     style={{
@@ -891,6 +1256,7 @@ export default class PlatingScreen extends React.Component {
                     height={210}
                     viewBox={`-100 -100 200 200`}
                 >
+<<<<<<< NutriPlotter/screens/main/PlatingScreen/PlatingScreen.js
                 <Defs><Pattern
                 id="chicken"
                 patternUnits="userSpaceOnUse"
@@ -904,6 +1270,13 @@ export default class PlatingScreen extends React.Component {
                 </Pattern></Defs>
                 {this.renderSlices()}
                 
+=======
+
+
+                      {this.renderSlices()}
+
+
+>>>>>>> NutriPlotter/screens/main/PlatingScreen/PlatingScreen.js
                 </Svg>
           </Animated.View>
 
@@ -943,8 +1316,14 @@ export default class PlatingScreen extends React.Component {
               <TouchableOpacity
                 onPress={()=> {
                   this.setState({plateUpdate: true});
-                  this.props.navigation.navigate('PlateDiv')
+                  this.props.navigation.navigate('PlateDiv');
+                  Amplitude.logEvent('Plate Type Screen button pressed');
+                }
+              }>
+=======
+
                 }}>
+>>>>>>> NutriPlotter/screens/main/PlatingScreen/PlatingScreen.js
                   <Image
                     source={require('./src/plate.png')}
                     style={styles.img}
@@ -967,7 +1346,11 @@ export default class PlatingScreen extends React.Component {
               </View>
               <View style={styles.right}>
                 <TouchableOpacity
-                onPress={()=> this.props.navigation.navigate('Data')}>
+                onPress={()=> {
+                  this.props.navigation.navigate('Data');
+                  Amplitude.logEvent('Plate Type Screen button pressed');
+                }
+              }>
                   <Image
                     source={require('./src/chart.png')}
                     style={styles.img}
