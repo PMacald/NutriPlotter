@@ -27,10 +27,12 @@ export default class DataScreen extends React.Component {
 
 
 
-
   render() {
-    console.log(this.props.navigation.state.params);
-
+    const Data_plateProportions = this.props.navigation.getParam('Plate Data' , proportionToPlate);
+    for (let i = 0 ;i < Data_plateProportions.length; i++){
+      //multiply with food values 
+      //Data_plateProportions[i] x food nutrition value
+    }
     const back = this.props.navigation.goBack;
 
     const data = [ 50, 10, 40, 95, -4, -24, 85, 91, 35, 53, -53, 24, 50, -20, -80 ]

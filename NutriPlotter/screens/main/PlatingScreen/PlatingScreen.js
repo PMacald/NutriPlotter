@@ -93,7 +93,6 @@ export default class PlatingScreen extends React.Component {
       plateSize: "big",
       plateComps: 3,
       plateUpdate: false,
-      degreeOver360: [],
     }
 
     playAudio = async () => {
