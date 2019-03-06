@@ -28,11 +28,24 @@ export default class DataScreen extends React.Component {
 
 
 
+
   render() {
+    const carb = 60
+    const protein = 80
+    const fat =  20
+
+    const nutdata = [carb,protein,fat]
+    const piedata = []
+    const sum = carb + protein + fat
+
+    for (const i = 0;i < 3;i++){
+      //calculate percentage
+      piedata.push((nutdata[i] / sum) * 100)
+    }
+
     const back = this.props.navigation.goBack;
 
     const data = [ 50, 10, 40, 95, -4, -24, 85, 91, 35, 53, -53, 24, 50, -20, -80 ]
-    const data3 = [ 33, 33, 33]
     const rand1 = ('#' + (Math.random() * 0xFFFFFF << 0).toString(16) + '000000').slice(0, 7);
     const rand2 = ('#' + (Math.random() * 0xFFFFFF << 0).toString(16) + '000000').slice(0, 7);
     const rand3 = ('#' + (Math.random() * 0xFFFFFF << 0).toString(16) + '000000').slice(0, 7);
@@ -55,7 +68,7 @@ export default class DataScreen extends React.Component {
         }
     }
 
-    const pieData3 = data3
+    const pieData3 = piedata
         .filter(value => value > 0)
         .map((value, index) => ({
             value,

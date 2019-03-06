@@ -1227,10 +1227,7 @@ export default class PlatingScreen extends React.Component {
                   Amplitude.logEvent('Plate Type Screen button pressed');
                 }
               }>
-=======
 
-                }}>
->>>>>>> NutriPlotter/screens/main/PlatingScreen/PlatingScreen.js
                   <Image
                     source={require('./src/plate.png')}
                     style={styles.img}
