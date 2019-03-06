@@ -74,6 +74,12 @@ export default EStyleSheet.create({
     maincontainer:{
       width: '100%',
       height: '100%',
+    },
+    pieSVG:{
+      left: "$windowWidth * 0.295",
+      marginTop: 30,
+      marginBottom: 30,
+      
     }
 
   });

@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Svg} from 'expo';
+import Svg, {Path} from 'react-native-svg';
 import * as shape from 'd3-shape';
 const d3 = {shape};
 
@@ -25,7 +25,11 @@ export default class Slice extends Component {
 
         return arc();
     };
-
+    pressHandle(pressIt){
+        if (pressIt == true){
+            console.log("press handler on!");
+        }
+    }
 
     render() {
 
@@ -33,13 +37,14 @@ export default class Slice extends Component {
             endAngle,
             color,
             index,
-            startAngle
+            startAngle,
+            pressIt
         } = this.props;
 
         return (
                
-            <Svg.Path
-                onPress={()=>alert('value is: '+index)}
+            <Path
+                onPress={()=>this.pressHandle(pressIt)}
                 d={this.createPieArc(index,startAngle, endAngle)}
                 fill={color}
                 cx={12} cy={12}

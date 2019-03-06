@@ -9,14 +9,11 @@ import {
 } from 'react-native';
 import { Container, Header, Left, Body, Right,Button, Title, Content } from 'native-base';
 
-import SlidingUpPanel from 'rn-sliding-up-panel';
-//components creted by us:
-import {FoodList} from '../../../components/main/FoodList';
-import {PopUpMenu} from '../../../components/main/PopUpMenu';
 //stylesheets
 import styles from './styles';
 
-import { PieChart } from 'react-native-svg-charts'
+import {Svg} from 'expo';
+import {Slice} from '../../../components/main/Slice';
 
 export default class DataScreen extends React.Component {
 
@@ -84,12 +81,29 @@ export default class DataScreen extends React.Component {
               <Text style={{width: '50%', textAlign: 'center', fontSize: 25, fontFamily:'NunitoSans', color:'white'}}>Calories:</Text>
               <Text style={{width: '50%', textAlign: 'center', fontSize: 25, fontFamily:'NunitoSans', color:'white'}}>800</Text>
             </View>
-            <PieChart
-               style={{ height: 200 }}
-               outerRadius={'70%'}
-               innerRadius={30}
-               data={pieData3}
-           />
+            <Svg
+                    width={160}
+                    style={styles.pieSVG}
+                    height={160}
+                    viewBox={`-100 -100 200 200`}
+                >
+              <Slice
+                  index={0}
+                  startAngle={0}
+                  endAngle={Math.PI}
+                  color={'#0d2f51'}
+                  key={'pie_shape_0'}
+              />
+              <Slice
+                  index={1}
+                  startAngle={Math.PI}
+                  endAngle={2*Math.PI}
+                  color={'#28BD8B'}
+                  key={'pie_shape_1'}
+              />
+          </Svg>
+          
+            {/**Pie chart comes here */}
            <View style={{height: 50, width: '100%', backgroundColor: 'gray', flexDirection: 'row', alignItems:'center'}}>
              <Text style={styles.text}>Protein:</Text>
              <Text style={styles.text}>60g</Text>
