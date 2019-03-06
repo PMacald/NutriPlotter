@@ -4,15 +4,17 @@ import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-nativ
 
 
 export default EStyleSheet.create({
-    container:{
-      justifyContent: 'center',
-      alignItems: 'center',
-      backgroundColor: 'gray',
-      height: '100%'
-    },
-    img:{
-    },
-    btn:{
-      marginTop: hp('10%')
-    }
-  });
+  container:{
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'gray',
+    height: "100%"
+  },
+  img:{
+    height: hp("30%"),
+    resizeMode: 'contain'
+  },
+  btn:{
+    marginTop: hp("10%")
+  }
+});

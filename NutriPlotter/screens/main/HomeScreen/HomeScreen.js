@@ -34,7 +34,7 @@ export default class HomeScreen extends React.Component {
         <View
           style={styles.container}
           >
-          <Image source={require('./src/logo.png')} style={styles.img}/>
+          <Image source={require('./src/logo.png')} style={styles.img} />
           <AwesomeButtonRick
             style={styles.btn}
             backgroundColor='#d3d3d3'
