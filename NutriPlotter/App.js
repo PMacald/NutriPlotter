@@ -7,14 +7,17 @@ import {
   StyleSheet,
   View,
   Dimensions,
-  Text
+  Text,
+  ListView
         } from 'react-native';
 //expo:
 import {
   AppLoading,
   Asset,
   Font,
-  Icon
+  Icon,
+  Permissions,
+  Notifications
 } from 'expo';
 import { Ionicons } from '@expo/vector-icons';
 
@@ -29,9 +32,16 @@ import EStyleSheet from 'react-native-extended-stylesheet';
 
 import {createStackNavigator} from 'react-navigation';
 
+//Firebase imports
+import ApiKeys from './constants/ApiKeys';
+import * as firebase from 'firebase';
+
+var data = []
+// Initialize firebase...
+if (!firebase.apps.length) { firebase.initializeApp(ApiKeys.FirebaseConfig); }
+
 //variables:
 let {height, width} = Dimensions.get('window');
-
 
 const RootStack = createStackNavigator({
   Home: {
@@ -68,6 +78,61 @@ export default class App extends React.Component<{}> {
     isLoadingComplete: false,
   };
 
+  async componentWillMount() {
+    let result = await Permissions.getAsync(Permissions.NOTIFICATIONS);
+    if (result.status === 'granted') {
+     console.log('Notification permissions granted.');
+     this.setNotifications();
+    } else {
+        console.log('No Permission', Constants.lisDevice);
+    }
+
+    this.listenForNotifications();
+  }
+
+  getNotification(date) {
+    const localNotification = {
+        title: `Create A Meal`,
+        body: 'Swipe to enter the app and create a healthy meal', // (string) — body text of the notification.
+        ios: { // (optional) (object) — notification configuration specific to iOS.
+          sound: true // (optional) (boolean) — if true, play a sound. Default: false.
+        },
+        android: // (optional) (object) — notification configuration specific to Android.
+        {
+          sound: true, // (optional) (boolean) — if true, play a sound. Default: false.
+          priority: 'high', // (optional) (min | low | high | max) — android may present notifications according to the priority, for example a high priority notification will likely to be shown as a heads-up notification.
+          sticky: false, // (optional) (boolean) — if true, the notification will be sticky and not dismissable by user. The notification must be programmatically dismissed. Default: false.
+          vibrate: true // (optional) (boolean or array) — if true, vibrate the device. An array can be supplied to specify the vibration pattern, e.g. - [ 0, 500 ].
+        }
+    };
+    return localNotification;
+  }
+
+  setNotifications() {
+    Notifications.cancelAllScheduledNotificationsAsync();
+
+    for (let i = 0; i< 4; i++) { //Maximum schedule notification is 64 on ios.
+        let t = new Date();
+        if (i === 0){
+            t.setSeconds(t.getSeconds() + 1);
+        } else {
+            t.setMinutes(t.getMinutes() + 1 + (i * 210)); // 3:30 hours
+        }
+        const schedulingOptions = {
+            time: t, // (date or number) — A Date object representing when to fire the notification or a number in Unix epoch time. Example: (new Date()).getTime() + 1000 is one second from now.
+            repeat: "day",
+        };
+        Notifications.scheduleLocalNotificationAsync(this.getNotification(t), schedulingOptions);
+    }
+  }
+
+  listenForNotifications = () => {
+    Notifications.addListener(notification => {
+      console.log('received notification', notification);
+    });
+  };
+
+
   render() {
     if (!this.state.isLoadingComplete && !this.props.skipLoadingScreen) {
       return (
@@ -93,6 +158,8 @@ export default class App extends React.Component<{}> {
         require('./screens/main/PlatingScreen/src/cup.png'),
         require('./screens/main/PlatingScreen/src/more-options.png'),
         require('./screens/main/PlatingScreen/src/up.png'),
+        require('./screens/main/PlatingScreen/src/plate.png'),
+        require('./screens/main/PlatingScreen/src/chart.png')
       ]),
       Font.loadAsync({
         // This is the font that we are using for our tab bar
@@ -119,8 +186,6 @@ export default class App extends React.Component<{}> {
     this.setState({ isLoadingComplete: true });
   };
 }
-
-
 
 
 

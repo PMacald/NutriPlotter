@@ -673,6 +673,7 @@ export default class PlatingScreen extends React.Component {
 
   menuButtonHandler = (opt) => {
     if(opt.key == 1){
+      pauseAudio();
       console.log('Restart');
       this.props.navigation.navigate('Plating');
     }else if(opt.key == 2){
@@ -681,6 +682,7 @@ export default class PlatingScreen extends React.Component {
     }else if(opt.key == 3){
       //this.BackHandler.exitApp();
       console.log('Exit');
+      pauseAudio();
       this.props.navigation.navigate('Home');
     }else if(opt.key == 4){
       console.log('Send a notification');
