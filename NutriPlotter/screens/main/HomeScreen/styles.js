@@ -1,5 +1,7 @@
 import EStyleSheet from 'react-native-extended-stylesheet';
 import StyleSheet from 'react-native';
+import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
+
 
 export default EStyleSheet.create({
     container:{
@@ -11,7 +13,6 @@ export default EStyleSheet.create({
     img:{
     },
     btn:{
-      marginTop: '20%'
-
+      marginTop: hp('10%')
     }
   });

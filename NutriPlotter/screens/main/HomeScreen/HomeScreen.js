@@ -3,7 +3,7 @@ import React from 'react';
 import {Amplitude}from 'expo';
 
 //Firebase imports
-import ApiKeys from '/Users/eleonoradella/Desktop/NutriPlotter/dissertation/NutriPlotter/constants/ApiKeys.js';
+import ApiKeys from '../../../constants/ApiKeys.js';
 import * as firebase from 'firebase';
 if (!firebase.apps.length) { firebase.initializeApp(ApiKeys.FirebaseConfig); }
 
@@ -23,6 +23,7 @@ import {
 Amplitude.initialize("8a8476a30e9af690b3dc1f1d7b637e4b")
 
 import AwesomeButtonRick from 'react-native-really-awesome-button/src/themes/rick';
+import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 //stylesheet
 import styles from './styles';
 
@@ -38,7 +39,9 @@ export default class HomeScreen extends React.Component {
             style={styles.btn}
             backgroundColor='#d3d3d3'
             backgroundShadow='#808080'
-            textSize={18}
+            height={hp("10%")}
+            width={wp("60%")}
+            textSize={hp("4%")}
             textColor='#808080'
             borderColor='#808080'
             type="primary"
