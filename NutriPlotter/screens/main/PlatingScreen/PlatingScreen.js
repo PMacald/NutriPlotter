@@ -93,6 +93,7 @@ export default class PlatingScreen extends React.Component {
       plateSize: "big",
       plateComps: 3,
       plateUpdate: false,
+      degreeOver360: [],
     }
 
     playAudio = async () => {
@@ -946,6 +947,9 @@ export default class PlatingScreen extends React.Component {
           )
       }
     }
+    //console.log("data length " + this.state.data.length)
+    //console.log(this.state.plateComps)
+    
   }
 
   menuButtonHandler = (opt) => {
@@ -1067,16 +1071,15 @@ export default class PlatingScreen extends React.Component {
 
   }
 
-
+  
 
 
   render() {
-
     playAudio();
 
     let { vertAnim, horAnim, heightAnim, widthAnim, backOp, sodaOp } = this.state;
-    console.log(vertAnim);
-    console.log("heightAnim: " + heightAnim);
+    //console.log(vertAnim);
+    //console.log("heightAnim: " + heightAnim);
 
     const transform1 = [
       {translateX: this.translate1_X},
@@ -1227,10 +1230,8 @@ export default class PlatingScreen extends React.Component {
                   Amplitude.logEvent('Plate Type Screen button pressed');
                 }
               }>
-=======
 
-                }}>
->>>>>>> NutriPlotter/screens/main/PlatingScreen/PlatingScreen.js
+              
                   <Image
                     source={require('./src/plate.png')}
                     style={styles.img}
@@ -1254,8 +1255,17 @@ export default class PlatingScreen extends React.Component {
               <View style={styles.right}>
                 <TouchableOpacity
                 onPress={()=> {
-                  this.props.navigation.navigate('Data');
+                  //change here after calculation
+                  //get the length of data )which is a list of objects
+                  proportionToPlate = [];
+                  for (let i = 0; i < this.state.data.length; i++){
+                    angleDifference = ((this.state.data[i].endAngle - this.state.data[i].startAngle)/(Math.PI * 2)).toFixed(3);
+                    proportionToPlate.push(angleDifference);
+                  }
+                  //console.log(proportionToPlate);
+                  this.props.navigation.navigate('Data', {Data_plateProportions: proportionToPlate});
                   Amplitude.logEvent('Plate Type Screen button pressed');
+                  //console.log(this.props)
                 }
               }>
                   <Image

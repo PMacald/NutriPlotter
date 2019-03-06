@@ -3,7 +3,7 @@ import React from 'react';
 import {Amplitude}from 'expo';
 
 //Firebase imports
-import ApiKeys from '/Users/eleonoradella/Desktop/NutriPlotter/dissertation/NutriPlotter/constants/ApiKeys.js';
+import ApiKeys from '../../../constants/ApiKeys.js';
 import * as firebase from 'firebase';
 if (!firebase.apps.length) { firebase.initializeApp(ApiKeys.FirebaseConfig); }
 
