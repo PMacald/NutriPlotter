@@ -9,10 +9,8 @@ import { Container, Header, Left, Body, Right, Button, Icon, Title, Content } fr
 import {FoodList} from '../../../components/main/FoodList';
 //stylesheets
 import styles from './styles';
-import {Svg} from 'expo';
 
-
-import {Slice} from '../../../components/main/Slice';
+import { PieChart } from 'react-native-svg-charts';
 
 Amplitude.initialize("8a8476a30e9af690b3dc1f1d7b637e4b")
 
@@ -21,42 +19,88 @@ export default class PlateDivScreen extends React.Component {
     super(props);
 
     this.state = {
-      platecomps : 3,
+      mainplate : this.pieData2,
       platesize : "bigplate",
-      changed : false,
     };
   }
-
-
-
-
   render() {
-    if(this.state.changed == true){
-      this.props.navigation.navigate("Plating", {prevScreen: "Platediv",size: this.state.platesize, comps: this.state.platecomps});
-    }
     const back = this.props.navigation.goBack;
-    
-    const data2 = [{start: 0, end: Math.PI, color: "#1AB385"},
-                    {start: Math.PI, end: 2*Math.PI, color: "#C32148"}];
-    const data3 = [ {start: 0, end: (2/3)*Math.PI, color: "#1AB385"},
-                    {start: (2/3)*Math.PI, end: (4/3)*Math.PI, color: "#C32148"},
-                    {start: (4/3)*Math.PI, end: 2*Math.PI, color: "#4AE1E0"},]
-    const data4 = [ {start: 0, end: (1/2)*Math.PI, color: "#1AB385"},
-                    {start: (1/2)*Math.PI, end: Math.PI, color: "#C32148"},
-                    {start: Math.PI, end: (3/2)*Math.PI, color: "#4AE1E0"},
-                    {start: (3/2)*Math.PI, end: 2*Math.PI, color: "#751F35"},]
-    const data5 = [ {start: 0, end: (2/5)*Math.PI, color: "#1AB385"},
-                    {start: (2/5)*Math.PI, end: (4/5)*Math.PI, color: "#C32148"},
-                    {start: (4/5)*Math.PI, end: (6/5)*Math.PI, color: "#4AE1E0"},
-                    {start: (6/5)*Math.PI, end: (8/5)*Math.PI, color: "#751F35"},
-                    {start: (8/5)*Math.PI, end: 2*Math.PI, color: "#20B2AA"},]
-    const data6 = [ {start: 0, end: (1/3)*Math.PI, color: "#1AB385"},
-                    {start: (1/3)*Math.PI, end: (2/3)*Math.PI, color: "#C32148"},
-                    {start: (2/3)*Math.PI, end: Math.PI, color: "#4AE1E0"},
-                    {start: Math.PI, end: (4/3)*Math.PI, color: "#751F35"},
-                    {start: (4/3)*Math.PI, end: (5/3)*Math.PI, color: "#20B2AA"},
-                    {start: (5/3)*Math.PI, end: 2*Math.PI, color: "#F69DD1"},]
+    const sixth = (100/6);
+    const data2 = [ 50, 50]
+    const data3 = [ 33, 33, 33]
+    const data4 = [ 25, 25, 25, 25]
+    const data5 = [ 20, 20, 20, 20, 20]
+    const data6 = [ sixth,sixth,sixth,sixth,sixth,sixth ]
 
+    const rand1 = ('#' + (Math.random() * 0xFFFFFF << 0).toString(16) + '000000').slice(0, 7);
+    const rand2 = ('#' + (Math.random() * 0xFFFFFF << 0).toString(16) + '000000').slice(0, 7);
+    const rand3 = ('#' + (Math.random() * 0xFFFFFF << 0).toString(16) + '000000').slice(0, 7);
+    const rand4 = ('#' + (Math.random() * 0xFFFFFF << 0).toString(16) + '000000').slice(0, 7);
+    const rand5 = ('#' + (Math.random() * 0xFFFFFF << 0).toString(16) + '000000').slice(0, 7);
+    const rand6 = ('#' + (Math.random() * 0xFFFFFF << 0).toString(16) + '000000').slice(0, 7);
+    const randomColor = (index) => {
+        switch (index){
+          case 0:
+            return rand1;
+          case 1:
+            return rand2;
+          case 2:
+            return rand3;
+          case 3:
+            return rand4;
+          case 4:
+            return rand5;
+          case 5:
+            return rand6;
+
+        }
+    }
+    const pieData2 = data2
+        .filter(value => value > 0)
+        .map((value, index) => ({
+            value,
+            svg: {
+                fill: randomColor(index),
+            },
+            key: `pie-${index}`,
+        }))
+
+    const pieData3 = data3
+        .filter(value => value > 0)
+        .map((value, index) => ({
+            value,
+            svg: {
+                fill: randomColor(index),
+            },
+            key: `pie-${index}`,
+        }))
+    const pieData4 = data4
+        .filter(value => value > 0)
+        .map((value, index) => ({
+            value,
+            svg: {
+                fill: randomColor(index),
+            },
+            key: `pie-${index}`,
+        }))
+    const pieData5 = data5
+        .filter(value => value > 0)
+        .map((value, index) => ({
+            value,
+            svg: {
+                fill: randomColor(index),
+            },
+            key: `pie-${index}`,
+        }))
+    const pieData6 = data6
+        .filter(value => value > 0)
+        .map((value, index) => ({
+            value,
+            svg: {
+                fill: randomColor(index),
+            },
+            key: `pie-${index}`,
+        }))
 
 
       return (
@@ -94,28 +138,10 @@ export default class PlateDivScreen extends React.Component {
                   this.props.navigation.navigate('Plating', {prevScreen: "Platediv",size: "small", comps: 2});
                   Amplitude.logEvent('Chosen: Small Plate, 2 Components');
                 }}>
-                  <Svg
-                    width={130}
-                    height={130}
-                    viewBox={`-100 -100 200 200`}
-                    style={styles.svgs}
-                ><Slice
-                        style={ styles.chrtsmall }
-                        startAngle={data2[0].start}
-                        endAngle={data2[0].end}
-                        color={data2[0].color}
-                        pressIt={false}
-                        
-                    />
-                    <Slice
-                        style={ styles.chrtsmall }
-                        startAngle={data2[1].start}
-                        endAngle={data2[1].end}
-                        color={data2[1].color}
-                        pressIt={false}
-                        
-                    />
-                  </Svg>
+                  <PieChart
+                      style={ styles.chrtsmall }
+                      data={ pieData2 }
+                  />
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.chrtcont} onPress={()=>{
                   console.log('Updated Plate Type to big plate, 2 components');
@@ -124,27 +150,10 @@ export default class PlateDivScreen extends React.Component {
                   Amplitude.logEvent('Chosen: Big Plate, 2 Components');
 
                 }}>
-                <Svg
-                    width={190}
-                    height={190}
-                    viewBox={`-100 -100 200 200`}
-                    style={styles.svgb}
-                >
-                  <Slice
+                  <PieChart
                       style={ styles.chrtbig }
-                      startAngle={data2[0].start}
-                      endAngle={data2[0].end}
-                      color={data2[0].color}
-                      pressIt={false}
+                      data={ pieData2 }
                   />
-                  <Slice
-                      style={ styles.chrtbig }
-                      startAngle={data2[1].start}
-                      endAngle={data2[1].end}
-                      color={data2[1].color}
-                      pressIt={false}
-                  />
-                </Svg>
                 </TouchableOpacity>
               </View>
               <Text style={styles.sectext}>2 Sections</Text>
@@ -161,12 +170,8 @@ export default class PlateDivScreen extends React.Component {
                 }>
                   <PieChart
                       style={ styles.chrtsmall }
-                      startAngle={data3[2].start}
-                      endAngle={data3[2].end}
-                      color={data3[2].color}
-                      pressIt={false}
+                      data={ pieData3 }
                   />
-                  </Svg>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.chrtcont} onPress={()=>
                   {
@@ -176,34 +181,10 @@ export default class PlateDivScreen extends React.Component {
                     Amplitude.logEvent('Chosen: Big Plate, 3 Components');
                   }
                 }>
-                <Svg
-                    width={190}
-                    height={190}
-                    viewBox={`-100 -100 200 200`}
-                    style={styles.svgb}
-                >
-                  <Slice
+                  <PieChart
                       style={ styles.chrtbig }
-                      startAngle={data3[0].start}
-                      endAngle={data3[0].end}
-                      color={data3[0].color}
-                      pressIt={false}
+                      data={ pieData3 }
                   />
-                  <Slice
-                      style={ styles.chrtbig}
-                      startAngle={data3[1].start}
-                      endAngle={data3[1].end}
-                      color={data3[1].color}
-                      pressIt={false}
-                  />
-                  <Slice
-                      style={ styles.chrtbig }
-                      startAngle={data3[2].start}
-                      endAngle={data3[2].end}
-                      color={data3[2].color}
-                      pressIt={false}
-                  />
-                  </Svg>
                 </TouchableOpacity>
               </View>
               <Text style={styles.sectext}>3 Sections</Text>
@@ -218,41 +199,10 @@ export default class PlateDivScreen extends React.Component {
                     Amplitude.logEvent('Chosen: Small Plate, 4 Components');
                   }
                   }>
-                  <Svg
-                    width={130}
-                    height={130}
-                    viewBox={`-100 -100 200 200`}
-                    style={styles.svgs}
-                >
-                  <Slice
-                      style={ styles.chrtsmall }
-                      startAngle={data4[0].start}
-                      endAngle={data4[0].end}
-                      color={data4[0].color}
-                      pressIt={false}
-                  />
-                  <Slice
-                      style={ styles.chrtsmall }
-                      startAngle={data4[1].start}
-                      endAngle={data4[1].end}
-                      color={data4[1].color}
-                      pressIt={false}
-                  />
-                  <Slice
-                      style={ styles.chrtsmall }
-                      startAngle={data4[2].start}
-                      endAngle={data4[2].end}
-                      color={data4[2].color}
-                      pressIt={false}
-                  />
-                  <Slice
-                      style={ styles.chrtsmall }
-                      startAngle={data4[3].start}
-                      endAngle={data4[3].end}
-                      color={data4[3].color}
-                      pressIt={false}
-                  />
-                  </Svg>
+                    <PieChart
+                        style={ styles.chrtsmall }
+                        data={ pieData4 }
+                    />
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.chrtcont} onPress={()=>{
                   console.log('Updated Plate Type to big plate, 4 components');
@@ -260,45 +210,10 @@ export default class PlateDivScreen extends React.Component {
                   this.props.navigation.navigate('Plating', {prevScreen: "Platediv",size: "big", comps: 4});
                   Amplitude.logEvent('Chosen: Big Plate, 4 Components');
                 }}>
-                <Svg
-                    width={190}
-                    height={190}
-                    viewBox={`-100 -100 200 200`}
-                    style={styles.svgb}
-                >
-                  <Slice
-                      style={ styles.chrtbig }
-                      startAngle={data4[0].start}
-                      endAngle={data4[0].end}
-                      color={data4[0].color}
-                      pressIt={false}
-                      
-                  />
-                  <Slice
-                      style={ styles.chrtbig }
-                      startAngle={data4[1].start}
-                      endAngle={data4[1].end}
-                      color={data4[1].color}
-                      pressIt={false}
-                      
-                  />
-                  <Slice
-                      style={ styles.chrtbig }
-                      startAngle={data4[2].start}
-                      endAngle={data4[2].end}
-                      color={data4[2].color}
-                      pressIt={false}
-                      
-                  />
-                  <Slice
-                      style={ styles.chrtbig }
-                      startAngle={data4[3].start}
-                      endAngle={data4[3].end}
-                      color={data4[3].color}
-                      pressIt={false}
-                      
-                  />
-                  </Svg>
+                    <PieChart
+                        style={ styles.chrtbig }
+                        data={ pieData4 }
+                    />
                 </TouchableOpacity>
               </View>
               <Text style={styles.sectext}>4 Sections</Text>
@@ -311,48 +226,10 @@ export default class PlateDivScreen extends React.Component {
                   this.props.navigation.navigate('Plating', {prevScreen: "Platediv",size: "small", comps: 5});
                   Amplitude.logEvent('Chosen: Small Plate, 5 Components');
                 }}>
-                <Svg
-                    width={130}
-                    height={130}
-                    viewBox={`-100 -100 200 200`}
-                    style={styles.svgs}
-                >
-                  <Slice
-                      style={ styles.chrtbig }
-                      startAngle={data5[0].start}
-                      endAngle={data5[0].end}
-                      color={data5[0].color}
-                      pressIt={false}
-                  />
-                  <Slice
-                      style={ styles.chrtbig }
-                      startAngle={data5[1].start}
-                      endAngle={data5[1].end}
-                      color={data5[1].color}
-                      pressIt={false}
-                  />
-                  <Slice
-                      style={ styles.chrtbig }
-                      startAngle={data5[2].start}
-                      endAngle={data5[2].end}
-                      color={data5[2].color}
-                      pressIt={false}
-                  />
-                  <Slice
-                      style={ styles.chrtbig }
-                      startAngle={data5[3].start}
-                      endAngle={data5[3].end}
-                      color={data5[3].color}
-                      pressIt={false}
-                  />
-                  <Slice
-                      style={ styles.chrtbig }
-                      startAngle={data5[4].start}
-                      endAngle={data5[4].end}
-                      color={data5[4].color}
-                      pressIt={false}
-                  />
-                  </Svg>
+                    <PieChart
+                        style={ styles.chrtsmall }
+                        data={ pieData5 }
+                    />
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.chrtcont} onPress={()=>{
                   console.log('Updated Plate Type to big plate, 5 components');
@@ -360,48 +237,10 @@ export default class PlateDivScreen extends React.Component {
                   this.props.navigation.navigate('Plating', {prevScreen: "Platediv",size: "big", comps: 5});
                   Amplitude.logEvent('Chosen: Big Plate, 5 Components');
                 }}>
-                <Svg
-                    width={190}
-                    height={190}
-                    viewBox={`-100 -100 200 200`}
-                    style={styles.svgb}
-                >
-                  <Slice
-                      style={ styles.chrtbig }
-                      startAngle={data5[0].start}
-                      endAngle={data5[0].end}
-                      color={data5[0].color}
-                      pressIt={false}
-                  />
-                  <Slice
-                      style={ styles.chrtbig }
-                      startAngle={data5[1].start}
-                      endAngle={data5[1].end}
-                      color={data5[1].color}
-                      pressIt={false}
-                  />
-                  <Slice
-                      style={ styles.chrtbig }
-                      startAngle={data5[2].start}
-                      endAngle={data5[2].end}
-                      color={data5[2].color}
-                      pressIt={false}
-                  />
-                  <Slice
-                      style={ styles.chrtbig }
-                      startAngle={data5[3].start}
-                      endAngle={data5[3].end}
-                      color={data5[3].color}
-                      pressIt={false}
-                  />
-                  <Slice
-                      style={ styles.chrtbig }
-                      startAngle={data5[4].start}
-                      endAngle={data5[4].end}
-                      color={data5[4].color}
-                      pressIt={false}
-                  />
-                  </Svg>
+                    <PieChart
+                        style={ styles.chrtbig }
+                        data={ pieData5 }
+                    />
                 </TouchableOpacity>
               </View>
               <Text style={styles.sectext}>5 Sections</Text>
