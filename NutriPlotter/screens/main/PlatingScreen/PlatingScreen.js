@@ -37,15 +37,6 @@ const { UIManager } = NativeModules;
 
 Amplitude.initialize("8a8476a30e9af690b3dc1f1d7b637e4b")
 
-async function getiOSNotificationPermission() {
-  const { status } = await Permissions.getAsync(
-    Permissions.NOTIFICATIONS
-  );
-  if (status !== 'granted') {
-    alert('Hey! You might want to enable notifications for the app, they are good.');
-    await Permissions.askAsync(Permissions.NOTIFICATIONS);
-  }
-}
 
 let {height, width} = Dimensions.get('window');
 
@@ -917,7 +908,7 @@ export default class PlatingScreen extends React.Component {
     }
     //console.log("data length " + this.state.data.length)
     //console.log(this.state.plateComps)
-    
+
   }
 
   menuButtonHandler = (opt) => {
@@ -936,9 +927,6 @@ export default class PlatingScreen extends React.Component {
       this.pauseAudio();
       Amplitude.logEvent('Back to Home Screen');
       this.props.navigation.navigate('Home');
-    }else if(opt.key == 4){
-      console.log('Send a notification');
-      this._handleButtonPress();
     }
   }
 
@@ -1039,7 +1027,7 @@ export default class PlatingScreen extends React.Component {
 
   }
 
-  
+
 
 
   render() {
@@ -1080,7 +1068,6 @@ export default class PlatingScreen extends React.Component {
         { key: index++, label: 'Restart' },
         { key: index++, label: 'Sound Off' },
         { key: index++, label: 'Exit' },
-        { key: index++, label: 'Send a notification' },
         ];
 
 
@@ -1269,7 +1256,7 @@ export default class PlatingScreen extends React.Component {
                         {drinkChoice: this.state.drinkChoice,}
                       );
                 }}>
-                  
+
                   <Image
                     source={require('./src/chart.png')}
                     style={styles.img}

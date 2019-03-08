@@ -59,7 +59,7 @@ export default class DataScreen extends React.Component {
 
   async componentDidMount(){
     const Data_plateProportions = this.props.navigation.getParam('Plate Data' , proportionToPlate);
-    
+
     await this.readFoodData("Baked Potato", "BP", 0.3);
     await this.readFoodData("Chicken Breast", "BP", 0.2);
     await this.readFoodData("Broccoli", "BP", 0.5);
@@ -197,7 +197,7 @@ export default class DataScreen extends React.Component {
 
   }
 
-  
+
   getTextStyle() {
     if(this.state.balanced == true) {
       return {
