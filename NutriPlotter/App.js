@@ -38,6 +38,8 @@ import ApiKeys from './constants/ApiKeys';
 import * as firebase from 'firebase';
 if (!firebase.apps.length) { firebase.initializeApp(ApiKeys.FirebaseConfig); }
 Amplitude.initialize("8a8476a30e9af690b3dc1f1d7b637e4b");
+
+//Ignore timerWarning when accessing Firebase (Android issue)
 import ignoreWarnings from 'ignore-warnings';
 ignoreWarnings('Setting a timer');
 

@@ -1246,14 +1246,19 @@ export default class PlatingScreen extends React.Component {
                   //change here after calculation
                   //get the length of data )which is a list of objects
                   proportionToPlate = [];
-                  for (let i = 0; i < this.state.data.length; i++){
+                  for (let i = 0; i < this.props.navigation.state.params.comps; i++){
                     angleDifference = ((this.state.data[i].endAngle - this.state.data[i].startAngle)/(Math.PI * 2)).toFixed(3);
                     proportionToPlate.push(angleDifference);
                   }
+                  console.log(proportionToPlate);
                   Amplitude.logEvent('Data Screen button pressed');
                   this.pauseAudio();
                   this.props.navigation.navigate('Data',
-                        {drinkChoice: this.state.drinkChoice,}
+                        {drinkChoice: this.state.drinkChoice,
+                         angles: proportionToPlate,
+                         plateType: this.state.plateSize,
+                         foodChosen: ["Chicken Breast","Jacket Potato","Broccoli"],
+                        }
                       );
                 }}>
 

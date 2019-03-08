@@ -58,12 +58,23 @@ export default class DataScreen extends React.Component {
 
 
   async componentDidMount(){
-    const Data_plateProportions = this.props.navigation.getParam('Plate Data' , proportionToPlate);
+    const plateAngles = this.props.navigation.state.params.angles;
+    const foodOnPlate = this.props.navigation.state.params.foodChosen;
+    const plateType = this.props.navigation.state.params.plateType;
+    for (i=0; i<plateAngles.length; i++){
+      if (plateType == "big"){
+        await this.readFoodData(foodOnPlate[i], "BP", plateAngles[i]);
+      }
+      else {
+        await this.readFoodData(foodOnPlate[i], "SP", plateAngles[i]);
+      }
+    }
 
-    await this.readFoodData("Baked Potato", "BP", 0.3);
-    await this.readFoodData("Chicken Breast", "BP", 0.2);
-    await this.readFoodData("Broccoli", "BP", 0.5);
-    await this.readDrinkData("Wine");
+    console.log(plateAngles);
+    console.log(foodOnPlate);
+    const drinkData = this.props.navigation.state.params.drinkChoice;
+
+
     console.log("Done adding")
     await this.checkIfBalanced();
     if (this.state.balanced){
