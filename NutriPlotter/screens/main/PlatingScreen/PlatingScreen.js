@@ -29,18 +29,13 @@ import {PopUpMenu} from '../../../components/main/PopUpMenu';
 import {Slice} from '../../../components/main/Slice';
 //stylesheets
 import styles from './styles';
-import Svg,{
-  G,
-  Path,
-  Defs,
-  Pattern,
-} from 'react-native-svg';
+import {Svg} from 'expo';
+import { PieChart } from 'react-native-svg-charts';
 import { absoluteFill } from 'react-native-extended-stylesheet';
-
 
 const { UIManager } = NativeModules;
 
-Amplitude.initialize("8a8476a30e9af690b3dc1f1d7b637e4b");
+Amplitude.initialize("8a8476a30e9af690b3dc1f1d7b637e4b")
 
 async function getiOSNotificationPermission() {
   const { status } = await Permissions.getAsync(
@@ -101,11 +96,6 @@ export default class PlatingScreen extends React.Component {
       drinkChoice: "",
     }
 
-    playAudio = async () => {
-      try{
-        await soundObject.loadAsync(require('./src/sound/nyan.mp3'));
-        await soundObject.playAsync();
-        await soundObject.setIsLoopingAsync(20);
 
 
 
@@ -156,7 +146,78 @@ export default class PlatingScreen extends React.Component {
       {
         onStartShouldSetPanResponder: (evt, gesture) =>true,
         onPanResponderMove: (evt, gesture) => {
-          this.panMethod1(evt, gesture);
+
+          //we need the distance between the points and get the index of the minimum distance
+          distances = [];
+          for(var i = 0; i < 50; i++){
+            var a = this.outputRangeX[i] - gesture.moveX;
+            var b = this.outputRangeY[i] - gesture.moveY + 120;
+            distances.push(Math.sqrt(a*a + b*b));
+          }
+
+
+          var minInd = distances.indexOf(Math.min(...distances));
+          this.setState({indexOfAdj1 : minInd});
+          this.adj1Anim.setValue((1/50)* minInd);
+
+
+
+
+
+          var isPos1 = minInd/50;
+          var isPos2 = (minInd)/50;
+          if(minInd>30){
+            isPos1 = -1 * ((50-minInd)/50);
+            isPos2 = minInd/50;
+            this.setState({data: [
+              {
+                number: 1,
+                startAngle: isPos1* Math.PI * 2,
+                endAngle: this.state.data[0].endAngle,
+            },
+            {
+                number: 30,
+                startAngle: this.state.data[1].startAngle,
+                endAngle: this.state.data[1].endAngle,
+            },
+            {
+                number: 1,
+                startAngle: this.state.data[1].endAngle,
+                endAngle: isPos2* Math.PI * 2,
+            },
+            ]});
+          }else{
+            this.setState({data: [
+              {
+                number: 1,
+                startAngle: isPos1* Math.PI * 2,
+                endAngle: this.state.data[0].endAngle,
+            },
+            {
+                number: 30,
+                startAngle: this.state.data[1].startAngle,
+                endAngle: this.state.data[1].endAngle,
+            },
+            {
+                number: 1,
+                startAngle: -((Math.PI * 2)-this.state.data[1].endAngle),
+                endAngle: isPos2* Math.PI * 2,
+            },
+            ]});
+          }
+
+
+
+
+
+
+
+
+
+
+
+
+          //now the data will need to change
 
         }
       }
@@ -167,7 +228,7 @@ export default class PlatingScreen extends React.Component {
       {
         onStartShouldSetPanResponder: (evt, gesture) =>true,
         onPanResponderMove: (evt, gesture) => {
-          
+
           //we need the distance between the points and get the index of the minimum distance
           distances = [];
 
@@ -225,9 +286,6 @@ export default class PlatingScreen extends React.Component {
             },
             ]});
           }
-          
-          
-
         }
       }
     )
@@ -296,153 +354,21 @@ export default class PlatingScreen extends React.Component {
         }
       }
     )
-    this.threshit = 0;
-    
+
+
   }
 
-  panMethod1(evt, gesture){
-          if(this.threshit % 2 == 0){
+  async playAudio() {
+    try{
+      await soundObject.loadAsync(require('./src/sound/yarblat_smb_techno.mp3'));
+      await soundObject.playAsync();
+      await soundObject.setIsLoopingAsync(20);
 
-          
-          //we need the distance between the points and get the index of the minimum distance
-          distances = [];
-          for(var i = 0; i < 50; i++){
-            var a = this.outputRangeX[i] - gesture.moveX;
-            var b = this.outputRangeY[i] - gesture.moveY + 120;
-            distances.push(Math.sqrt(a*a + b*b));
-          }
-          
-
-          var minInd = distances.indexOf(Math.min(...distances));
-          this.setState({indexOfAdj1 : minInd});
-          this.adj1Anim.setValue((1/50)* minInd);
-
-
-          if(this.props.navigation.state.params.comps == 3){
-            var isPos1 = minInd/50;
-            var isPos2 = (minInd)/50;
-            if(minInd>25){
-              isPos1 = -1 * ((50-minInd)/50);
-              isPos2 = minInd/50;
-              this.setState({data: [
-                {
-                  number: 1,
-                  startAngle: isPos1* Math.PI * 2,
-                  endAngle: this.state.data[0].endAngle,
-              },
-              {
-                  number: 30,
-                  startAngle: this.state.data[1].startAngle,
-                  endAngle: this.state.data[1].endAngle,
-              },
-              {
-                  number: 1,
-                  startAngle: this.state.data[1].endAngle,
-                  endAngle: isPos2* Math.PI * 2,
-              },
-              ]});
-            }else{
-              this.setState({data: [
-                {
-                  number: 1,
-                  startAngle: isPos1* Math.PI * 2,
-                  endAngle: this.state.data[0].endAngle,
-              },
-              {
-                  number: 30,
-                  startAngle: this.state.data[1].startAngle,
-                  endAngle: this.state.data[1].endAngle,
-              },
-              {
-                  number: 1,
-                  startAngle: -((Math.PI * 2)-this.state.data[1].endAngle),
-                  endAngle: isPos2* Math.PI * 2,
-              },
-              ]});
-            }
-            }else if(this.props.navigation.state.params.comps == 2){
-              var isPos1 = minInd/50;
-              var isPos2 = (minInd)/50;
-              if(minInd>25){
-                isPos1 = -1 * ((50-minInd)/50);
-                isPos2 = minInd/50;
-                this.setState({data: [
-                  {
-                    number: 1,
-                    startAngle: isPos1* Math.PI * 2,
-                    endAngle: this.state.data[0].endAngle,
-                },
-                {
-                    number: 1,
-                    startAngle: this.state.data[0].endAngle,//this.state.data[1].startAngle,
-                    endAngle: isPos2* Math.PI * 2,//isPos1* Math.PI * 2,
-                },
-                {
-                  number: 33,
-                  startAngle: Math.PI * 4/3,
-                  endAngle: Math.PI * 2,
-              },
-                ]});
-              }else{
-                var constspot = this.state.data[0].endAngle;
-                isPos1 = -1 * ((50-minInd)/50);
-                isPos2 = minInd/50;
-                this.setState({data: [
-                  {
-                    number: 1,
-                    startAngle: isPos2* Math.PI * 2, //stays constant
-                    endAngle: constspot,
-                },
-                {
-                    number: 1,
-                    startAngle: constspot,
-                    endAngle: isPos2* Math.PI * 2 + Math.PI*2,
-                },
-                {
-                  number: 33,
-                  startAngle: Math.PI * 4/3,
-                  endAngle: Math.PI * 2,
-              },
-                ]});
-              }
-            }
-
-
-
-
-
-           
-
-        }
-  }
-  _handleButtonPress = () => {
-    const localnotification = {
-      title: 'NutriPlotter!',
-      body: 'You have not used the app for 2 days now',
-      android: {
-        sound: true,
-      },
-      ios: {
-        sound: true,
-      },
-    };
-    let sendAfterFiveSeconds = Date.now();
-    sendAfterFiveSeconds += 5000;
-
-    const schedulingOptions = { time: sendAfterFiveSeconds };
-    Notifications.scheduleLocalNotificationAsync(
-      localnotification,
-      schedulingOptions
-    );
-  }
-
-
-  listenForNotifications = () => {
-    Notifications.addListener(notification => {
-      if (notification.origin === 'received' && Platform.OS === 'ios') {
-        Alert.alert(notification.title, notification.body);
-      }
-    });
+    // Your sound is playing!
+    }
+    catch (error) {
+    // An error occurred!
+    }
   }
 
   async pauseAudio() {
@@ -525,15 +451,14 @@ export default class PlatingScreen extends React.Component {
     switch(this.props.navigation.state.params.comps){
       case 2:
         return (
-          <G>
+          <Svg.G>
             <Slice
                 index={0}
                 startAngle={this.state.data[0].startAngle}
                 endAngle={this.state.data[0].endAngle}
-                color='#FF5733'
+                color={'#0d2f51'}
                 data={this.state.data}
                 key={'pie_shape_0'}
-                pressIt={true}
             />
             <Slice
                 index={1}
@@ -542,9 +467,8 @@ export default class PlatingScreen extends React.Component {
                 color={'#28BD8B'}
                 data={this.state.data}
                 key={'pie_shape_1'}
-                pressIt={true}
             />
-          </G>
+          </Svg.G>
         );
         break;
 
@@ -557,7 +481,7 @@ export default class PlatingScreen extends React.Component {
       default:
 
         return (
-          <G>
+          <Svg.G>
             <Slice
                 index={0}
                 startAngle={this.state.data[0].startAngle}
@@ -565,7 +489,6 @@ export default class PlatingScreen extends React.Component {
                 color={'#FF5733'}
                 data={this.state.data}
                 key={'pie_shape_0'}
-                pressIt={true}
             />
             <Slice
                 index={1}
@@ -574,7 +497,6 @@ export default class PlatingScreen extends React.Component {
                 color={'#33FF39'}
                 data={this.state.data}
                 key={'pie_shape_1'}
-                pressIt={true}
             />
             <Slice
                 index={2}
@@ -583,9 +505,8 @@ export default class PlatingScreen extends React.Component {
                 color={'#4633FF'}
                 data={this.state.data}
                 key={'pie_shape_2'}
-                pressIt={true}
             />
-          </G>
+          </Svg.G>
         );
         break;
     }
@@ -622,7 +543,7 @@ export default class PlatingScreen extends React.Component {
         },
         {
           number: 33,
-          startAngle: 0,
+          startAngle: Math.PI * 4/3,
           endAngle: Math.PI * 2,
       },
         ]});
@@ -1221,22 +1142,15 @@ export default class PlatingScreen extends React.Component {
 
           <Svg
                     width={210}
+                    style={styles.pieSVG}
                     height={210}
                     viewBox={`-100 -100 200 200`}
                 >
-                <Defs><Pattern
-                id="chicken"
-                patternUnits="userSpaceOnUse"
-                x="0"
-                y="0"
-                width="100"
-                height="100"
-                viewBox="0 0 10 10">
-                <Path d="M 0 0 L 7 0 L 3.5 7 z" fill="red" stroke="blue" />
-                
-                </Pattern></Defs>
-                {this.renderSlices()}
-                
+
+
+                      {this.renderSlices()}
+
+
                 </Svg>
           </Animated.View>
 
