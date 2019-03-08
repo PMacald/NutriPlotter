@@ -74,6 +74,11 @@ export default EStyleSheet.create({
     maincontainer:{
       width: '100%',
       height: '100%',
+    },
+    indicator: {
+      flexDirection: 'row',
+      justifyContent: 'space-around',
+      padding: 10
     }
 
   });
