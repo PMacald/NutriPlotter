@@ -98,6 +98,7 @@ export default class PlatingScreen extends React.Component {
       plateSize: "big",
       plateComps: 3,
       plateUpdate: false,
+      drinkChoice: "",
     }
 
     playAudio = async () => {
@@ -106,22 +107,6 @@ export default class PlatingScreen extends React.Component {
         await soundObject.playAsync();
         await soundObject.setIsLoopingAsync(20);
 
-      // Your sound is playing!
-      }
-      catch (error) {
-      // An error occurred!
-      }
-    }
-
-    pauseAudio = async () => {
-      try{
-        await soundObject.pauseAsync();
-      // Your sound stopped playing!
-      }
-      catch (error) {
-      // An error occurred!
-      }
-    }
 
 
     this.adj1Anim = new Animated.Value(0);
@@ -311,13 +296,8 @@ export default class PlatingScreen extends React.Component {
         }
       }
     )
-<<<<<<< NutriPlotter/screens/main/PlatingScreen/PlatingScreen.js
     this.threshit = 0;
     
-=======
-
-
->>>>>>> NutriPlotter/screens/main/PlatingScreen/PlatingScreen.js
   }
 
   panMethod1(evt, gesture){
@@ -465,10 +445,14 @@ export default class PlatingScreen extends React.Component {
     });
   }
 
-  componentWillMount() {
-    getiOSNotificationPermission();
-    this.listenForNotifications();
-
+  async pauseAudio() {
+    try{
+      await soundObject.pauseAsync();
+    // Your sound stopped playing!
+    }
+    catch (error) {
+    // An error occurred!
+    }
   }
   renderAdjusters(transforms){
     switch(this.props.navigation.state.params.comps){
@@ -610,6 +594,9 @@ export default class PlatingScreen extends React.Component {
 
   }
 
+  async componentDidMount(){
+    await this.playAudio();
+  }
 
   componentWillUpdate(){
     if(this.state.plateUpdate){
@@ -641,12 +628,6 @@ export default class PlatingScreen extends React.Component {
         ]});
           this.adj1Anim.setValue(0);
           this.adj2Anim.setValue(0.5);
-<<<<<<< NutriPlotter/screens/main/PlatingScreen/PlatingScreen.js
-          
-          
-          
-          
-=======
           this._panResponder1 = PanResponder.create(
             {
               onStartShouldSetPanResponder: (evt, gesture) =>true,
@@ -770,7 +751,6 @@ export default class PlatingScreen extends React.Component {
             }
           )
 
->>>>>>> NutriPlotter/screens/main/PlatingScreen/PlatingScreen.js
           break;
         case 4:
 
@@ -800,9 +780,6 @@ export default class PlatingScreen extends React.Component {
             ]
           });
 
-<<<<<<< NutriPlotter/screens/main/PlatingScreen/PlatingScreen.js
-          
-=======
           this._panResponder1 = PanResponder.create(
             {
               onStartShouldSetPanResponder: (evt, gesture) =>true,
@@ -1015,25 +992,24 @@ export default class PlatingScreen extends React.Component {
               }
             }
           )
->>>>>>> NutriPlotter/screens/main/PlatingScreen/PlatingScreen.js
       }
     }
   }
 
   menuButtonHandler = (opt) => {
     if(opt.key == 1){
-      pauseAudio();
+      this.pauseAudio();
       console.log('Restart');
       Amplitude.logEvent('Restart');
       this.props.navigation.navigate('Plating');
     }else if(opt.key == 2){
       console.log('Sound Off');
       Amplitude.logEvent('Sound Off');
-      pauseAudio();
+      this.pauseAudio();
     }else if(opt.key == 3){
       //this.BackHandler.exitApp();
       console.log('Exit');
-      pauseAudio();
+      this.pauseAudio();
       Amplitude.logEvent('Back to Home Screen');
       this.props.navigation.navigate('Home');
     }else if(opt.key == 4){
@@ -1144,18 +1120,10 @@ export default class PlatingScreen extends React.Component {
 
   render() {
 
-    playAudio();
-
     let { vertAnim, horAnim, heightAnim, widthAnim, backOp, sodaOp } = this.state;
-<<<<<<< NutriPlotter/screens/main/PlatingScreen/PlatingScreen.js
-    //console.log(vertAnim);
-    //console.log("heightAnim: " + heightAnim);
-    
-=======
     console.log(vertAnim);
     console.log("heightAnim: " + heightAnim);
 
->>>>>>> NutriPlotter/screens/main/PlatingScreen/PlatingScreen.js
     const transform1 = [
       {translateX: this.translate1_X},
       {translateY: this.translate1_Y},
@@ -1256,7 +1224,6 @@ export default class PlatingScreen extends React.Component {
                     height={210}
                     viewBox={`-100 -100 200 200`}
                 >
-<<<<<<< NutriPlotter/screens/main/PlatingScreen/PlatingScreen.js
                 <Defs><Pattern
                 id="chicken"
                 patternUnits="userSpaceOnUse"
@@ -1270,13 +1237,6 @@ export default class PlatingScreen extends React.Component {
                 </Pattern></Defs>
                 {this.renderSlices()}
                 
-=======
-
-
-                      {this.renderSlices()}
-
-
->>>>>>> NutriPlotter/screens/main/PlatingScreen/PlatingScreen.js
                 </Svg>
           </Animated.View>
 
@@ -1290,11 +1250,47 @@ export default class PlatingScreen extends React.Component {
                   justifyContent: 'center',
                   width: '100%',
                   }}>
-            <TouchableOpacity style={styles.sodaBox}><Text style={{color: 'white'}}>Water</Text></TouchableOpacity>
-            <TouchableOpacity style={styles.sodaBox}><Text style={{color: 'white'}}>Milk</Text></TouchableOpacity>
-            <TouchableOpacity style={styles.sodaBox}><Text style={{color: 'white'}}>Cola</Text></TouchableOpacity>
-            <TouchableOpacity style={styles.sodaBox}><Text style={{color: 'white'}}>Beer</Text></TouchableOpacity>
-            <TouchableOpacity style={styles.sodaBox}><Text style={{color: 'white'}}>Wine</Text></TouchableOpacity>
+            <TouchableOpacity
+                  style={styles.sodaBox}
+                  onPress={()=> {
+                    this.setState({drinkChoice: "Water"});
+                    Amplitude.logEvent("Chose Water as drink option");
+                    console.log("Water");
+            }}>
+            <Text style={{color: 'white'}}>Water</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+                  style={styles.sodaBox}
+                  onPress={()=> {
+                    this.setState({drinkChoice: "Milk"});
+                    Amplitude.logEvent("Chose Milk as drink option");
+                    console.log("Milk");
+            }}>
+            <Text style={{color: 'white'}}>Milk</Text></TouchableOpacity>
+            <TouchableOpacity
+                  style={styles.sodaBox}
+                  onPress={()=> {
+                    this.setState({drinkChoice: "Cola"});
+                    Amplitude.logEvent("Chose Cola as drink option");
+                    console.log("Cola");
+            }}>
+            <Text style={{color: 'white'}}>Cola</Text></TouchableOpacity>
+            <TouchableOpacity
+                  style={styles.sodaBox}
+                  onPress={()=> {
+                    this.setState({drinkChoice: "Beer"});
+                    Amplitude.logEvent("Chose Beer as drink option");
+                    console.log("Beer");
+            }}>
+            <Text style={{color: 'white'}}>Beer</Text></TouchableOpacity>
+            <TouchableOpacity
+                  style={styles.sodaBox}
+                  onPress={()=> {
+                    this.setState({drinkChoice: "Wine"});
+                    Amplitude.logEvent("Chose Wine as drink option");
+                    console.log("Wine");
+            }}>
+            <Text style={{color: 'white'}}>Wine</Text></TouchableOpacity>
           </Animated.View>
         </View>
 
@@ -1316,14 +1312,13 @@ export default class PlatingScreen extends React.Component {
               <TouchableOpacity
                 onPress={()=> {
                   this.setState({plateUpdate: true});
-                  this.props.navigation.navigate('PlateDiv');
                   Amplitude.logEvent('Plate Type Screen button pressed');
+                  this.props.navigation.navigate('PlateDiv');
                 }
               }>
-=======
 
                 }}>
->>>>>>> NutriPlotter/screens/main/PlatingScreen/PlatingScreen.js
+
                   <Image
                     source={require('./src/plate.png')}
                     style={styles.img}
@@ -1347,10 +1342,12 @@ export default class PlatingScreen extends React.Component {
               <View style={styles.right}>
                 <TouchableOpacity
                 onPress={()=> {
-                  this.props.navigation.navigate('Data');
-                  Amplitude.logEvent('Plate Type Screen button pressed');
-                }
-              }>
+                  Amplitude.logEvent('Data Screen button pressed');
+                  this.pauseAudio();
+                  this.props.navigation.navigate('Data',
+                        {drinkChoice: this.state.drinkChoice,}
+                      );
+                }}>
                   <Image
                     source={require('./src/chart.png')}
                     style={styles.img}
