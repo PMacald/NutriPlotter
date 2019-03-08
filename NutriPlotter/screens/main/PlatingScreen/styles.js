@@ -88,8 +88,6 @@ export default EStyleSheet.create({
     plate:{
       top: "$windowHeight * 0.16",
       left: "$windowWidth * 0.255"
-    },
-    pieSVG:{
     }
 
   });

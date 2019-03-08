@@ -75,10 +75,11 @@ export default EStyleSheet.create({
       width: '100%',
       height: '100%',
     },
-    indicator: {
-      flexDirection: 'row',
-      justifyContent: 'space-around',
-      padding: 10
+    pieSVG:{
+      left: "$windowWidth * 0.295",
+      marginTop: 30,
+      marginBottom: 30,
+      
     }
 
   });

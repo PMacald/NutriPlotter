@@ -27,7 +27,14 @@ export default EStyleSheet.create({
     },
     chrtcont:{
       width: '50%',
+    },
+    svgs:{
+      left: 40
+    },
+    svgb:{
+      left: 10
     }
+
 
   });
 
