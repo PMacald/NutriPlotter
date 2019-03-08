@@ -915,6 +915,9 @@ export default class PlatingScreen extends React.Component {
           )
       }
     }
+    //console.log("data length " + this.state.data.length)
+    //console.log(this.state.plateComps)
+    
   }
 
   menuButtonHandler = (opt) => {
@@ -1036,14 +1039,13 @@ export default class PlatingScreen extends React.Component {
 
   }
 
-
+  
 
 
   render() {
-
     let { vertAnim, horAnim, heightAnim, widthAnim, backOp, sodaOp } = this.state;
-    console.log(vertAnim);
-    console.log("heightAnim: " + heightAnim);
+    //console.log(vertAnim);
+    //console.log("heightAnim: " + heightAnim);
 
     const transform1 = [
       {translateX: this.translate1_X},
@@ -1231,8 +1233,6 @@ export default class PlatingScreen extends React.Component {
                 }
               }>
 
-                }}>
-
                   <Image
                     source={require('./src/plate.png')}
                     style={styles.img}
@@ -1256,12 +1256,20 @@ export default class PlatingScreen extends React.Component {
               <View style={styles.right}>
                 <TouchableOpacity
                 onPress={()=> {
+                  //change here after calculation
+                  //get the length of data )which is a list of objects
+                  proportionToPlate = [];
+                  for (let i = 0; i < this.state.data.length; i++){
+                    angleDifference = ((this.state.data[i].endAngle - this.state.data[i].startAngle)/(Math.PI * 2)).toFixed(3);
+                    proportionToPlate.push(angleDifference);
+                  }
                   Amplitude.logEvent('Data Screen button pressed');
                   this.pauseAudio();
                   this.props.navigation.navigate('Data',
                         {drinkChoice: this.state.drinkChoice,}
                       );
                 }}>
+                  
                   <Image
                     source={require('./src/chart.png')}
                     style={styles.img}
