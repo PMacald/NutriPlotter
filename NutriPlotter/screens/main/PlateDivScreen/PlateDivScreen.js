@@ -5,8 +5,7 @@ import {Amplitude}from 'expo';
 // react native:
 import {View, Text, TouchableOpacity, Image} from 'react-native';
 import { Container, Header, Left, Body, Right, Button, Icon, Title, Content } from 'native-base';
-//components creted by us:
-import {FoodList} from '../../../components/main/FoodList';
+
 //stylesheets
 import styles from './styles';
 
