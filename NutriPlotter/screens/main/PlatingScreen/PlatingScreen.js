@@ -93,30 +93,10 @@ export default class PlatingScreen extends React.Component {
       plateSize: "big",
       plateComps: 3,
       plateUpdate: false,
+      drinkChoice: "",
     }
 
-    playAudio = async () => {
-      try{
-        await soundObject.loadAsync(require('./src/sound/Puzzle-Game_Looping.mp3'));
-        await soundObject.playAsync();
-        await soundObject.setIsLoopingAsync(20);
 
-      // Your sound is playing!
-      }
-      catch (error) {
-      // An error occurred!
-      }
-    }
-
-    pauseAudio = async () => {
-      try{
-        await soundObject.pauseAsync();
-      // Your sound stopped playing!
-      }
-      catch (error) {
-      // An error occurred!
-      }
-    }
 
 
     this.adj1Anim = new Animated.Value(0);
@@ -378,41 +358,27 @@ export default class PlatingScreen extends React.Component {
 
   }
 
+  async playAudio() {
+    try{
+      await soundObject.loadAsync(require('./src/sound/yarblat_smb_techno.mp3'));
+      await soundObject.playAsync();
+      await soundObject.setIsLoopingAsync(20);
 
-  _handleButtonPress = () => {
-    const localnotification = {
-      title: 'NutriPlotter!',
-      body: 'You have not used the app for 2 days now',
-      android: {
-        sound: true,
-      },
-      ios: {
-        sound: true,
-      },
-    };
-    let sendAfterFiveSeconds = Date.now();
-    sendAfterFiveSeconds += 5000;
-
-    const schedulingOptions = { time: sendAfterFiveSeconds };
-    Notifications.scheduleLocalNotificationAsync(
-      localnotification,
-      schedulingOptions
-    );
+    // Your sound is playing!
+    }
+    catch (error) {
+    // An error occurred!
+    }
   }
 
-
-  listenForNotifications = () => {
-    Notifications.addListener(notification => {
-      if (notification.origin === 'received' && Platform.OS === 'ios') {
-        Alert.alert(notification.title, notification.body);
-      }
-    });
-  }
-
-  componentWillMount() {
-    getiOSNotificationPermission();
-    this.listenForNotifications();
-
+  async pauseAudio() {
+    try{
+      await soundObject.pauseAsync();
+    // Your sound stopped playing!
+    }
+    catch (error) {
+    // An error occurred!
+    }
   }
   renderAdjusters(transforms){
     switch(this.props.navigation.state.params.comps){
@@ -549,6 +515,9 @@ export default class PlatingScreen extends React.Component {
 
   }
 
+  async componentDidMount(){
+    await this.playAudio();
+  }
 
   componentWillUpdate(){
     if(this.state.plateUpdate){
@@ -950,18 +919,18 @@ export default class PlatingScreen extends React.Component {
 
   menuButtonHandler = (opt) => {
     if(opt.key == 1){
-      pauseAudio();
+      this.pauseAudio();
       console.log('Restart');
       Amplitude.logEvent('Restart');
       this.props.navigation.navigate('Plating');
     }else if(opt.key == 2){
       console.log('Sound Off');
       Amplitude.logEvent('Sound Off');
-      pauseAudio();
+      this.pauseAudio();
     }else if(opt.key == 3){
       //this.BackHandler.exitApp();
       console.log('Exit');
-      pauseAudio();
+      this.pauseAudio();
       Amplitude.logEvent('Back to Home Screen');
       this.props.navigation.navigate('Home');
     }else if(opt.key == 4){
@@ -1071,8 +1040,6 @@ export default class PlatingScreen extends React.Component {
 
 
   render() {
-
-    playAudio();
 
     let { vertAnim, horAnim, heightAnim, widthAnim, backOp, sodaOp } = this.state;
     console.log(vertAnim);
@@ -1197,11 +1164,47 @@ export default class PlatingScreen extends React.Component {
                   justifyContent: 'center',
                   width: '100%',
                   }}>
-            <TouchableOpacity style={styles.sodaBox}><Text style={{color: 'white'}}>Water</Text></TouchableOpacity>
-            <TouchableOpacity style={styles.sodaBox}><Text style={{color: 'white'}}>Milk</Text></TouchableOpacity>
-            <TouchableOpacity style={styles.sodaBox}><Text style={{color: 'white'}}>Cola</Text></TouchableOpacity>
-            <TouchableOpacity style={styles.sodaBox}><Text style={{color: 'white'}}>Beer</Text></TouchableOpacity>
-            <TouchableOpacity style={styles.sodaBox}><Text style={{color: 'white'}}>Wine</Text></TouchableOpacity>
+            <TouchableOpacity
+                  style={styles.sodaBox}
+                  onPress={()=> {
+                    this.setState({drinkChoice: "Water"});
+                    Amplitude.logEvent("Chose Water as drink option");
+                    console.log("Water");
+            }}>
+            <Text style={{color: 'white'}}>Water</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+                  style={styles.sodaBox}
+                  onPress={()=> {
+                    this.setState({drinkChoice: "Milk"});
+                    Amplitude.logEvent("Chose Milk as drink option");
+                    console.log("Milk");
+            }}>
+            <Text style={{color: 'white'}}>Milk</Text></TouchableOpacity>
+            <TouchableOpacity
+                  style={styles.sodaBox}
+                  onPress={()=> {
+                    this.setState({drinkChoice: "Cola"});
+                    Amplitude.logEvent("Chose Cola as drink option");
+                    console.log("Cola");
+            }}>
+            <Text style={{color: 'white'}}>Cola</Text></TouchableOpacity>
+            <TouchableOpacity
+                  style={styles.sodaBox}
+                  onPress={()=> {
+                    this.setState({drinkChoice: "Beer"});
+                    Amplitude.logEvent("Chose Beer as drink option");
+                    console.log("Beer");
+            }}>
+            <Text style={{color: 'white'}}>Beer</Text></TouchableOpacity>
+            <TouchableOpacity
+                  style={styles.sodaBox}
+                  onPress={()=> {
+                    this.setState({drinkChoice: "Wine"});
+                    Amplitude.logEvent("Chose Wine as drink option");
+                    console.log("Wine");
+            }}>
+            <Text style={{color: 'white'}}>Wine</Text></TouchableOpacity>
           </Animated.View>
         </View>
 
@@ -1223,14 +1226,13 @@ export default class PlatingScreen extends React.Component {
               <TouchableOpacity
                 onPress={()=> {
                   this.setState({plateUpdate: true});
-                  this.props.navigation.navigate('PlateDiv');
                   Amplitude.logEvent('Plate Type Screen button pressed');
+                  this.props.navigation.navigate('PlateDiv');
                 }
               }>
-=======
 
                 }}>
->>>>>>> NutriPlotter/screens/main/PlatingScreen/PlatingScreen.js
+
                   <Image
                     source={require('./src/plate.png')}
                     style={styles.img}
@@ -1254,10 +1256,12 @@ export default class PlatingScreen extends React.Component {
               <View style={styles.right}>
                 <TouchableOpacity
                 onPress={()=> {
-                  this.props.navigation.navigate('Data');
-                  Amplitude.logEvent('Plate Type Screen button pressed');
-                }
-              }>
+                  Amplitude.logEvent('Data Screen button pressed');
+                  this.pauseAudio();
+                  this.props.navigation.navigate('Data',
+                        {drinkChoice: this.state.drinkChoice,}
+                      );
+                }}>
                   <Image
                     source={require('./src/chart.png')}
                     style={styles.img}
