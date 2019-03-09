@@ -999,7 +999,7 @@ export default class PlatingScreen extends React.Component {
         Animated.timing(                  // Animate over time
           this.state.vertAnim,            // The animated value to drive
           {
-            toValue: height/12,                   // Animate to opacity: 1 (opaque)
+            toValue: height/20,                   // Animate to opacity: 1 (opaque)
             duration: 1000,              // Make it take a while
           }
         ),
@@ -1152,8 +1152,8 @@ export default class PlatingScreen extends React.Component {
             <Animated.View
                 style={{
                   alignItems: 'flex-end',
-                  marginTop: vertAnim, //------> bind anim to vertical translation
-                  marginRight: horAnim,
+                  // marginTop: this.state.vertAnim, //------> bind anim to vertical translation
+                  // marginRight: this.state.horAnim,
                   width: 83,
                   height: 150
 
@@ -1165,8 +1165,8 @@ export default class PlatingScreen extends React.Component {
 
                 <Image
                     style={{
-                      width: widthAnim, // 75  -> 250
-                      height: heightAnim, //150 -> 500
+                      width: this.state.widthAnim, // 75  -> 250
+                      height: this.state.heightAnim, //150 -> 500
                     }}
                     source={require('./src/cup.png')}/>
 
