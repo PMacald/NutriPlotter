@@ -55,11 +55,10 @@ export default EStyleSheet.create({
     },
     cupholder:{
       alignItems: 'flex-end',
-      marginTop: 50,
-      marginRight: 25,
+
       width: 100,
       height: 250,
-      marginLeft: 50
+      
     },
     cup:{
       width:75,

@@ -41,7 +41,7 @@ export default class HomeScreen extends React.Component {
             backgroundShadow='#808080'
             height={hp("10%")}
             width={wp("60%")}
-            textSize={hp("4%")}
+            textSize={hp("3%")}
             textColor='#808080'
             borderColor='#808080'
             type="primary"

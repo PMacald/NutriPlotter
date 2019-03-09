@@ -64,8 +64,8 @@ export default class PlatingScreen extends React.Component {
     this.state = {
       vertAnim : new Animated.Value(height/20),
       horAnim : new Animated.Value(0),
-      heightAnim: 150,
-      widthAnim: 75,
+      heightAnim: height/4,
+      widthAnim: width/4,
       backOp: new Animated.Value(1),
       sodaOp: new Animated.Value(0),
       isBig: false,
@@ -975,6 +975,10 @@ export default class PlatingScreen extends React.Component {
 
   sodaAnim = () => {
     console.log(height, width);//896 414
+    // For when cup reverts to 'small'
+
+    // marginTop: vertAnim, //------> bind anim to vertical translation
+    // marginRight: horAnim,
     if(this.state.isBig){
       LayoutAnimation.configureNext({
         duration: 1000,
@@ -985,6 +989,7 @@ export default class PlatingScreen extends React.Component {
         update: {
           type: LayoutAnimation.Types.linear,
         },});
+
 
       this.setState({widthAnim: width/4.5, heightAnim: height/4.7});//75-150
 
@@ -1071,7 +1076,7 @@ export default class PlatingScreen extends React.Component {
 
 
   render() {
-
+    console.log(height,width);
     playAudio();
 
     let { vertAnim, horAnim, heightAnim, widthAnim, backOp, sodaOp } = this.state;
@@ -1133,8 +1138,10 @@ export default class PlatingScreen extends React.Component {
                       Amplitude.logEvent('More Options button pressed');
                     }
                   }>
+                      {/* Image to represent menu button */}
                       <Image
-                        style={{ alignSelf: 'center' }}
+
+                        style={{ resizeMode: 'contain', paddingLeft:width*0.5,  width:width*0.1, height:height*0.1  }}
                         source={require('./src/more-options.png')}
                       />
                     </TouchableOpacity>
@@ -1145,13 +1152,11 @@ export default class PlatingScreen extends React.Component {
             <Animated.View
                 style={{
                   alignItems: 'flex-end',
-                  top: 0,
                   marginTop: vertAnim, //------> bind anim to vertical translation
-                  right: 0,
                   marginRight: horAnim,
                   width: 83,
-                  height: 150,
-                  marginLeft: 50,
+                  height: 150
+
                 }}>
               <TouchableOpacity style = {styles.cupholder} onPress={()=>{
                 this.sodaAnim();
@@ -1161,30 +1166,34 @@ export default class PlatingScreen extends React.Component {
                 <Image
                     style={{
                       width: widthAnim, // 75  -> 250
-                      height: heightAnim //150 -> 500
+                      height: heightAnim, //150 -> 500
                     }}
                     source={require('./src/cup.png')}/>
 
               </TouchableOpacity>
             </Animated.View>
           </View>
-          {this.renderAdjusters([transform1, transform2, transform3, transform4, transform5])}
+
           {/* graph */}
-          <Animated.View style={[styles.plate, {zIndex: -1, opacity: backOp}]}>
+          <Animated.View style={[{zIndex: -1, opacity: backOp, width: width, height: height*0.7}]}>
+          {this.renderAdjusters([transform1, transform2, transform3, transform4, transform5])}
+
+            <Animated.View style={[styles.plate]}>
 
 
-          <Svg
-                    width={210}
-                    style={styles.pieSVG}
-                    height={210}
-                    viewBox={`-100 -100 200 200`}
-                >
+            <Svg
+                      width={width*0.5}
+                      style={styles.pieSVG}
+                      height={width*0.5}
+                      viewBox={`-100 -100 200 200`}
+                  >
 
 
-                      {this.renderSlices()}
+                        {this.renderSlices()}
 
 
-                </Svg>
+                  </Svg>
+            </Animated.View>
           </Animated.View>
 
 
@@ -1196,6 +1205,7 @@ export default class PlatingScreen extends React.Component {
                   top: 170,
                   justifyContent: 'center',
                   width: '100%',
+
                   }}>
             <TouchableOpacity style={styles.sodaBox}><Text style={{color: 'white'}}>Water</Text></TouchableOpacity>
             <TouchableOpacity style={styles.sodaBox}><Text style={{color: 'white'}}>Milk</Text></TouchableOpacity>
@@ -1211,8 +1221,8 @@ export default class PlatingScreen extends React.Component {
 
           <SlidingUpPanel
           visible={true}
-          draggableRange={{top: 800, bottom: 80}}
-          startCollapsed
+          draggableRange={{top: height, bottom: 80}}
+          startCollapsed={true}
           showBackdrop={false}
           >
           <View style={styles.container}>
@@ -1227,7 +1237,7 @@ export default class PlatingScreen extends React.Component {
                   Amplitude.logEvent('Plate Type Screen button pressed');
                 }
               }>
-              
+
                   <Image
                     source={require('./src/plate.png')}
                     style={styles.img}
