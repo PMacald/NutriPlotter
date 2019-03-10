@@ -50,7 +50,7 @@ export default EStyleSheet.create({
       marginLeft: 25,
       //backgroundColor: 'green', //<-- TAKES A LOT OF AREA ON SCREEN
       height: 200,
-      width: 200
+      width: '$windowWidth',
 
     },
     cupholder:{
@@ -58,7 +58,7 @@ export default EStyleSheet.create({
 
       width: 100,
       height: 250,
-      
+
     },
     cup:{
       width:75,

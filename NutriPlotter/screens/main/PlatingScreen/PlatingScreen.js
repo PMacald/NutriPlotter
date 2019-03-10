@@ -1175,7 +1175,7 @@ export default class PlatingScreen extends React.Component {
           </View>
 
           {/* graph */}
-          <Animated.View style={[{zIndex: -1, opacity: backOp, width: width, height: height*0.7}]}>
+          <Animated.View style={[{zIndex: -1, opacity: backOp, width: width, height: height*0.7, paddingBottom:80}]}>
           {this.renderAdjusters([transform1, transform2, transform3, transform4, transform5])}
 
             <Animated.View style={[styles.plate]}>
@@ -1250,13 +1250,15 @@ export default class PlatingScreen extends React.Component {
                 style={styles.centre}
                 borderLeftWidth={1}
                 borderRightWidth={1}
+                
+                borderColor="white"
                 >
                 <Image
                   source={require('./src/up.png')}
                   style={styles.imgcentre}
                   resizeMode="contain"
                 />
-                <Text>Swipe up to choose!</Text>
+                <Text style={{color: 'white'}}>Swipe up to choose!</Text>
               </View>
               <View style={styles.right}>
                 <TouchableOpacity
