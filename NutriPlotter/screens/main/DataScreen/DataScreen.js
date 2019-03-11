@@ -208,11 +208,6 @@ export default class DataScreen extends React.Component {
 
   }
 
-  render() {
-    const carb = 60
-    const protein = 80
-    const fat =  20
-
   getTextStyle() {
     if(this.state.balanced == true) {
       return {

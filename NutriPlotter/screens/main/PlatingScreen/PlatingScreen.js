@@ -1037,7 +1037,7 @@ export default class PlatingScreen extends React.Component {
 
   render() {
     console.log(height,width);
-    playAudio();
+    this.playAudio();
 
     let { vertAnim, horAnim, heightAnim, widthAnim, backOp, sodaOp } = this.state;
     //console.log(vertAnim);
@@ -1245,7 +1245,7 @@ export default class PlatingScreen extends React.Component {
                 style={styles.centre}
                 borderLeftWidth={1}
                 borderRightWidth={1}
-                
+
                 borderColor="white"
                 >
                 <Image
