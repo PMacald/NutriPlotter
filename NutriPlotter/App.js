@@ -18,7 +18,7 @@ import {
   Icon,
   Permissions,
   Notifications,
-  Amplitude
+  Amplitude,
 } from 'expo';
 import { Ionicons } from '@expo/vector-icons';
 
@@ -39,6 +39,9 @@ import * as firebase from 'firebase';
 if (!firebase.apps.length) { firebase.initializeApp(ApiKeys.FirebaseConfig); }
 Amplitude.initialize("8a8476a30e9af690b3dc1f1d7b637e4b");
 
+//Ignore timerWarning when accessing Firebase (Android issue)
+import ignoreWarnings from 'ignore-warnings';
+ignoreWarnings('Setting a timer');
 
 
 let {height, width} = Dimensions.get('window');
@@ -111,19 +114,17 @@ export default class App extends React.Component<{}> {
   setNotifications() {
     Notifications.cancelAllScheduledNotificationsAsync();
 
-    for (let i = 0; i< 4; i++) { //Maximum schedule notification is 64 on ios.
-        let t = new Date();
-        if (i === 0){
-            t.setSeconds(t.getSeconds() + 1);
-        } else {
-            t.setMinutes(t.getMinutes() + 1 + (i * 210)); // 3:30 hours
-        }
-        const schedulingOptions = {
-            time: t, // (date or number) — A Date object representing when to fire the notification or a number in Unix epoch time. Example: (new Date()).getTime() + 1000 is one second from now.
-            repeat: "day",
-        };
-        Notifications.scheduleLocalNotificationAsync(this.getNotification(t), schedulingOptions);
+    let current = new Date();
+    let t = new Date();
+    t.setHours(9,0,0,0);
+    if (current > t){
+      t.setDate(current.getDate() + 1); //If past 9am then set to tomorrow
     }
+    const schedulingOptions = {
+        time: t, // (date or number) — A Date object representing when to fire the notification or a number in Unix epoch time. Example: (new Date()).getTime() + 1000 is one second from now.
+        repeat: "day",
+    };
+    Notifications.scheduleLocalNotificationAsync(this.getNotification(t), schedulingOptions);
   }
 
   listenForNotifications = () => {
