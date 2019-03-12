@@ -1272,7 +1272,7 @@ export default class PlatingScreen extends React.Component {
                         {drinkChoice: this.state.drinkChoice,
                          angles: proportionToPlate,
                          plateType: this.state.plateSize,
-                         foodChosen: ["Chicken Breast","Jacket Potato","Broccoli"],
+                         foodChosen: ["Chicken Breast","Baked Potato","Broccoli"],
                         }
                       );
                 }}>
