@@ -55,8 +55,8 @@ export default class PlatingScreen extends React.Component {
     this.state = {
       vertAnim : new Animated.Value(height/20),
       horAnim : new Animated.Value(0),
-      heightAnim: 150,
-      widthAnim: 75,
+      heightAnim: height/4,
+      widthAnim: width/4,
       backOp: new Animated.Value(1),
       sodaOp: new Animated.Value(0),
       isBig: false,
@@ -973,6 +973,10 @@ export default class PlatingScreen extends React.Component {
 
   sodaAnim = () => {
     console.log(height, width);//896 414
+    // For when cup reverts to 'small'
+
+    // marginTop: vertAnim, //------> bind anim to vertical translation
+    // marginRight: horAnim,
     if(this.state.isBig){
       LayoutAnimation.configureNext({
         duration: 1000,
@@ -984,24 +988,25 @@ export default class PlatingScreen extends React.Component {
           type: LayoutAnimation.Types.linear,
         },});
 
-        this.setState({widthAnim: width/4.5, heightAnim: height/4.7});//75-150
+
+      this.setState({widthAnim: width/4.5, heightAnim: height/4.7});//75-150
 
 
 
-        Animated.parallel([
-          Animated.timing(                  // Animate over time
-            this.state.vertAnim,            // The animated value to drive
-            {
-              toValue: height/12,                   // Animate to opacity: 1 (opaque)
-              duration: 1000,              // Make it take a while
-            }
-          ),
-          Animated.timing(this.state.horAnim,
-            {
-              toValue: 0,                   // Animate to opacity: 1 (opaque)
-              duration: 1000,              // Make it take a while
-            }
-          ),
+      Animated.parallel([
+        Animated.timing(                  // Animate over time
+          this.state.vertAnim,            // The animated value to drive
+          {
+            toValue: height/20,                   // Animate to opacity: 1 (opaque)
+            duration: 1000,              // Make it take a while
+          }
+        ),
+        Animated.timing(this.state.horAnim,
+          {
+            toValue: 0,                   // Animate to opacity: 1 (opaque)
+            duration: 1000,              // Make it take a while
+          }
+        ),
 
           Animated.timing(this.state.backOp,
             {
@@ -1080,170 +1085,180 @@ export default class PlatingScreen extends React.Component {
   }
 
 
-        render() {
-          let { vertAnim, horAnim, heightAnim, widthAnim, backOp, sodaOp } = this.state;
-          //console.log(vertAnim);
-          //console.log("heightAnim: " + heightAnim);
-
-          const transform1 = [
-            {translateX: this.translate1_X},
-            {translateY: this.translate1_Y},
-            {rotate: this.spin1}
-          ];
-          const transform2 = [
-            {translateX: this.translate2_X},
-            {translateY: this.translate2_Y},
-            {rotate: this.spin2}
-          ];
-          const transform3 = [
-            {translateX: this.translate3_X},
-            {translateY: this.translate3_Y},
-            {rotate: this.spin3}
-          ];
-          const transform4 = [
-            {translateX: this.translate4_X},
-            {translateY: this.translate4_Y},
-            {rotate: this.spin3}
-          ];
-          const transform5 = [
-            {translateX: this.translate5_X},
-            {translateY: this.translate5_Y},
-            {rotate: this.spin3}
-          ];
 
 
-          let index = 0;
-          const data = [
-            { key: index++, section: true, label: 'More Options' },
-            { key: index++, label: 'Restart' },
-            { key: index++, label: 'Sound Off' },
-            { key: index++, label: 'Exit' },
-          ];
+  render() {
+    console.log(height,width);
+    this.playAudio();
+
+    let { vertAnim, horAnim, heightAnim, widthAnim, backOp, sodaOp } = this.state;
+    //console.log(vertAnim);
+    //console.log("heightAnim: " + heightAnim);
+
+    const transform1 = [
+      {translateX: this.translate1_X},
+      {translateY: this.translate1_Y},
+      {rotate: this.spin1}
+    ];
+    const transform2 = [
+      {translateX: this.translate2_X},
+      {translateY: this.translate2_Y},
+      {rotate: this.spin2}
+    ];
+    const transform3 = [
+      {translateX: this.translate3_X},
+      {translateY: this.translate3_Y},
+      {rotate: this.spin3}
+    ];
+    const transform4 = [
+      {translateX: this.translate4_X},
+      {translateY: this.translate4_Y},
+      {rotate: this.spin3}
+    ];
+    const transform5 = [
+      {translateX: this.translate5_X},
+      {translateY: this.translate5_Y},
+      {rotate: this.spin3}
+    ];
+
+
+    let index = 0;
+    const data = [
+        { key: index++, section: true, label: 'More Options' },
+        { key: index++, label: 'Restart' },
+        { key: index++, label: 'Sound Off' },
+        { key: index++, label: 'Exit' },
+        ];
 
 
 
 
 
-          return (
-            <View style={[styles.maincontainer, this.mainStyle]}>
-            <View style={{position: 'absolute', width: '100%'}}>
-            <View style={styles.conttop}>
-              <View style = {styles.menucontainer}>
-                <ModalSelector
-                data={data}
-                animationType="fade"
-                ref={selector => { this.selector = selector; }}
-                customSelector={
-                  <TouchableOpacity onPress={() => {
-                    this.selector.open();
-                    Amplitude.logEvent('More Options button pressed');
+      return (
+        <View style={styles.maincontainer}>
+        <View style={{position: 'absolute', width: '100%'}}>
+          <View style={styles.conttop}>
+            <View style = {styles.menucontainer}>
+            <ModalSelector
+                  data={data}
+                  animationType="fade"
+                  ref={selector => { this.selector = selector; }}
+                  customSelector={
+                    <TouchableOpacity onPress={() => {
+                      this.selector.open();
+                      Amplitude.logEvent('More Options button pressed');
+                    }
+                  }>
+                      {/* Image to represent menu button */}
+                      <Image
+
+                        style={{ resizeMode: 'contain', paddingLeft:width*0.5,  width:width*0.1, height:height*0.1  }}
+                        source={require('./src/more-options.png')}
+                      />
+                    </TouchableOpacity>
                   }
-                }>
-                <Image
-                style={{ alignSelf: 'center' }}
-                source={require('./src/more-options.png')}
-                />
-                </TouchableOpacity>
-                }
-                onChange={(option) => this.menuButtonHandler(option)}
-                />
-              </View>
-              <Animated.View
-              style={{
-                alignItems: 'flex-end',
-                top: 0,
-                marginTop: vertAnim, //------> bind anim to vertical translation
-                right: 0,
-                marginRight: horAnim,
-                width: 83,
-                height: 150,
-                marginLeft: 50,
-              }}>
+                  onChange={(option) => this.menuButtonHandler(option)}
+              />
+            </View>
+            <Animated.View
+                style={{
+                  alignItems: 'flex-end',
+                  // marginTop: this.state.vertAnim, //------> bind anim to vertical translation
+                  // marginRight: this.state.horAnim,
+                  width: 83,
+                  height: 150
+
+                }}>
               <TouchableOpacity style = {styles.cupholder} onPress={()=>{
                 this.sodaAnim();
                 Amplitude.logEvent('Drink cup pressed');
               }}>
 
-              <Image
-              style={{
-                width: widthAnim, // 75  -> 250
-                height: heightAnim //150 -> 500
-              }}
-              source={require('./src/cup.png')}/>
+                <Image
+                    style={{
+                      width: this.state.widthAnim, // 75  -> 250
+                      height: this.state.heightAnim, //150 -> 500
+                    }}
+                    source={require('./src/cup.png')}/>
 
               </TouchableOpacity>
               </Animated.View>
           </View>
-          {this.renderAdjusters([transform1, transform2, transform3, transform4, transform5])}
+
           {/* graph */}
-          <Animated.View style={[styles.plate, {zIndex: -1, opacity: backOp}]}>
+          <Animated.View style={[{zIndex: -1, opacity: backOp, width: width, height: height*0.7, paddingBottom:80}]}>
+          {this.renderAdjusters([transform1, transform2, transform3, transform4, transform5])}
+
+            <Animated.View style={[styles.plate]}>
 
 
-          <Svg
-          width={210}
-          style={styles.pieSVG}
-          height={210}
-          viewBox={`-100 -100 200 200`}
-          >
+            <Svg
+                      width={width*0.5}
+                      style={styles.pieSVG}
+                      height={width*0.5}
+                      viewBox={`-100 -100 200 200`}
+                  >
 
 
-          {this.renderSlices()}
+                        {this.renderSlices()}
 
 
-          </Svg>
+                  </Svg>
+            </Animated.View>
           </Animated.View>
 
 
           {/* Soda choices */}
           <Animated.View style={{
-            opacity: sodaOp,
-            flexDirection: 'row',
-            position: 'absolute',
-            top: 170,
-            justifyContent: 'center',
-            width: '100%',
-          }}>
-          <TouchableOpacity
-          style={styles.sodaBox}
-          onPress={()=> {
-            this.setState({drinkChoice: "Water"});
-            Amplitude.logEvent("Chose Water as drink option");
-            console.log("Water");
-          }}>
-          <Text style={{color: 'white'}}>Water</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-          style={styles.sodaBox}
-          onPress={()=> {
-            this.setState({drinkChoice: "Milk"});
-            Amplitude.logEvent("Chose Milk as drink option");
-            console.log("Milk");
-          }}>
-          <Text style={{color: 'white'}}>Milk</Text></TouchableOpacity>
-          <TouchableOpacity
-          style={styles.sodaBox}
-          onPress={()=> {
-            this.setState({drinkChoice: "Cola"});
-            Amplitude.logEvent("Chose Cola as drink option");
-            console.log("Cola");
-          }}>
-          <Text style={{color: 'white'}}>Cola</Text></TouchableOpacity>
-          <TouchableOpacity
-          style={styles.sodaBox}
-          onPress={()=> {
-            this.setState({drinkChoice: "Beer"});
-            Amplitude.logEvent("Chose Beer as drink option");
-            console.log("Beer");
-          }}>
-          <Text style={{color: 'white'}}>Beer</Text></TouchableOpacity>
-          <TouchableOpacity
-          style={styles.sodaBox}
-          onPress={()=> {
-            this.setState({drinkChoice: "Wine"});
-            Amplitude.logEvent("Chose Wine as drink option");
-            console.log("Wine");
-          }}>
-          <Text style={{color: 'white'}}>Wine</Text></TouchableOpacity>
+                  opacity: sodaOp,
+                  flexDirection: 'row',
+                  position: 'absolute',
+                  top: 170,
+                  justifyContent: 'center',
+                  width: '100%',
+
+                  }}>
+            <TouchableOpacity
+                  style={styles.sodaBox}
+                  onPress={()=> {
+                    this.setState({drinkChoice: "Water"});
+                    Amplitude.logEvent("Chose Water as drink option");
+                    console.log("Water");
+            }}>
+            <Text style={{color: 'white'}}>Water</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+                  style={styles.sodaBox}
+                  onPress={()=> {
+                    this.setState({drinkChoice: "Milk"});
+                    Amplitude.logEvent("Chose Milk as drink option");
+                    console.log("Milk");
+            }}>
+            <Text style={{color: 'white'}}>Milk</Text></TouchableOpacity>
+            <TouchableOpacity
+                  style={styles.sodaBox}
+                  onPress={()=> {
+                    this.setState({drinkChoice: "Cola"});
+                    Amplitude.logEvent("Chose Cola as drink option");
+                    console.log("Cola");
+            }}>
+            <Text style={{color: 'white'}}>Cola</Text></TouchableOpacity>
+            <TouchableOpacity
+                  style={styles.sodaBox}
+                  onPress={()=> {
+                    this.setState({drinkChoice: "Beer"});
+                    Amplitude.logEvent("Chose Beer as drink option");
+                    console.log("Beer");
+            }}>
+            <Text style={{color: 'white'}}>Beer</Text></TouchableOpacity>
+            <TouchableOpacity
+                  style={styles.sodaBox}
+                  onPress={()=> {
+                    this.setState({drinkChoice: "Wine"});
+                    Amplitude.logEvent("Chose Wine as drink option");
+                    console.log("Wine");
+            }}>
+            <Text style={{color: 'white'}}>Wine</Text></TouchableOpacity>
           </Animated.View>
           </View>
 
@@ -1251,20 +1266,76 @@ export default class PlatingScreen extends React.Component {
 
 
 
-          <SlidingUpPanel ref={c => this._panel = c}
-            visible={true}
-            draggableRange={{top: 800, bottom: 80}}
-            startCollapsed
-            showBackdrop={false}>
+          <SlidingUpPanel
+          visible={true}
+          draggableRange={{top: height, bottom: 80}}
+          startCollapsed={true}
+          showBackdrop={false}
+          >
           <View style={styles.container}>
-          <View style={styles.top}>
-          <View style={styles.left}>
-            <TouchableOpacity
-              onPress={()=> {
-                this.setState({plateUpdate: true});
-                Amplitude.logEvent('Plate Type Screen button pressed');
-                this.props.navigation.navigate('PlateDiv');
-              }}>
+            <View
+              style={styles.top}
+              >
+              <View style={styles.left}>
+              <TouchableOpacity
+                onPress={()=> {
+                  this.setState({plateUpdate: true});
+                  Amplitude.logEvent('Plate Type Screen button pressed');
+                  this.props.navigation.navigate('PlateDiv');
+                }
+              }>
+
+                  <Image
+                    source={require('./src/plate.png')}
+                    style={styles.img}
+                    resizeMode="contain"
+                  />
+              </TouchableOpacity>
+              </View>
+
+              <View
+                style={styles.centre}
+                borderLeftWidth={1}
+                borderRightWidth={1}
+
+                borderColor="white"
+                >
+                <Image
+                  source={require('./src/up.png')}
+                  style={styles.imgcentre}
+                  resizeMode="contain"
+                />
+                <Text style={{color: 'white'}}>Swipe up to choose!</Text>
+              </View>
+              <View style={styles.right}>
+                <TouchableOpacity
+                onPress={()=> {
+                  //change here after calculation
+                  //get the length of data )which is a list of objects
+                  proportionToPlate = [];
+                  for (let i = 0; i < this.props.navigation.state.params.comps; i++){
+                    angleDifference = ((this.state.data[i].endAngle - this.state.data[i].startAngle)/(Math.PI * 2)).toFixed(3);
+                    proportionToPlate.push(angleDifference);
+                  }
+                  console.log(proportionToPlate);
+                  Amplitude.logEvent('Data Screen button pressed');
+                  this.pauseAudio();
+                  this.props.navigation.navigate('Data',
+                        {drinkChoice: this.state.drinkChoice,
+                         angles: proportionToPlate,
+                         plateType: this.state.plateSize,
+                         foodChosen: ["Chicken Breast","Baked Potato","Broccoli"],
+                        }
+                      );
+                }}>
+
+                  <Image
+                    source={require('./src/chart.png')}
+                    style={styles.img}
+                    resizeMode="contain"
+                  />
+                </TouchableOpacity>
+              </View>
 
               <Image
                 source={require('./src/plate.png')}
