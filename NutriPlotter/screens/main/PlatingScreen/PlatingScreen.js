@@ -1253,100 +1253,43 @@ export default class PlatingScreen extends React.Component {
 
 
 
-
-            <SlidingUpPanel
+            <SlidingUpPanel ref={c => this._panel = c}
             visible={true}
-            draggableRange={{top: height, bottom: 80}}
-            startCollapsed={true}
-            showBackdrop={false}
-            >
-            <View style={styles.container}>
-              <View
-                style={styles.top}
-                >
-                <View style={styles.left}>
-                <TouchableOpacity
-                  onPress={()=> {
-                    this.setState({plateUpdate: true});
-                    Amplitude.logEvent('Plate Type Screen button pressed');
-                    this.props.navigation.navigate('PlateDiv');
-                  }
-                }>
+            draggableRange={{top: 800, bottom: 80}}
+            startCollapsed
+            showBackdrop={false}>
+          <View style={styles.container}>
+          <View style={styles.top}>
+          <View style={styles.left}>
+            <TouchableOpacity
+              onPress={()=> {
+                this.setState({plateUpdate: true});
+                Amplitude.logEvent('Plate Type Screen button pressed');
+                this.props.navigation.navigate('PlateDiv');
+              }}>
 
-                    <Image
-                      source={require('./src/plate.png')}
-                      style={styles.img}
-                      resizeMode="contain"
-                    />
-                </TouchableOpacity>
-                </View>
+              <Image
+                source={require('./src/plate.png')}
+                style={styles.img}
+                resizeMode="contain"
+              />
+          </TouchableOpacity>
+        </View>
 
-                <View
-                  style={styles.centre}
-                  borderLeftWidth={1}
-                  borderRightWidth={1}
-
-                  borderColor="white"
-                  >
-                  <Image
-                    source={require('./src/up.png')}
-                    style={styles.imgcentre}
-                    resizeMode="contain"
-                  />
-                  <Text style={{color: 'white'}}>Swipe up to choose!</Text>
-                </View>
-                <View style={styles.right}>
-                  <TouchableOpacity
-                  onPress={()=> {
-                    //change here after calculation
-                    //get the length of data )which is a list of objects
-                    proportionToPlate = [];
-                    for (let i = 0; i < this.props.navigation.state.params.comps; i++){
-                      angleDifference = ((this.state.data[i].endAngle - this.state.data[i].startAngle)/(Math.PI * 2)).toFixed(3);
-                      proportionToPlate.push(angleDifference);
-                    }
-                    console.log(proportionToPlate);
-                    Amplitude.logEvent('Data Screen button pressed');
-                    this.pauseAudio();
-                    this.props.navigation.navigate('Data',
-                          {drinkChoice: this.state.drinkChoice,
-                          angles: proportionToPlate,
-                          plateType: this.state.plateSize,
-                          foodChosen: ["Chicken Breast","Baked Potato","Broccoli"],
-                          }
-                        );
-                  }}>
-
-                    <Image
-                      source={require('./src/chart.png')}
-                      style={styles.img}
-                      resizeMode="contain"
-                    />
-                  </TouchableOpacity>
-                </View>
-            <TouchableOpacity>
-                <Image
-                  source={require('./src/plate.png')}
-                  style={styles.img}
-                  resizeMode="contain"
-                />
-            </TouchableOpacity>
-          </View>
-
-          <View
-            style={styles.centre}
-            borderLeftWidth={1}
-            borderRightWidth={1}
-          >
-            <Image
-              source={require('./src/up.png')}
-              style={styles.imgcentre}
-              resizeMode="contain"
-            />
-            <Text>Swipe up to choose!</Text>
-          </View>
-          <View style={styles.right}>
-          <TouchableOpacity
+        <View
+          style={styles.centre}
+          borderLeftWidth={1}
+          borderRightWidth={1}
+        >
+          <Image
+            source={require('./src/up.png')}
+            style={styles.imgcentre}
+            resizeMode="contain"
+          />
+          <Text>Swipe up to choose!</Text>
+        </View>
+        <View style={styles.right}>
+        <TouchableOpacity
             onPress={()=> {
               //change here after calculation
               //get the length of data )which is a list of objects
@@ -1367,61 +1310,61 @@ export default class PlatingScreen extends React.Component {
             );
           }}>
 
+        <Image
+        source={require('./src/chart.png')}
+        style={styles.img}
+        resizeMode="contain"
+        />
+      </TouchableOpacity>
+      </View>
+
+      </View>
+      <View style={styles.bod}>
+      <FlatList
+      data={[
+        {key: 'Chicken Breast', path: require('../../../assets/images/chicken.png')},
+        {key: 'Baked Potato', path: require('../../../assets/images/ricecartoon.png')},
+        {key: 'Bread', path: require('../../../assets/images/breadcartoon.png')},
+        {key: 'Popcorn', path: require('../../../assets/images/popcorncartoon.png')},
+        {key: 'Pasta', path: require('../../../assets/images/pastacartoon.png')}]}
+        renderItem={({item}) => (
+          <TouchableOpacity
+          style={{
+            width: '50%',
+            height: 250,
+
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+          onPress={() => {
+            this.foodChooser(item);
+          }}>
+          <View
+          style={{
+            width: '100%',
+            alignItems: 'center',
+            justifyContent: 'center',
+            backgroundColor: '#EBEBEB',
+          }}
+          borderRadius={150}
+          aspectRatio={1}>
           <Image
-          source={require('./src/chart.png')}
-          style={styles.img}
+          source={item.path}
+          style={{width: 150, height: 150}}
           resizeMode="contain"
           />
-        </TouchableOpacity>
-        </View>
+          <Text>{item.key}</Text>
+          </View>
+          </TouchableOpacity>)}
+          numColumns={2}
+          keyExtractor={(item,index) => item.key}
 
-        </View>
-        <View style={styles.bod}>
-        <FlatList
-        data={[
-          {key: 'Chicken Breast', path: require('../../../assets/images/chicken.png')},
-          {key: 'Baked Potato', path: require('../../../assets/images/ricecartoon.png')},
-          {key: 'Bread', path: require('../../../assets/images/breadcartoon.png')},
-          {key: 'Popcorn', path: require('../../../assets/images/popcorncartoon.png')},
-          {key: 'Pasta', path: require('../../../assets/images/pastacartoon.png')}]}
-          renderItem={({item}) => (
-            <TouchableOpacity
-            style={{
-              width: '50%',
-              height: 250,
+          />
+          </View>
 
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
-            onPress={() => {
-              this.foodChooser(item);
-            }}>
-            <View
-            style={{
-              width: '100%',
-              alignItems: 'center',
-              justifyContent: 'center',
-              backgroundColor: '#EBEBEB',
-            }}
-            borderRadius={150}
-            aspectRatio={1}>
-            <Image
-            source={item.path}
-            style={{width: 150, height: 150}}
-            resizeMode="contain"
-            />
-            <Text>{item.key}</Text>
-            </View>
-            </TouchableOpacity>)}
-            numColumns={2}
-            keyExtractor={(item,index) => item.key}
+          </View>
 
-            />
-            </View>
-
-            
-
-            </SlidingUpPanel>
+          </SlidingUpPanel>
           </View>
 
         );}
