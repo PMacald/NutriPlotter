@@ -21,7 +21,7 @@ export default class Slice extends Component {
         .startAngle(startAngle)
         .endAngle(endAngle);
 
-        
+
 
         return arc();
     };
@@ -33,13 +33,13 @@ export default class Slice extends Component {
             endAngle,
             color,
             index,
-            startAngle
+            startAngle,
         } = this.props;
 
         return (
-               
+
             <Svg.Path
-                onPress={()=>alert('value is: '+index)}
+                onPress={()=>this.props.pressHandler(index)}
                 d={this.createPieArc(index,startAngle, endAngle)}
                 fill={color}
                 cx={12} cy={12}
