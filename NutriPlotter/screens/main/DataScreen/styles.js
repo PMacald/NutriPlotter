@@ -50,16 +50,15 @@ export default EStyleSheet.create({
       marginLeft: 25,
       //backgroundColor: 'green', //<-- TAKES A LOT OF AREA ON SCREEN
       height: 200,
-      width: 200
+      width: '$windowWidth',
 
     },
     cupholder:{
       alignItems: 'flex-end',
-      marginTop: 50,
-      marginRight: 25,
+
       width: 100,
       height: 250,
-      marginLeft: 50
+
     },
     cup:{
       width:75,

@@ -208,7 +208,6 @@ export default class DataScreen extends React.Component {
 
   }
 
-
   getTextStyle() {
     if(this.state.balanced == true) {
       return {

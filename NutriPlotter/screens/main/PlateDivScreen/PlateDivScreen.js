@@ -127,8 +127,8 @@ export default class PlateDivScreen extends React.Component {
             </Header>
             <Content>
               <View style={{height: 50, width: '100%', backgroundColor: 'gray', flexDirection: 'row', alignItems:'center'}}>
-                <Text style={{width: '50%', textAlign: 'center', fontSize: 25}}>Small Plate</Text>
-                <Text style={{width: '50%', textAlign: 'center', fontSize: 25}}>Big Plate</Text>
+                <Text style={{width: '50%', textAlign: 'center', fontSize: 25, textColor: 'white'}}>Small Plate</Text>
+                <Text style={{width: '50%', textAlign: 'center', fontSize: 25, textColor: 'white'}}>Big Plate</Text>
               </View>
 
               <View style={styles.section}>
