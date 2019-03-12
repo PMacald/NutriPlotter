@@ -29,7 +29,7 @@ import {PopUpMenu} from '../../../components/main/PopUpMenu';
 import {Slice} from '../../../components/main/Slice';
 //stylesheets
 import styles from './styles';
-import {Svg} from 'expo';
+import Svg, {G} from 'react-native-svg';
 import { PieChart } from 'react-native-svg-charts';
 import { absoluteFill } from 'react-native-extended-stylesheet';
 
@@ -86,9 +86,11 @@ export default class PlatingScreen extends React.Component {
       plateUpdate: false,
       drinkChoice: "",
       foodChosen: null,
+      foodChooserOn: false,
+      plateArray: ["Rice", "Chicken","Bread"],
     }
-
-
+    this.slicePresser = this.slicePresser.bind(this);
+    this.mainStyle = {};
 
 
     this.adj1Anim = new Animated.Value(0);
@@ -443,7 +445,7 @@ export default class PlatingScreen extends React.Component {
     switch(this.props.navigation.state.params.comps){
       case 2:
       return (
-        <Svg.G>
+        <G>
         <Slice
         index={0}
         startAngle={this.state.data[0].startAngle}
@@ -451,6 +453,7 @@ export default class PlatingScreen extends React.Component {
         color={'#0d2f51'}
         data={this.state.data}
         key={'pie_shape_0'}
+        pressHandler={this.slicePresser}
         />
         <Slice
         index={1}
@@ -459,8 +462,9 @@ export default class PlatingScreen extends React.Component {
         color={'#28BD8B'}
         data={this.state.data}
         key={'pie_shape_1'}
+        pressHandler={this.slicePresser}
         />
-        </Svg.G>
+        </G>
       );
       break;
 
@@ -473,7 +477,7 @@ export default class PlatingScreen extends React.Component {
       default:
 
       return (
-        <Svg.G>
+        <G>
         <Slice
         index={0}
         startAngle={this.state.data[0].startAngle}
@@ -481,6 +485,7 @@ export default class PlatingScreen extends React.Component {
         color={'#FF5733'}
         data={this.state.data}
         key={'pie_shape_0'}
+        pressHandler={this.slicePresser}
         />
         <Slice
         index={1}
@@ -489,6 +494,7 @@ export default class PlatingScreen extends React.Component {
         color={'#33FF39'}
         data={this.state.data}
         key={'pie_shape_1'}
+        pressHandler={this.slicePresser}
         />
         <Slice
         index={2}
@@ -497,8 +503,9 @@ export default class PlatingScreen extends React.Component {
         color={'#4633FF'}
         data={this.state.data}
         key={'pie_shape_2'}
+        pressHandler={this.slicePresser}
         />
-        </Svg.G>
+        </G>
       );
       break;
     }
@@ -912,31 +919,104 @@ export default class PlatingScreen extends React.Component {
 
     }
 
-    menuButtonHandler = (opt) => {
-      if(opt.key == 1){
-        this.pauseAudio();
-        console.log('Restart');
-        Amplitude.logEvent('Restart');
-        this.props.navigation.navigate('Plating');
-      }else if(opt.key == 2){
-        console.log('Sound Off');
-        Amplitude.logEvent('Sound Off');
-        this.pauseAudio();
-      }else if(opt.key == 3){
-        //this.BackHandler.exitApp();
-        console.log('Exit');
-        this.pauseAudio();
-        Amplitude.logEvent('Back to Home Screen');
-        this.props.navigation.navigate('Home');
-      }
+  menuButtonHandler = (opt) => {
+    if(opt.key == 1){
+      this.pauseAudio();
+      console.log('Restart');
+      Amplitude.logEvent('Restart');
+      this.props.navigation.navigate('Plating');
+    }else if(opt.key == 2){
+      console.log('Sound Off');
+      Amplitude.logEvent('Sound Off');
+      this.pauseAudio();
+    }else if(opt.key == 3){
+      //this.BackHandler.exitApp();
+      console.log('Exit');
+      this.pauseAudio();
+      Amplitude.logEvent('Back to Home Screen');
+      this.props.navigation.navigate('Home');
     }
+  }
+
+
+  slicePresser(i){
+    if(this.state.foodChooserOn){
+      console.log("slice pressed with index: " + i);
+      console.log("plateArray before: " + this.state.plateArray);
+
+      temp = this.state.plateArray;
+      temp[i] = this.state.foodChosen;
+      this.setState({plateArray: temp, foodChooserOn: false});
+      console.log(this.state.plateArray);
+
+      //reset background color
+      this.mainStyle = {backgroundColor: 'lightgray'};
+      alert('food added to your plate');
+
+    }else{
+      Alert.alert(
+        'Remove item?',
+        'Would you like to remove this item from the plate?',
+        [
+          {text: 'NO', onPress: () => console.log('NO Pressed'), style: 'cancel'},
+          {text: 'YES', onPress: () => {
+            console.log('YES Pressed');
+            temp = this.state.plateArray;
+            temp[i] = "";
+
+
+            this.setState({plateArray:temp});}}
+        ]
+      );
+    }
+  }
+
+  sodaAnim = () => {
+    console.log(height, width);//896 414
+    if(this.state.isBig){
+      LayoutAnimation.configureNext({
+        duration: 1000,
+        create: {
+          type: LayoutAnimation.Types.linear,
+          property: LayoutAnimation.Properties.opacity,
+        },
+        update: {
+          type: LayoutAnimation.Types.linear,
+        },});
+
+        this.setState({widthAnim: width/4.5, heightAnim: height/4.7});//75-150
 
 
 
+        Animated.parallel([
+          Animated.timing(                  // Animate over time
+            this.state.vertAnim,            // The animated value to drive
+            {
+              toValue: height/12,                   // Animate to opacity: 1 (opaque)
+              duration: 1000,              // Make it take a while
+            }
+          ),
+          Animated.timing(this.state.horAnim,
+            {
+              toValue: 0,                   // Animate to opacity: 1 (opaque)
+              duration: 1000,              // Make it take a while
+            }
+          ),
 
-    sodaAnim = () => {
-      console.log(height, width);//896 414
-      if(this.state.isBig){
+          Animated.timing(this.state.backOp,
+            {
+              toValue: 1,                   // Animate to opacity: 1 (opaque)
+              duration: 1000,              // Make it take a while
+            }
+          ),
+          Animated.timing(this.state.sodaOp,
+            {
+              toValue: 0,                   // Animate to opacity: 1 (opaque)
+              duration: 1000,              // Make it take a while
+            }
+          ),
+        ]).start();
+      }else{
         LayoutAnimation.configureNext({
           duration: 1000,
           create: {
@@ -947,7 +1027,7 @@ export default class PlatingScreen extends React.Component {
             type: LayoutAnimation.Types.linear,
           },});
 
-          this.setState({widthAnim: width/4.5, heightAnim: height/4.7});//75-150
+          this.setState({widthAnim: width/1.6, heightAnim: height/1.7});
 
 
 
@@ -955,80 +1035,49 @@ export default class PlatingScreen extends React.Component {
             Animated.timing(                  // Animate over time
               this.state.vertAnim,            // The animated value to drive
               {
-                toValue: height/12,                   // Animate to opacity: 1 (opaque)
+                toValue: height/3.3,                   // Animate to opacity: 1 (opaque)
                 duration: 1000,              // Make it take a while
               }
             ),
             Animated.timing(this.state.horAnim,
               {
-                toValue: 0,                   // Animate to opacity: 1 (opaque)
+                toValue: 30,                   // Animate to opacity: 1 (opaque)
                 duration: 1000,              // Make it take a while
               }
             ),
-
             Animated.timing(this.state.backOp,
               {
-                toValue: 1,                   // Animate to opacity: 1 (opaque)
+                toValue: 0,                   // Animate to opacity: 1 (opaque)
                 duration: 1000,              // Make it take a while
               }
             ),
             Animated.timing(this.state.sodaOp,
               {
-                toValue: 0,                   // Animate to opacity: 1 (opaque)
+                toValue: 1,                   // Animate to opacity: 1 (opaque)
                 duration: 1000,              // Make it take a while
               }
             ),
           ]).start();
-        }else{
-          LayoutAnimation.configureNext({
-            duration: 1000,
-            create: {
-              type: LayoutAnimation.Types.linear,
-              property: LayoutAnimation.Properties.opacity,
-            },
-            update: {
-              type: LayoutAnimation.Types.linear,
-            },});
-
-            this.setState({widthAnim: width/1.6, heightAnim: height/1.7});
-
-
-
-            Animated.parallel([
-              Animated.timing(                  // Animate over time
-                this.state.vertAnim,            // The animated value to drive
-                {
-                  toValue: height/3.3,                   // Animate to opacity: 1 (opaque)
-                  duration: 1000,              // Make it take a while
-                }
-              ),
-              Animated.timing(this.state.horAnim,
-                {
-                  toValue: 30,                   // Animate to opacity: 1 (opaque)
-                  duration: 1000,              // Make it take a while
-                }
-              ),
-              Animated.timing(this.state.backOp,
-                {
-                  toValue: 0,                   // Animate to opacity: 1 (opaque)
-                  duration: 1000,              // Make it take a while
-                }
-              ),
-              Animated.timing(this.state.sodaOp,
-                {
-                  toValue: 1,                   // Animate to opacity: 1 (opaque)
-                  duration: 1000,              // Make it take a while
-                }
-              ),
-            ]).start();
-          }
-
-          this.setState({isBig : !this.state.isBig})
-
-
         }
 
+        this.setState({isBig : !this.state.isBig})
 
+
+      }
+
+  foodChooser(item){
+
+    this.setState({foodChosen: item.key});
+    console.log(item.key + " pressed");
+    //collapse slide up panel
+    this._panel.hide();
+
+    //darken the background
+    this.mainStyle = {backgroundColor: '#777777'}
+
+    //listen to slice press
+    this.setState({foodChooserOn: true});
+  }
 
 
         render() {
@@ -1076,54 +1125,54 @@ export default class PlatingScreen extends React.Component {
 
 
           return (
-            <View style={styles.maincontainer}>
+            <View style={[styles.maincontainer, this.mainStyle]}>
             <View style={{position: 'absolute', width: '100%'}}>
             <View style={styles.conttop}>
-            <View style = {styles.menucontainer}>
-            <ModalSelector
-            data={data}
-            animationType="fade"
-            ref={selector => { this.selector = selector; }}
-            customSelector={
-              <TouchableOpacity onPress={() => {
-                this.selector.open();
-                Amplitude.logEvent('More Options button pressed');
-              }
-            }>
-            <Image
-            style={{ alignSelf: 'center' }}
-            source={require('./src/more-options.png')}
-            />
-            </TouchableOpacity>
-          }
-          onChange={(option) => this.menuButtonHandler(option)}
-          />
-          </View>
-          <Animated.View
-          style={{
-            alignItems: 'flex-end',
-            top: 0,
-            marginTop: vertAnim, //------> bind anim to vertical translation
-            right: 0,
-            marginRight: horAnim,
-            width: 83,
-            height: 150,
-            marginLeft: 50,
-          }}>
-          <TouchableOpacity style = {styles.cupholder} onPress={()=>{
-            this.sodaAnim();
-            Amplitude.logEvent('Drink cup pressed');
-          }}>
+              <View style = {styles.menucontainer}>
+                <ModalSelector
+                data={data}
+                animationType="fade"
+                ref={selector => { this.selector = selector; }}
+                customSelector={
+                  <TouchableOpacity onPress={() => {
+                    this.selector.open();
+                    Amplitude.logEvent('More Options button pressed');
+                  }
+                }>
+                <Image
+                style={{ alignSelf: 'center' }}
+                source={require('./src/more-options.png')}
+                />
+                </TouchableOpacity>
+                }
+                onChange={(option) => this.menuButtonHandler(option)}
+                />
+              </View>
+              <Animated.View
+              style={{
+                alignItems: 'flex-end',
+                top: 0,
+                marginTop: vertAnim, //------> bind anim to vertical translation
+                right: 0,
+                marginRight: horAnim,
+                width: 83,
+                height: 150,
+                marginLeft: 50,
+              }}>
+              <TouchableOpacity style = {styles.cupholder} onPress={()=>{
+                this.sodaAnim();
+                Amplitude.logEvent('Drink cup pressed');
+              }}>
 
-          <Image
-          style={{
-            width: widthAnim, // 75  -> 250
-            height: heightAnim //150 -> 500
-          }}
-          source={require('./src/cup.png')}/>
+              <Image
+              style={{
+                width: widthAnim, // 75  -> 250
+                height: heightAnim //150 -> 500
+              }}
+              source={require('./src/cup.png')}/>
 
-          </TouchableOpacity>
-          </Animated.View>
+              </TouchableOpacity>
+              </Animated.View>
           </View>
           {this.renderAdjusters([transform1, transform2, transform3, transform4, transform5])}
           {/* graph */}
@@ -1286,8 +1335,7 @@ export default class PlatingScreen extends React.Component {
             justifyContent: 'center',
           }}
           onPress={() => {
-            this.setState({foodChosen: item.key});
-            console.log(item.key + " pressed");
+            this.foodChooser(item);
           }}>
           <View
           style={{
