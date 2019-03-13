@@ -41,16 +41,16 @@ export default EStyleSheet.create({
       height: 70,
     },
     menucontainer:{
-      marginTop: 50,
-      marginLeft: -10,
-      marginRight: 40,
+      marginTop: 80,
+      marginLeft: -20,
+      marginRight: 100,
       //backgroundColor: 'green', //<-- TAKES A LOT OF AREA ON SCREEN
       height: 200,
       width: 200,
 
     },
     cupholder:{
-      zIndex: -1,
+      zIndex: 0,
       position: 'absolute',
     },
     sodaBox: {
