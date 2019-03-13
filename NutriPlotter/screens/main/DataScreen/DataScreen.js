@@ -17,7 +17,6 @@ import { Container, Header, Left, Body, Right,Button, Title, Content } from 'nat
 
 import SlidingUpPanel from 'rn-sliding-up-panel';
 //components creted by us:
-import {FoodList} from '../../../components/main/FoodList';
 import {PopUpMenu} from '../../../components/main/PopUpMenu';
 //stylesheets
 import styles from './styles';
@@ -73,7 +72,10 @@ export default class DataScreen extends React.Component {
     console.log(plateAngles);
     console.log(foodOnPlate);
     const drinkData = this.props.navigation.state.params.drinkChoice;
-
+    console.log(drinkData);
+    if (!!drinkData){
+      await this.readDrinkData(drinkData);
+    }
 
     console.log("Done adding")
     await this.checkIfBalanced();
