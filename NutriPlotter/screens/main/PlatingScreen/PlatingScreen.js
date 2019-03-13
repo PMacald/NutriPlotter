@@ -18,6 +18,7 @@ import {
   Alert,
   BackHandler,
   FlatList,
+  ScrollView
 } from 'react-native';
 import SlidingUpPanel from 'rn-sliding-up-panel';
 import ModalSelector from 'react-native-modal-selector'
@@ -1087,7 +1088,7 @@ export default class PlatingScreen extends React.Component {
     this.setState({foodChosen: item.key});
     console.log(item.key + " pressed");
     //collapse slide up panel
-    //this._panel.hide();
+    this._panel.hide();
 
     //darken the background
     this.mainStyle = {backgroundColor: '#777777'}
@@ -1372,6 +1373,7 @@ export default class PlatingScreen extends React.Component {
               </View>
       </View>
       <View style={styles.bod}>
+      <ScrollView>
       <FlatList
       data={[
         {key: 'Chicken Breast', path: require('../../../assets/images/chicken.png')},
@@ -1414,6 +1416,7 @@ export default class PlatingScreen extends React.Component {
           keyExtractor={(item,index) => item.key}
 
           />
+          </ScrollView>
           </View>
 
           </View>
