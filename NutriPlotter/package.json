@@ -46,7 +46,7 @@
     "react-native-switch-selector": "^1.1.11",
     "react-navigation": "^2.18.3",
     "rn-slider-switch": "0.0.3",
-    "rn-sliding-up-panel": "^2.0.0",
+    "rn-sliding-up-panel": "2.0.1",
     "yarn": "^1.13.0"
   },
   "devDependencies": {

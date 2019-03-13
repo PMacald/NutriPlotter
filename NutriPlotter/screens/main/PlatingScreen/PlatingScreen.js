@@ -122,7 +122,7 @@ export default class PlatingScreen extends React.Component {
 
     this.adj5Anim = new Animated.Value(0);
 
-    
+
 
 
     var range = 1, snapshot = 50, radius = 130;
@@ -156,7 +156,7 @@ export default class PlatingScreen extends React.Component {
     this.translate3_Y = this.adj3Anim.interpolate({ inputRange, outputRange : this.outputRangeY });
     this.translate4_Y = this.adj4Anim.interpolate({ inputRange, outputRange : this.outputRangeY });
     this.translate5_Y = this.adj5Anim.interpolate({ inputRange, outputRange : this.outputRangeY });
-    
+
 
     this.outputRangeY = this.outputRangeY.map(x => x+120 + (height * 0.24));
     this.outputRangeX = this.outputRangeX.map(x => x+ (width * 0.44));
@@ -174,7 +174,7 @@ export default class PlatingScreen extends React.Component {
         onPanResponderMove: (evt, gesture) => {this.panMethod1(evt, gesture);}
 
       });
-      
+
 
     //what happens when you move the adjuster 2
     this._panResponder2 = PanResponder.create(
@@ -748,7 +748,7 @@ panMethod2(evt, gesture){
       ]});
     }
   }
-          
+
 }
 
 panMethod3(evt, gesture){
@@ -952,7 +952,7 @@ panMethod3(evt, gesture){
       ]});
     }
   }
-    
+
 }
 panMethod4(evt, gesture){
   //we need the distance between the points and get the index of the minimum distance
@@ -1665,7 +1665,7 @@ panMethod5(evt, gesture){
               ]
             });
 
-          
+
         }
       }
       //console.log("data length " + this.state.data.length)
@@ -1840,7 +1840,7 @@ panMethod5(evt, gesture){
     this.setState({foodChosen: item.key});
     console.log(item.key + " pressed");
     //collapse slide up panel
-    this._panel.hide();
+    //this._panel.hide();
 
     //darken the background
     this.mainStyle = {backgroundColor: '#777777'}
@@ -1954,9 +1954,6 @@ panMethod5(evt, gesture){
           <Animated.View style={[{zIndex: -1, opacity: backOp, width: width, height: height*0.7, paddingBottom:80}]}>
           {this.renderAdjusters([transform1, transform2, transform3, transform4, transform5])}
 
-            <Animated.View style={[styles.plate]}>
-
-
               <Animated.View style={[styles.plate]}>
 
                 <Svg
@@ -1973,27 +1970,16 @@ panMethod5(evt, gesture){
             </Animated.View>
           </Animated.View>
 
-                </Svg>
-              </Animated.View>
 
           {/* Soda choices */}
           <Animated.View style={{
-                  opacity: sodaOp,
-                  flexDirection: 'row',
-                  position: 'absolute',
-                  top: 170,
-                  justifyContent: 'center',
-                  width: '100%',
-
-            {/* Soda choices */}
-            <Animated.View style={{
-              opacity: sodaOp,
-              flexDirection: 'row',
-              position: 'absolute',
-              top: 170,
-              justifyContent: 'center',
-              width: '100%',
-            }}>
+            opacity: sodaOp,
+            flexDirection: 'row',
+            position: 'absolute',
+            top: 170,
+            justifyContent: 'center',
+            width: '100%',
+          }}>
             <TouchableOpacity
             style={styles.sodaBox}
             onPress={()=> {
@@ -2069,13 +2055,13 @@ panMethod5(evt, gesture){
               </TouchableOpacity>
               </View>
 
-              <View
-                style={styles.centre}
-                borderLeftWidth={1}
-                borderRightWidth={1}
+            <View
+              style={styles.centre}
+              borderLeftWidth={1}
+              borderRightWidth={1}
 
-                borderColor="white"
-                >
+              borderColor="white"
+              >
                 <Image
                   source={require('./src/up.png')}
                   style={styles.imgcentre}
@@ -2137,48 +2123,48 @@ panMethod5(evt, gesture){
       </View>
       <View style={styles.bod}>
       <ScrollView>
-      <FlatList
-      data={[
-        {key: 'Chicken Breast', path: require('../../../assets/images/chicken.png')},
-        {key: 'Rice', path: require('../../../assets/images/ricecartoon.png')},
-        {key: 'Broccoli', path: require('../../../assets/images/broccoli.png')},
-        {key: 'Salmon', path: require('../../../assets/images/salmon.png')},
-        {key: 'Baked Potato', path: require('../../../assets/images/bakedpotato.png')},
-        {key: 'Pasta', path: require('../../../assets/images/pasta.png')},
-        {key: 'Cauliflower', path: require('../../../assets/images/cauliflower.png')}]}
-        renderItem={({item}) => (
-          <TouchableOpacity
-          style={{
-            width: '50%',
-            height: 250,
+        <FlatList
+        data={[
+          {key: 'Chicken Breast', path: require('../../../assets/images/chicken.png')},
+          {key: 'Rice', path: require('../../../assets/images/ricecartoon.png')},
+          {key: 'Broccoli', path: require('../../../assets/images/broccoli.png')},
+          {key: 'Salmon', path: require('../../../assets/images/salmon.png')},
+          {key: 'Baked Potato', path: require('../../../assets/images/bakedpotato.png')},
+          {key: 'Pasta', path: require('../../../assets/images/pasta.png')},
+          {key: 'Cauliflower', path: require('../../../assets/images/cauliflower.png')}]}
+          renderItem={({item}) => (
+            <TouchableOpacity
+            style={{
+              width: '50%',
+              height: 250,
 
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
-          onPress={() => {
-            this.foodChooser(item);
-          }}>
-          <View
-          style={{
-            width: '100%',
-            alignItems: 'center',
-            justifyContent: 'center',
-            backgroundColor: '#EBEBEB',
-          }}
-          borderRadius={150}
-          aspectRatio={1}>
-          <Image
-          source={item.path}
-          style={{width: 150, height: 150}}
-          resizeMode="contain"
-          />
-          <Text>{item.key}</Text>
-          </View>
-          </TouchableOpacity>)}
-          numColumns={2}
-          keyExtractor={(item,index) => item.key}
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+            onPress={() => {
+              this.foodChooser(item);
+            }}>
+            <View
+            style={{
+              width: '100%',
+              alignItems: 'center',
+              justifyContent: 'center',
+              backgroundColor: '#EBEBEB',
+            }}
+            borderRadius={150}
+            aspectRatio={1}>
+            <Image
+            source={item.path}
+            style={{width: 150, height: 150}}
+            resizeMode="contain"
+            />
+            <Text>{item.key}</Text>
+            </View>
+            </TouchableOpacity>)}
+            numColumns={2}
+            keyExtractor={(item,index) => item.key}
 
-          />
+            />
           </ScrollView>
           </View>
 

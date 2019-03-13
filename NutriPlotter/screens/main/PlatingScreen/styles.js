@@ -61,7 +61,7 @@ export default EStyleSheet.create({
       marginRight: 10,
       alignItems: 'center',
       justifyContent: 'center',
-      
+
     },
     conttop:{
       flexDirection: 'row',
@@ -77,7 +77,7 @@ export default EStyleSheet.create({
     },
     adjuster:{
       width: 50,
-      height: 25, 
+      height: 25,
     },
     adjCont:{
       position: "absolute",
