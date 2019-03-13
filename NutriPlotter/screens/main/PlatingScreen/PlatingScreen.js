@@ -87,7 +87,8 @@ export default class PlatingScreen extends React.Component {
       drinkChoice: "",
       foodChosen: null,
       foodChooserOn: false,
-      plateArray: ["Rice", "Chicken","Bread"],
+      plateArray: ["", "",""],
+      compsFilled: false,
     }
     this.slicePresser = this.slicePresser.bind(this);
     this.mainStyle = {};
@@ -951,23 +952,34 @@ export default class PlatingScreen extends React.Component {
 
       //reset background color
       this.mainStyle = {backgroundColor: 'lightgray'};
-      alert('food added to your plate');
+      alert(this.state.plateArray[i] + ' added to your plate');
 
     }else{
-      Alert.alert(
-        'Remove item?',
-        'Would you like to remove this item from the plate?',
-        [
-          {text: 'NO', onPress: () => console.log('NO Pressed'), style: 'cancel'},
-          {text: 'YES', onPress: () => {
-            console.log('YES Pressed');
-            temp = this.state.plateArray;
-            temp[i] = "";
+      if (this.state.plateArray[i] != ""){
+        Alert.alert(
+          'Remove ' + this.state.plateArray[i],
+          'Would you like to remove this item?',
+          [
+            {text: 'NO', onPress: () => console.log('NO Pressed'), style: 'cancel'},
+            {text: 'YES', onPress: () => {
+              console.log('YES Pressed');
+              temp = this.state.plateArray;
+              temp[i] = "";
 
 
-            this.setState({plateArray:temp});}}
-        ]
-      );
+              this.setState({plateArray:temp});}}
+          ]
+        );
+      }
+      else {
+        Alert.alert(
+          "Plate component is empty",
+          'Add some food!',
+          [
+            {text: 'Okay', onPress: () => console.log('NO Pressed'), style: 'cancel'},
+          ]
+        );
+      }
     }
   }
 
@@ -1075,7 +1087,7 @@ export default class PlatingScreen extends React.Component {
     this.setState({foodChosen: item.key});
     console.log(item.key + " pressed");
     //collapse slide up panel
-    this._panel.hide();
+    //this._panel.hide();
 
     //darken the background
     this.mainStyle = {backgroundColor: '#777777'}
@@ -1310,6 +1322,25 @@ export default class PlatingScreen extends React.Component {
               <View style={styles.right}>
                 <TouchableOpacity
                 onPress={()=> {
+                  for (let i = 0; i < this.props.navigation.state.params.comps; i++){
+                    if (this.state.plateArray[i] == ""){
+                      Alert.alert(
+                        'Some plate components are empty',
+                        'Return back to the plate and add more food',
+                        [
+                          {text: 'Okay', onPress: () => {
+                            console.log('OKAY Pressed');
+                            this.setState({compsFilled: false});
+                            }}
+                        ]
+                      );
+                      break;
+
+                    }
+                    else {
+                      this.setState({compsFilled: true})
+                    }
+                  }
                   //change here after calculation
                   //get the length of data )which is a list of objects
                   proportionToPlate = [];
@@ -1320,13 +1351,16 @@ export default class PlatingScreen extends React.Component {
                   console.log(proportionToPlate);
                   Amplitude.logEvent('Data Screen button pressed');
                   this.pauseAudio();
-                  this.props.navigation.navigate('Data',
-                        {drinkChoice: this.state.drinkChoice,
-                         angles: proportionToPlate,
-                         plateType: this.state.plateSize,
-                         foodChosen: ["Chicken Breast","Baked Potato","Broccoli"],
-                        }
-                      );
+                  if (this.state.compsFilled == true){
+                    this.props.navigation.navigate('Data',
+                          {drinkChoice: this.state.drinkChoice,
+                           angles: proportionToPlate,
+                           plateType: this.state.plateSize,
+                           foodChosen: this.state.plateArray,
+                          }
+                        );
+                  }
+
                 }}>
 
                   <Image
@@ -1341,10 +1375,12 @@ export default class PlatingScreen extends React.Component {
       <FlatList
       data={[
         {key: 'Chicken Breast', path: require('../../../assets/images/chicken.png')},
-        {key: 'Baked Potato', path: require('../../../assets/images/ricecartoon.png')},
-        {key: 'Bread', path: require('../../../assets/images/breadcartoon.png')},
-        {key: 'Popcorn', path: require('../../../assets/images/popcorncartoon.png')},
-        {key: 'Pasta', path: require('../../../assets/images/pastacartoon.png')}]}
+        {key: 'Rice', path: require('../../../assets/images/ricecartoon.png')},
+        {key: 'Broccoli', path: require('../../../assets/images/broccoli.png')},
+        {key: 'Salmon', path: require('../../../assets/images/salmon.png')},
+        {key: 'Baked Potato', path: require('../../../assets/images/bakedpotato.png')},
+        {key: 'Pasta', path: require('../../../assets/images/pasta.png')},
+        {key: 'Cauliflower', path: require('../../../assets/images/cauliflower.png')}]}
         renderItem={({item}) => (
           <TouchableOpacity
           style={{
