@@ -7,14 +7,10 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "eject": "expo eject",
-    "test": "node node_modules/jest/bin/jest.js src"
+    "test": "node ./node_modules/jest/bin/jest.js --watchAll"
   },
   "jest": {
-    "preset": "jest-expo",
-    "setupTestFrameworkScriptFile": "<rootDir>/src/setupTests.js",
-    "transformIgnorePatterns": [
-      "node_modules/(?!(.*expo.*|.*react.*)/)"
-    ]
+    "preset": "jest-expo"
   },
   "dependencies": {
     "@expo/samples": "2.1.1",
@@ -27,7 +23,6 @@
     "firebase": "^5.8.3",
     "ignore-warnings": "^0.2.1",
     "install": "^0.12.2",
-    "jest": "^24.5.0",
     "native-base": "^2.11.0",
     "react": "^16.8.2",
     "react-native": "https://github.com/expo/react-native/archive/sdk-30.0.0.tar.gz",
@@ -46,13 +41,10 @@
     "react-native-switch-selector": "^1.1.11",
     "react-navigation": "^2.18.3",
     "rn-slider-switch": "0.0.3",
-    "rn-sliding-up-panel": "2.0.1",
+    "rn-sliding-up-panel": "2.0.0",
     "yarn": "^1.13.0"
   },
   "devDependencies": {
-    "jest-expo": "^29.0.0",
-    "babel-jest": "^23.6.0",
-    "babel-preset-react-native": "^4.0.1",
-    "expo-cli": "^2.4.3"
+    "jest-expo": "^32.0.0"
   }
 }

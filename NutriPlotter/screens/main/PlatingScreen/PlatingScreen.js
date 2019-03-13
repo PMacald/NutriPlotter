@@ -1840,7 +1840,7 @@ panMethod5(evt, gesture){
     this.setState({foodChosen: item.key});
     console.log(item.key + " pressed");
     //collapse slide up panel
-    //this._panel.hide();
+    this._panel.hide();
 
     //darken the background
     this.mainStyle = {backgroundColor: '#777777'}
@@ -1900,7 +1900,7 @@ panMethod5(evt, gesture){
 
 
       return (
-        <View style={styles.maincontainer}>
+        <View style={[styles.maincontainer, this.mainStyle]}>
         <View style={{position: 'absolute', width: '100%'}}>
           <View style={styles.conttop}>
             <View style = {styles.menucontainer}>
@@ -2033,6 +2033,7 @@ panMethod5(evt, gesture){
           draggableRange={{top: height, bottom: 80}}
           startCollapsed={true}
           showBackdrop={false}
+          ref={c => this._panel = c}
           >
           <View style={styles.container}>
             <View
