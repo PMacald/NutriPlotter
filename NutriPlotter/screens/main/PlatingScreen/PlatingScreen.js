@@ -1954,19 +1954,7 @@ panMethod5(evt, gesture){
           <Animated.View style={[{zIndex: -1, opacity: backOp, width: width, height: height*0.7, paddingBottom:80}]}>
           {this.renderAdjusters([transform1, transform2, transform3, transform4, transform5])}
 
-<<<<<<< HEAD
-            <Animated.View style={[styles.plate]}>
-
-
-            <Svg
-                      width={width*0.5}
-                      style={styles.pieSVG}
-                      height={width*0.5}
-                      viewBox={`-100 -100 200 200`}
-                  >
-=======
               <Animated.View style={[styles.plate]}>
->>>>>>> 873b7fd969ec62f07495c51e01da4727fec5af7e
 
                 <Svg
                 width={210}
@@ -1985,16 +1973,6 @@ panMethod5(evt, gesture){
 
           {/* Soda choices */}
           <Animated.View style={{
-<<<<<<< HEAD
-                  opacity: sodaOp,
-                  flexDirection: 'row',
-                  position: 'absolute',
-                  top: 170,
-                  justifyContent: 'center',
-                  width: '100%',
-
-                  }}>
-=======
             opacity: sodaOp,
             flexDirection: 'row',
             position: 'absolute',
@@ -2002,7 +1980,6 @@ panMethod5(evt, gesture){
             justifyContent: 'center',
             width: '100%',
           }}>
->>>>>>> 873b7fd969ec62f07495c51e01da4727fec5af7e
             <TouchableOpacity
             style={styles.sodaBox}
             onPress={()=> {
@@ -2144,60 +2121,6 @@ panMethod5(evt, gesture){
                   />
                 </TouchableOpacity>
               </View>
-<<<<<<< HEAD
-
-              <Image
-                source={require('./src/plate.png')}
-                style={styles.img}
-                resizeMode="contain"
-              />
-          </TouchableOpacity>
-        </View>
-
-        <View
-          style={styles.centre}
-          borderLeftWidth={1}
-          borderRightWidth={1}
-        >
-          <Image
-            source={require('./src/up.png')}
-            style={styles.imgcentre}
-            resizeMode="contain"
-          />
-          <Text>Swipe up to choose!</Text>
-        </View>
-        <View style={styles.right}>
-        <TouchableOpacity
-          onPress={()=> {
-            //change here after calculation
-            //get the length of data )which is a list of objects
-            proportionToPlate = [];
-            for (let i = 0; i < this.props.navigation.state.params.comps; i++){
-              angleDifference = ((this.state.data[i].endAngle - this.state.data[i].startAngle)/(Math.PI * 2)).toFixed(3);
-              proportionToPlate.push(angleDifference);
-            }
-            console.log(proportionToPlate);
-            Amplitude.logEvent('Data Screen button pressed');
-            this.pauseAudio();
-            this.props.navigation.navigate('Data',
-            {drinkChoice: this.state.drinkChoice,
-              angles: proportionToPlate,
-              plateType: this.state.plateSize,
-              foodChosen: ["Chicken Breast","Baked Potato","Broccoli"],
-            }
-          );
-        }}>
-
-        <Image
-        source={require('./src/chart.png')}
-        style={styles.img}
-        resizeMode="contain"
-        />
-      </TouchableOpacity>
-      </View>
-
-=======
->>>>>>> 873b7fd969ec62f07495c51e01da4727fec5af7e
       </View>
       <View style={styles.bod}>
       <ScrollView>
