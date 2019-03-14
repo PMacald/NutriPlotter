@@ -1,0 +1,230 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Food list test against snapshot 1`] = `null`;
+
+exports[`FoodItem test against snapshot (using chicken) 1`] = `
+<View
+  accessible={true}
+  isTVSelectable={true}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Object {
+      "opacity": 1,
+    }
+  }
+>
+  <View
+    aspectRatio={1}
+    borderRadius={150}
+  >
+    <Image
+      resizeMode="contain"
+      source={1}
+    />
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      ellipsizeMode="tail"
+    >
+      Chicken
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`RegistrationTextInput test against snapshot 1`] = `
+<View>
+  <TextInput
+    allowFontScaling={true}
+    onChangeText={[Function]}
+    placeholder="name"
+    placeholderTextColor="black"
+    textAlign="center"
+    underlineColorAndroid="rgba(0,0,0,0)"
+  />
+</View>
+`;
+
+exports[`RegistrationTextInputWithSwitch test against snapshot 1`] = `
+<View>
+  <View
+    style={
+      Array [
+        Object {
+          "flexDirection": "row",
+        },
+        Object {},
+      ]
+    }
+  >
+    <View
+      onMoveShouldSetResponder={[Function]}
+      onMoveShouldSetResponderCapture={[Function]}
+      onResponderEnd={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderReject={[Function]}
+      onResponderRelease={[Function]}
+      onResponderStart={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      onStartShouldSetResponderCapture={[Function]}
+      style={
+        Object {
+          "flex": 1,
+        }
+      }
+    >
+      <View
+        onLayout={[Function]}
+        style={
+          Object {
+            "backgroundColor": "#FFFFFF",
+            "borderRadius": 50,
+            "height": 40,
+          }
+        }
+      >
+        <View
+          style={
+            Object {
+              "borderColor": "#C9C9C9",
+              "borderRadius": 50,
+              "borderWidth": 0,
+              "flex": 1,
+              "flexDirection": "row",
+            }
+          }
+        >
+          <View
+            style={
+              Object {
+                "flex": 1,
+                "flexDirection": "column",
+                "justifyContent": "center",
+              }
+            }
+          >
+            <View
+              accessible={true}
+              isTVSelectable={true}
+              onResponderGrant={[Function]}
+              onResponderMove={[Function]}
+              onResponderRelease={[Function]}
+              onResponderTerminate={[Function]}
+              onResponderTerminationRequest={[Function]}
+              onStartShouldSetResponder={[Function]}
+              style={
+                Object {
+                  "alignItems": "center",
+                  "flexDirection": "row",
+                  "justifyContent": "center",
+                  "opacity": 1,
+                }
+              }
+            >
+              <Text
+                accessible={true}
+                allowFontScaling={true}
+                ellipsizeMode="tail"
+                style={
+                  Array [
+                    Object {
+                      "backgroundColor": "transparent",
+                      "color": "#FFFFFF",
+                      "fontSize": 14,
+                      "fontWeight": "normal",
+                      "textAlign": "center",
+                    },
+                    Object {},
+                  ]
+                }
+              >
+                Male
+              </Text>
+            </View>
+          </View>
+          <View
+            style={
+              Object {
+                "flex": 1,
+                "flexDirection": "column",
+                "justifyContent": "center",
+              }
+            }
+          >
+            <View
+              accessible={true}
+              isTVSelectable={true}
+              onResponderGrant={[Function]}
+              onResponderMove={[Function]}
+              onResponderRelease={[Function]}
+              onResponderTerminate={[Function]}
+              onResponderTerminationRequest={[Function]}
+              onStartShouldSetResponder={[Function]}
+              style={
+                Object {
+                  "alignItems": "center",
+                  "flexDirection": "row",
+                  "justifyContent": "center",
+                  "opacity": 1,
+                }
+              }
+            >
+              <Text
+                accessible={true}
+                allowFontScaling={true}
+                ellipsizeMode="tail"
+                style={
+                  Array [
+                    Object {
+                      "backgroundColor": "transparent",
+                      "color": "#000000",
+                      "fontSize": 14,
+                      "fontWeight": "normal",
+                      "textAlign": "center",
+                    },
+                    Object {},
+                  ]
+                }
+              >
+                Female
+              </Text>
+            </View>
+          </View>
+        </View>
+      </View>
+    </View>
+  </View>
+  <TextInput
+    allowFontScaling={true}
+    keyboardType="numeric"
+    onChangeText={[Function]}
+    placeholder="Age"
+    placeholderTextColor="black"
+    textAlign="center"
+    underlineColorAndroid="rgba(0,0,0,0)"
+  />
+</View>
+`;
+
+exports[`SwipeArrow test against snapshot 1`] = `
+<View>
+  <Text
+    accessible={true}
+    allowFontScaling={true}
+    ellipsizeMode="tail"
+  >
+    Swipe to next page
+  </Text>
+  <Image
+    source={1}
+  />
+</View>
+`;
