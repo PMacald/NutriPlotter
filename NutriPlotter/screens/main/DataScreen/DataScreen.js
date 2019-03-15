@@ -273,12 +273,12 @@ export default class DataScreen extends React.Component {
   getTextStyle() {
     if(this.state.balanced == true) {
       return {
-        height: 50, width: '100%', backgroundColor: '#A6D49F', flexDirection: 'row', alignItems:'center'
+        height: 50, width: '100%', backgroundColor: '#85BAA1', flexDirection: 'row', alignItems:'center'
       }
     }
     else {
       return {
-        height: 50, width: '100%', backgroundColor: '#C73E1D', flexDirection: 'row', alignItems:'center'
+        height: 50, width: '100%', backgroundColor: '#EA2B1F', flexDirection: 'row', alignItems:'center'
       }
     }
   }
@@ -290,7 +290,7 @@ export default class DataScreen extends React.Component {
     }
     else {
       return {
-        height: 45, width: '100%', flexDirection: 'row', alignItems:'center', backgroundColor: '#88292F'
+        height: 45, width: '100%', flexDirection: 'row', alignItems:'center', backgroundColor: '#EF645C'
       }
     }
   }
