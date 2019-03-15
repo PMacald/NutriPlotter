@@ -157,6 +157,8 @@ export default class App extends React.Component<{}> {
       Asset.loadAsync([
         require('./assets/images/robot-dev.png'),
         require('./assets/images/robot-prod.png'),
+        require('./assets/images/adjust.png'),
+        require('./assets/images/back.png'),
         require('./screens/main/PlatingScreen/src/cup.png'),
         require('./screens/main/PlatingScreen/src/more-options.png'),
         require('./screens/main/PlatingScreen/src/up.png'),

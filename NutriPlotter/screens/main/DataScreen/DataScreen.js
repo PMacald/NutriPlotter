@@ -343,7 +343,10 @@ export default class DataScreen extends React.Component {
         value: values[index],
         svg: { fill: colors[index] },
         arc: { outerRadius: (70 + values[index]) + '%', padAngle: label === key ? 0.1 : 0 },
-        onPress: () => this.setState({ selectedSlice: { label: key, value: values[index] }, status: true })
+        onPress: () => {
+          this.setState({ selectedSlice: { label: key, value: values[index] }, status: true });
+          Amplitude.logEvent('Viewing' + key + "percentage");
+      }
       }
     })
     const deviceWidth = Dimensions.get('window').width
@@ -376,7 +379,7 @@ export default class DataScreen extends React.Component {
         Amplitude.logEvent('Back button pressed from data screen');
       }
     }>
-    <Image source={require('./src/back.png')}
+    <Image source={require('../../../assets/images/back.png')}
     style={{width: 35, height: 35}}/>
     </Button>
     </Left>

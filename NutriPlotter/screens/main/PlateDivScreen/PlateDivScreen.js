@@ -112,7 +112,7 @@ export default class PlateDivScreen extends React.Component {
                     Amplitude.logEvent('Back button pressed from plate types screen');
                   }
                 }>
-                    <Image source={require('./src/back.png')}
+                    <Image source={require('../../../assets/images/back.png')}
                             style={{width: 35, height: 35}}/>
                 </Button>
               </Left>

@@ -1855,8 +1855,8 @@ panMethod5(evt, gesture){
 
     //listen to slice press
     this.setState({foodChooserOn: true});
+    Amplitude.logEvent('Added' + item.key + 'on a plate component');
   }
-
 
 
 
