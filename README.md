@@ -29,9 +29,7 @@ In the "Nutriplotter" folder, enter the following command (to run the applicatio
 ```
 
 ### Get the Published Version
-The most recently published version of the app is available here:
-
-https://expo.io/@eleondella/NutriPlotter
+The most recently published version of the app is available [here](https://expo.io/@eleondella/NutriPlotter)
 
 Just scan the QR code with your phone to open it up.
 
