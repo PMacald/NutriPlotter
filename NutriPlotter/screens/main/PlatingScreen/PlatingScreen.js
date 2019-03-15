@@ -56,8 +56,6 @@ export default class PlatingScreen extends React.Component {
   constructor(props){
     super(props);
 
-    const soundObject = new Expo.Audio.Sound();
-
     this.state = {
       vertAnim : new Animated.Value(height/20),
       horAnim : new Animated.Value(0),
@@ -107,9 +105,14 @@ export default class PlatingScreen extends React.Component {
       foodChooserOn: false,
       plateArray: ["", "",""],
       compsFilled: false,
+      soundObject: new Expo.Audio.Sound(),
+      soundOn: true,
     }
     this.slicePresser = this.slicePresser.bind(this);
     this.mainStyle = {};
+
+    this.playAudio(this.state.soundObject);
+
 
 
     this.adj1Anim = new Animated.Value(0);
@@ -121,9 +124,6 @@ export default class PlatingScreen extends React.Component {
     this.adj4Anim = new Animated.Value(0);
 
     this.adj5Anim = new Animated.Value(0);
-
-
-
 
     var range = 1, snapshot = 50, radius = 130;
 
@@ -182,7 +182,7 @@ export default class PlatingScreen extends React.Component {
         onStartShouldSetPanResponder: (evt, gesture) =>true,
         onPanResponderMove: (evt, gesture) => {this.panMethod2(evt, gesture)}
       }
-    )
+    );
 
     //what happens when you move the adjuster 3
     this._panResponder3 = PanResponder.create(
@@ -190,21 +190,21 @@ export default class PlatingScreen extends React.Component {
         onStartShouldSetPanResponder: (evt, gesture) =>true,
         onPanResponderMove: (evt, gesture) => {this.panMethod3(evt, gesture)}
       }
-    )
+    );
 
     this._panResponder4 = PanResponder.create(
       {
         onStartShouldSetPanResponder: (evt, gesture) =>true,
         onPanResponderMove: (evt, gesture) => {this.panMethod4(evt, gesture)}
       }
-    )
+    );
 
     this._panResponder5 = PanResponder.create(
       {
         onStartShouldSetPanResponder: (evt, gesture) =>true,
         onPanResponderMove: (evt, gesture) => {this.panMethod5(evt, gesture)}
       }
-    )
+    );
 
 
   }
@@ -1182,11 +1182,14 @@ panMethod5(evt, gesture){
 
 
 
-  async playAudio() {
+  async playAudio(soundObject) {
     try{
-      await soundObject.loadAsync(require('./src/sound/yarblat_smb_techno.mp3'));
+      console.log("Sound is playing");
+      await soundObject.unloadAsync()
+      await soundObject.loadAsync(require('../../../assets/sound/mainsound.wav'));
+      await soundObject.setPositionAsync(0);
+      await soundObject.setIsLoopingAsync(true);
       await soundObject.playAsync();
-      await soundObject.setIsLoopingAsync(20);
 
       // Your sound is playing!
     }
@@ -1195,7 +1198,7 @@ panMethod5(evt, gesture){
     }
   }
 
-  async pauseAudio() {
+  async pauseAudio(soundObject) {
     try{
       await soundObject.pauseAsync();
       // Your sound stopped playing!
@@ -1515,10 +1518,6 @@ panMethod5(evt, gesture){
     }
   }
 
-  async componentDidMount(){
-    await this.playAudio();
-  }
-
   componentWillUpdate(){
     if(this.state.plateUpdate){
       //here if the plate is being updated in platediv screen, this will adjust the plate components
@@ -1675,18 +1674,27 @@ panMethod5(evt, gesture){
 
   menuButtonHandler = (opt) => {
     if(opt.key == 1){
-      this.pauseAudio();
+      this.pauseAudio(this.state.soundObject);
       console.log('Restart');
       Amplitude.logEvent('Restart');
       this.props.navigation.navigate('Plating');
     }else if(opt.key == 2){
-      console.log('Sound Off');
-      Amplitude.logEvent('Sound Off');
-      this.pauseAudio();
+      console.log('Sound On/Off');
+      if (this.state.soundOn == true){
+        Amplitude.logEvent('Sound Off');
+        this.pauseAudio(this.state.soundObject);
+        this.setState({soundOn: false,});
+      }
+      else {
+        Amplitude.logEvent('Sound On');
+        this.playAudio(this.state.soundObject);
+        this.setState({soundOn: true,});
+      }
+
     }else if(opt.key == 3){
       //this.BackHandler.exitApp();
       console.log('Exit');
-      this.pauseAudio();
+      this.pauseAudio(this.state.soundObject);
       Amplitude.logEvent('Back to Home Screen');
       this.props.navigation.navigate('Home');
     }
@@ -1729,7 +1737,7 @@ panMethod5(evt, gesture){
           "Plate component is empty",
           'Add some food!',
           [
-            {text: 'Okay', onPress: () => console.log('NO Pressed'), style: 'cancel'},
+            {text: 'Okay', onPress: () => console.log('Not enough food'), style: 'cancel'},
           ]
         );
       }
@@ -1854,8 +1862,6 @@ panMethod5(evt, gesture){
 
   render() {
     console.log(height,width);
-    this.playAudio();
-
     let { vertAnim, horAnim, heightAnim, widthAnim, backOp, sodaOp } = this.state;
     //console.log(vertAnim);
     //console.log("heightAnim: " + heightAnim);
@@ -1878,12 +1884,12 @@ panMethod5(evt, gesture){
     const transform4 = [
       {translateX: this.translate4_X},
       {translateY: this.translate4_Y},
-      {rotate: this.spin3}
+      {rotate: this.spin4}
     ];
     const transform5 = [
       {translateX: this.translate5_X},
       {translateY: this.translate5_Y},
-      {rotate: this.spin3}
+      {rotate: this.spin5}
     ];
 
 
@@ -1891,7 +1897,7 @@ panMethod5(evt, gesture){
     const data = [
         { key: index++, section: true, label: 'More Options' },
         { key: index++, label: 'Restart' },
-        { key: index++, label: 'Sound Off' },
+        { key: index++, label: 'Sound On/Off' },
         { key: index++, label: 'Exit' },
         ];
 
@@ -1984,6 +1990,7 @@ panMethod5(evt, gesture){
             style={styles.sodaBox}
             onPress={()=> {
               this.setState({drinkChoice: "Water"});
+              this.sodaAnim();
               Amplitude.logEvent("Chose Water as drink option");
               console.log("Water");
             }}>
@@ -1993,6 +2000,7 @@ panMethod5(evt, gesture){
             style={styles.sodaBox}
             onPress={()=> {
               this.setState({drinkChoice: "Milk"});
+              this.sodaAnim();
               Amplitude.logEvent("Chose Milk as drink option");
               console.log("Milk");
             }}>
@@ -2001,6 +2009,7 @@ panMethod5(evt, gesture){
             style={styles.sodaBox}
             onPress={()=> {
               this.setState({drinkChoice: "Cola"});
+              this.sodaAnim();
               Amplitude.logEvent("Chose Cola as drink option");
               console.log("Cola");
             }}>
@@ -2009,6 +2018,7 @@ panMethod5(evt, gesture){
             style={styles.sodaBox}
             onPress={()=> {
               this.setState({drinkChoice: "Beer"});
+              this.sodaAnim();
               Amplitude.logEvent("Chose Beer as drink option");
               console.log("Beer");
             }}>
@@ -2017,6 +2027,7 @@ panMethod5(evt, gesture){
             style={styles.sodaBox}
             onPress={()=> {
               this.setState({drinkChoice: "Wine"});
+              this.sodaAnim();
               Amplitude.logEvent("Chose Wine as drink option");
               console.log("Wine");
             }}>
@@ -2076,8 +2087,8 @@ panMethod5(evt, gesture){
                   for (let i = 0; i < this.props.navigation.state.params.comps; i++){
                     if (this.state.plateArray[i] == ""){
                       Alert.alert(
-                        'Some plate components are empty',
-                        'Return back to the plate and add more food',
+                        'Oh no!',
+                        'Some components on the plate are empty! Add more food',
                         [
                           {text: 'Okay', onPress: () => {
                             console.log('OKAY Pressed');
@@ -2101,7 +2112,7 @@ panMethod5(evt, gesture){
                   }
                   console.log(proportionToPlate);
                   Amplitude.logEvent('Data Screen button pressed');
-                  this.pauseAudio();
+                  this.pauseAudio(this.state.soundObject);
                   if (this.state.compsFilled == true){
                     this.props.navigation.navigate('Data',
                           {drinkChoice: this.state.drinkChoice,

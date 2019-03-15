@@ -11,6 +11,7 @@ import {
   TouchableOpacity,
   Dimensions,
   ActivityIndicator,
+  Alert,
 } from 'react-native';
 
 import { Container, Header, Left, Body, Right,Button, Title, Content } from 'native-base';
@@ -37,12 +38,20 @@ export default class DataScreen extends React.Component {
       totalFat: 0,
       totalFibre: 0,
       totalSugar: 0,
+      totalVitaminA: 0,
+      totalVitaminC: 0,
+      totalCalcium: 0,
+      totalIron: 0,
       currentCals: 0,
       currentProtein: 0,
       currentCarbs: 0,
       currentFat: 0,
       currentSugar: 0,
       currentFibre: 0,
+      currentVitaminA: 0,
+      currentVitaminC: 0,
+      currentCalcium: 0,
+      currentIron: 0,
       selectedSlice: {
         label: '',
         value: 0,
@@ -51,6 +60,11 @@ export default class DataScreen extends React.Component {
       status:false,
       balanced: true,
       done: false,
+      balancedProtein: true,
+      balancedCarbs: true,
+      balancedFat: true,
+      balancedFibre: true,
+      balancedSugar: true,
     }
 
   }
@@ -81,9 +95,23 @@ export default class DataScreen extends React.Component {
     await this.checkIfBalanced();
     if (this.state.balanced){
       await this.playBalancedAudio();
+      Alert.alert(
+        "Well Done!",
+        "You have successfully created a balanced plate",
+        [
+          {text: 'Okay', onPress: () => console.log('Okay pressed'), style: 'cancel'},
+        ]
+      );
     }
     else {
       await this.playUnbalancedAudio();
+      Alert.alert(
+        "Oh no!",
+        "It looks like your plate needs some tweaking. Try again!",
+        [
+          {text: 'Okay', onPress: () => console.log('Okay pressed'), style: 'cancel'},
+        ]
+      );
     }
     this.setState({done: true});
 
@@ -102,6 +130,10 @@ export default class DataScreen extends React.Component {
       let fat = foodItemData.Fat;
       let sugar = foodItemData.Sugar;
       let fibre = foodItemData.Fibre;
+      let vitamina = foodItemData.VitaminA;
+      let vitaminc = foodItemData.VitaminC;
+      let calcium = foodItemData.Calcium;
+      let iron = foodItemData.Iron;
 
       this.setState({
         currentCals: calories,
@@ -110,6 +142,10 @@ export default class DataScreen extends React.Component {
         currentFat: fat,
         currentSugar: sugar,
         currentFibre: fibre,
+        currentVitaminA: vitamina,
+        currentVitaminC: vitaminc,
+        currentCalcium: calcium,
+        currentIron: iron,
       });
     }.bind(this));
 
@@ -122,6 +158,11 @@ export default class DataScreen extends React.Component {
       fat = this.state.currentFat*factor*anglePercentage;
       sugar = this.state.currentSugar*factor*anglePercentage;
       fibre = this.state.currentFibre*factor*anglePercentage;
+      vitamina = this.state.currentVitaminA*factor*anglePercentage;
+      vitaminc = this.state.currentVitaminC*factor*anglePercentage;
+      calcium = this.state.currentCalcium*factor*anglePercentage;
+      iron = this.state.currentIron*factor*anglePercentage;
+
 
       //Update total states
       this.setState( (state) => ({
@@ -131,6 +172,10 @@ export default class DataScreen extends React.Component {
         totalFibre: state.totalFibre + fibre,
         totalProtein : state.totalProtein + protein,
         totalSugar : state.totalSugar + sugar,
+        totalVitaminA : state.totalVitaminA + vitamina,
+        totalVitaminC : state.totalVitaminC + vitaminc,
+        totalCalcium : state.totalCalcium + calcium,
+        totalIron : state.totalIron + iron,
       }))
     }.bind(this));
 
@@ -154,6 +199,7 @@ export default class DataScreen extends React.Component {
       console.log("Protein unbalanced");
       this.setState({
         balanced: false,
+        balancedProtein: false,
       })
     }
     console.log("Checked protein");
@@ -161,6 +207,7 @@ export default class DataScreen extends React.Component {
       console.log("Carbs unbalanced");
       this.setState({
         balanced: false,
+        balancedCarbs: false,
       })
     }
     console.log("Checked Carbs");
@@ -168,6 +215,7 @@ export default class DataScreen extends React.Component {
       console.log("Fats unbalanced");
       this.setState({
         balanced: false,
+        balancedFat: false,
       })
     }
     console.log("Checked fats");
@@ -175,6 +223,7 @@ export default class DataScreen extends React.Component {
       console.log("Sugar unbalanced");
       this.setState({
         balanced: false,
+        balancedSugar: false,
       })
     }
     console.log("Checked sugar");
@@ -182,6 +231,7 @@ export default class DataScreen extends React.Component {
       console.log("Fibre unbalanced");
       this.setState({
         balanced: false,
+        balancedFibre: false,
       })
     }
     console.log("Checked fibre");
@@ -196,6 +246,10 @@ export default class DataScreen extends React.Component {
       let fats = drinkItemData.Fat;
       let sugar = drinkItemData.Sugar;
       let fibre = drinkItemData.Fibre;
+      let vitamina = drinkItemData.VitaminA;
+      let vitaminc = drinkItemData.VitaminC;
+      let calcium = drinkItemData.Calcium;
+      let iron = drinkItemData.Iron;
 
       //Update states
       this.setState((state) => ({
@@ -205,6 +259,12 @@ export default class DataScreen extends React.Component {
         totalFibre: this.state.totalFibre + fibre,
         totalProtein : this.state.totalProtein + protein,
         totalSugar : this.state.totalSugar + sugar,
+        totalVitaminA : this.state.totalVitaminA + vitamina,
+        totalVitaminC : this.state.totalVitaminC + vitaminc,
+        totalCalcium : this.state.totalCalcium + calcium,
+        totalIron : this.state.totalIron + iron,
+
+
       }))
     }.bind(this));
 
@@ -222,7 +282,28 @@ export default class DataScreen extends React.Component {
       }
     }
   }
+  getNutritionalStyle(isBalanced) {
+    if(isBalanced == true) {
+      return {
+        height: 45, width: '100%', flexDirection: 'row', alignItems:'center'
+      }
+    }
+    else {
+      return {
+        height: 45, width: '100%', flexDirection: 'row', alignItems:'center', backgroundColor: '#88292F'
+      }
+    }
+  }
 
+  alertPercentages(){
+    Alert.alert(
+      "Extra Info",
+      "* Percent Daily Values are based on a 2000 calorie diet.",
+      [
+        {text: 'Okay', onPress: () => console.log('NO Pressed'), style: 'cancel'},
+      ]
+    );
+  }
   async playUnbalancedAudio() {
     const soundObject = new Expo.Audio.Sound();
 
@@ -335,25 +416,43 @@ export default class DataScreen extends React.Component {
       </Text> : null
     }
     </View>
-    <View style={{height: 50, width: '100%', backgroundColor: 'gray', flexDirection: 'row', alignItems:'center'}}>
+    <View style={{backgroundColor: 'gray'}}>
+    <View style={this.getNutritionalStyle(this.state.balancedProtein)}>
     <Text style={styles.text}>Protein:</Text>
     <Text style={styles.text}>{this.state.totalProtein.toFixed(1)}g</Text>
     </View>
-    <View style={{height: 50, width: '100%', backgroundColor: 'gray', flexDirection: 'row', alignItems:'center'}}>
+    <View style={this.getNutritionalStyle(this.state.balancedCarbs)}>
     <Text style={styles.text}>Carbohydrates:</Text>
     <Text style={styles.text}>{this.state.totalCarbs.toFixed(1)}g</Text>
     </View>
-    <View style={{height: 50, width: '100%', backgroundColor: 'gray', flexDirection: 'row', alignItems:'center'}}>
+    <View style={this.getNutritionalStyle(this.state.balancedFat)}>
     <Text style={styles.text}>Fats:</Text>
     <Text style={styles.text}>{this.state.totalFat.toFixed(1)}g</Text>
     </View>
-    <View style={{height: 50, width: '100%', backgroundColor: 'gray', flexDirection: 'row', alignItems:'center'}}>
+    <View style={this.getNutritionalStyle(this.state.balancedSugar)}>
     <Text style={styles.text}>Sugar:</Text>
     <Text style={styles.text}>{this.state.totalSugar.toFixed(1)}g</Text>
     </View>
-    <View style={{height: 50, width: '100%', backgroundColor: 'gray', flexDirection: 'row', alignItems:'center'}}>
+    <View style={this.getNutritionalStyle(this.state.balancedFibre)}>
     <Text style={styles.text}>Fibre:</Text>
-    <Text style={styles.text}>{this.state.totalFibre.toFixed(1)}g</Text>
+    <Text style={styles.text} >{this.state.totalFibre.toFixed(1)}g</Text>
+    </View>
+    <View style={{height: 45, width: '100%', flexDirection: 'row', alignItems:'center'}}>
+    <Text style={styles.text} onPress={() =>this.alertPercentages()}>Vitamin A:</Text>
+    <Text style={styles.text} onPress={() =>this.alertPercentages()}>{this.state.totalVitaminA.toFixed(1)}%</Text>
+    </View>
+    <View style={{height: 45, width: '100%', flexDirection: 'row', alignItems:'center'}}>
+    <Text style={styles.text} onPress={() =>this.alertPercentages()}>Vitamin C:</Text>
+    <Text style={styles.text} onPress={() =>this.alertPercentages()}>{this.state.totalVitaminC.toFixed(1)}%</Text>
+    </View>
+    <View style={{height: 45, width: '100%', flexDirection: 'row', alignItems:'center'}}>
+    <Text style={styles.text} onPress={() =>this.alertPercentages()}>Calcium:</Text>
+    <Text style={styles.text} onPress={() =>this.alertPercentages()}>{this.state.totalCalcium.toFixed(1)}%</Text>
+    </View>
+    <View style={{height: 45, width: '100%', flexDirection: 'row', alignItems:'center'}}>
+    <Text style={styles.text} onPress={() =>this.alertPercentages()}>Iron:</Text>
+    <Text style={styles.text} onPress={() =>this.alertPercentages()}>{this.state.totalIron.toFixed(1)}%</Text>
+    </View>
     </View>
 
     </Content>

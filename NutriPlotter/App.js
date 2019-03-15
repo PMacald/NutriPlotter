@@ -19,6 +19,7 @@ import {
   Permissions,
   Notifications,
   Amplitude,
+  Constants
 } from 'expo';
 import { Ionicons } from '@expo/vector-icons';
 
@@ -160,7 +161,9 @@ export default class App extends React.Component<{}> {
         require('./screens/main/PlatingScreen/src/more-options.png'),
         require('./screens/main/PlatingScreen/src/up.png'),
         require('./screens/main/PlatingScreen/src/plate.png'),
-        require('./screens/main/PlatingScreen/src/chart.png')
+        require('./screens/main/PlatingScreen/src/chart.png'),
+        require('./assets/sound/mainsound.wav'),
+
       ]),
       Font.loadAsync({
         // This is the font that we are using for our tab bar
