@@ -1,16 +1,4 @@
 # NutriPlotter
-# Installation
-
-```bash
-    npm install -g expo-cli
-```
-# Deployment
-
-```bash
-    git clone http://stgit.dcs.gla.ac.uk/tp3-2018-se4/dissertation
-    cd dissertation
-    expo start
-```
 
 ### Overview
 NutriPlotter is an Expo application, meaning it is designed to run natively on a range of devices, primarily smartphones running an Android OS, or iOS in the case of iPhones. The app is based around the concept of a “digital plate” that can be adjusted  in both portion size and food composition to provide an effective estimate of the nutritional value of the meal built in the app. This is the core focus of NutriPlotter, and its primary reason for conception and development. As such, the plate is the central point of the application for users, effectively serving as the focus of their main screen. The concept of the digital plate was introduced due to an aversion to weighing the foods out before eating, as is standard with most nutritional tracking apps. The digital plate concept was developed to avoid this, serving the dual purpose of reinforcing the “Balanced Plate” model used in recommending a healthy diet. 
