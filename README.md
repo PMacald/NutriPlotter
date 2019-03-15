@@ -28,6 +28,13 @@ In the "Nutriplotter" folder, enter the following command (to run the applicatio
     expo start
 ```
 
+### Get the Published Version
+The most recently published version of the app is available here:
+
+https://expo.io/@eleondella/NutriPlotter
+
+Just scan the QR code with your phone to open it up.
+
 ### Running NutriPlotter on mobile
 This command should open a browser window with the Metro Bundler for the app. On the left side of the screen, there is a number of options for launching your app. The easiest method is using the QR code, which can be scanned by the Expo mobile application for Android or iOS. The Expo application can be found on the App Store for iOS devices and is used to launch applications developed on the Expo framework. Once you have installed the Expo application itself and opened it, you will be given the option to scan a QR code to launch an application. You can also do this without opening the Expo application first on iOS by simply holding your finger on the QR code in the Camera app.
 
